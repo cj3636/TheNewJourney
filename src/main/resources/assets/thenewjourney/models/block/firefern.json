@@ -1,0 +1,7 @@
+{
+	"parent": "block/cube_all",
+	"textures": {
+		"particle": "thenewjourney:blocks/FireFern",
+		"cross": "thenewjourney:blocks/FireFern"
+	}
+}

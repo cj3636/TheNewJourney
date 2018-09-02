@@ -1,0 +1,22 @@
+{
+	"variants": {
+		"normal": {
+			"model": "thenewjourney:BrickFurnaceActive"
+		},
+		"facing=north": {
+			"model": "thenewjourney:BrickFurnaceActive"
+		},
+		"facing=south": {
+			"model": "thenewjourney:BrickFurnaceActive",
+			"y": 180
+		},
+		"facing=west": {
+			"model": "thenewjourney:BrickFurnaceActive",
+			"y": 270
+		},
+		"facing=east": {
+			"model": "thenewjourney:BrickFurnaceActive",
+			"y": 90
+		}
+	}
+}

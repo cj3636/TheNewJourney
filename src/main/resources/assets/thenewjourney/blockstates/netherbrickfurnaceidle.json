@@ -1,0 +1,22 @@
+{
+	"variants": {
+		"normal": {
+			"model": "thenewjourney:NetherBrickFurnaceIdle"
+		},
+		"facing=north": {
+			"model": "thenewjourney:NetherBrickFurnaceIdle"
+		},
+		"facing=south": {
+			"model": "thenewjourney:NetherBrickFurnaceIdle",
+			"y": 180
+		},
+		"facing=west": {
+			"model": "thenewjourney:NetherBrickFurnaceIdle",
+			"y": 270
+		},
+		"facing=east": {
+			"model": "thenewjourney:NetherBrickFurnaceIdle",
+			"y": 90
+		}
+	}
+}

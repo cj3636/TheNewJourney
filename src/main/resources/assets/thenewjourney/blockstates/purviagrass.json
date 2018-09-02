@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "snowy=false": [
+            { "model": "thenewjourney:PurviaGrass" },
+            { "model": "thenewjourney:PurviaGrass", "y": 90 },
+            { "model": "thenewjourney:PurviaGrass", "y": 180 },
+            { "model": "thenewjourney:PurviaGrass", "y": 270 }
+        ],
+        "snowy=true":  { "model": "thenewjourney:PurviaGrass" }
+    }
+}
+

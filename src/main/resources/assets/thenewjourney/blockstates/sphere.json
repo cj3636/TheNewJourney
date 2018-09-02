@@ -1,0 +1,50 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"textures": {
+		},
+		"model": "thenewjourney:sphere.obj"
+	},
+	"variants": {
+		"inventory": [
+			{
+				"transform": {
+					"thirdperson": {
+						"translation": [
+							0,
+							0.09375,
+							-0.171875
+						],
+						"rotation": [
+							{
+								"y": -45
+							},
+							{
+								"x": 10
+							},
+							{
+								"z": 170
+							}
+						],
+						"scale": 0.625
+					},
+					"gui": {
+						"rotation": [
+							{
+								"y": 90
+							}
+						]
+					}
+				}
+			}
+		],
+		"normal": {
+			"model": "thenewjourney:sphere.obj",
+			"x": 90
+		},
+		"axis=y":  { "model": "thenewjourney:sphere.obj" },
+        "axis=z":   { "model": "thenewjourney:sphere.obj", "x": 90 },
+        "axis=x":   { "model": "thenewjourney:sphere.obj", "x": 90, "y": 90 },
+        "axis=none": { "model": "thenewjourney:sphere.obj" }
+	}
+}

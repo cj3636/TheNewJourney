@@ -1,0 +1,10 @@
+{
+    "parent": "block/grass",
+    "textures": {
+        "particle": "thenewjourney:blocks/PurviaGrassSide",
+        "bottom": "thenewjourney:blocks/PurviaDirt",
+        "top": "thenewjourney:blocks/PurviaGrassTop",
+        "side": "thenewjourney:blocks/PurviaGrassSide",
+        "overlay": "thenewjourney:blocks/PurviaGrassSide"
+    }
+}

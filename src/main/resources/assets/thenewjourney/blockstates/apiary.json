@@ -1,0 +1,22 @@
+{
+	"variants": {
+		"normal": {
+			"model": "thenewjourney:Apiary"
+		},
+		"facing=north": {
+			"model": "thenewjourney:Apiary",
+			"y": 180
+		},
+		"facing=south": {
+			"model": "thenewjourney:Apiary"
+		},
+		"facing=west": {
+			"model": "thenewjourney:Apiary",
+			"y": 90
+		},
+		"facing=east": {
+			"model": "thenewjourney:Apiary",
+			"y": 270
+		}
+	}
+}

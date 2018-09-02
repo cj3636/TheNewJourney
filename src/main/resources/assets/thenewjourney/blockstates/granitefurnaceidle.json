@@ -1,0 +1,19 @@
+{
+	"variants": {
+		"facing=north": {
+			"model": "thenewjourney:GraniteFurnaceIdle"
+		},
+		"facing=south": {
+			"model": "thenewjourney:GraniteFurnaceIdle",
+			"y": 180
+		},
+		"facing=west": {
+			"model": "thenewjourney:GraniteFurnaceIdle",
+			"y": 270
+		},
+		"facing=east": {
+			"model": "thenewjourney:GraniteFurnaceIdle",
+			"y": 90
+		}
+	}
+}

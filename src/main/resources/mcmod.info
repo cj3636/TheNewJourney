@@ -1,0 +1,17 @@
+[
+{
+  "modid": "thenewjourney",
+  "name": "The New Journey",
+  "description": "Adding a new journey to Minecraft.",
+  "version": "a0.1",
+  "mcversion": "1.10.2",
+  "logoFile": "TLogo.png",
+  "url": "none",
+  "updateUrl": "",
+  "authorList": ["CJ3636"],
+  "credits": "Mexican_Ninja",
+  "parent": "",
+  "screenshots": [],
+  "dependencies": [baubles, jei]
+}
+]

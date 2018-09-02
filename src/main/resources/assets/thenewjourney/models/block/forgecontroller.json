@@ -1,0 +1,8 @@
+{
+	"parent": "block/orientable",
+	"textures": {
+		"top": "thenewjourney:blocks/RefractoryBrick",
+		"front": "thenewjourney:blocks/ForgeController",
+		"side": "thenewjourney:blocks/RefractoryBrick"
+	}
+}

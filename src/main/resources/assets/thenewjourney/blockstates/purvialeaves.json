@@ -1,0 +1,9 @@
+{
+    "variants": {
+        "check_decay=false,decayable=false": { "model": "thenewjourney:PurviaLeaves" },
+        "check_decay=false,decayable=true": { "model": "thenewjourney:PurviaLeaves" },
+        "check_decay=true,decayable=false": { "model": "thenewjourney:PurviaLeaves" },
+        "check_decay=true,decayable=true": { "model": "thenewjourney:PurviaLeaves" }
+    }
+}
+

@@ -1,0 +1,22 @@
+{
+	"variants": {
+		"normal": {
+			"model": "thenewjourney:Provider"
+		},
+		"facing=north": {
+			"model": "thenewjourney:Provider"
+		},
+		"facing=south": {
+			"model": "thenewjourney:Provider",
+			"y": 180
+		},
+		"facing=west": {
+			"model": "thenewjourney:Provider",
+			"y": 270
+		},
+		"facing=east": {
+			"model": "thenewjourney:Provider",
+			"y": 90
+		}
+	}
+}

@@ -1,0 +1,22 @@
+{
+	"variants": {
+		"normal": {
+			"model": "thenewjourney:ArcaneFurnace"
+		},
+		"facing=north": {
+			"model": "thenewjourney:ArcaneFurnace"
+		},
+		"facing=south": {
+			"model": "thenewjourney:ArcaneFurnace",
+			"y": 180
+		},
+		"facing=west": {
+			"model": "thenewjourney:ArcaneFurnace",
+			"y": 270
+		},
+		"facing=east": {
+			"model": "thenewjourney:ArcaneFurnace",
+			"y": 90
+		}
+	}
+}

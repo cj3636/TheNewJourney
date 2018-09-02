@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "axis=y":  { "model": "thenewjourney:PurviaLignumLog" },
+        "axis=z":   { "model": "thenewjourney:PurviaLignumLog", "x": 90 },
+        "axis=x":   { "model": "thenewjourney:PurviaLignumLog", "x": 90, "y": 90 },
+        "axis=none": { "model": "thenewjourney:PurviaLignumBark" }
+    }
+}

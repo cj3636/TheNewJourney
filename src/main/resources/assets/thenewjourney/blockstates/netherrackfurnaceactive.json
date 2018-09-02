@@ -1,0 +1,22 @@
+{
+	"variants": {
+		"normal": {
+			"model": "thenewjourney:NetherrackFurnaceActive"
+		},
+		"facing=north": {
+			"model": "thenewjourney:NetherrackFurnaceActive"
+		},
+		"facing=south": {
+			"model": "thenewjourney:NetherrackFurnaceActive",
+			"y": 180
+		},
+		"facing=west": {
+			"model": "thenewjourney:NetherrackFurnaceActive",
+			"y": 270
+		},
+		"facing=east": {
+			"model": "thenewjourney:NetherrackFurnaceActive",
+			"y": 90
+		}
+	}
+}

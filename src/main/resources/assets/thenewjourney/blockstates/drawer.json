@@ -1,0 +1,22 @@
+{
+	"variants": {
+		"normal": {
+			"model": "thenewjourney:Drawer"
+		},
+		"facing=north": {
+			"model": "thenewjourney:Drawer"
+		},
+		"facing=south": {
+			"model": "thenewjourney:Drawer",
+			"y": 180
+		},
+		"facing=west": {
+			"model": "thenewjourney:Drawer",
+			"y": 270
+		},
+		"facing=east": {
+			"model": "thenewjourney:Drawer",
+			"y": 90
+		}
+	}
+}

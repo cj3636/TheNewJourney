@@ -1,0 +1,11 @@
+{
+	"hoverexplosion": {"catagory": "ambient", "sounds": [{"name": "thenewjourney:hoverexplosion", "stream": "true"}]},
+	"explosionshift": {"catagory": "ambient", "sounds": [{"name": "thenewjourney:explosionshift", "stream": "true"}]},
+	"pageforward": {"catagory": "ambient", "sounds": [{"name": "thenewjourney:pageforward", "stream": "true"}]},
+	"pageback": {"catagory": "ambient", "sounds": [{"name": "thenewjourney:pageback", "stream": "true"}]},
+	"bookopen": {"catagory": "ambient", "sounds": [{"name": "thenewjourney:bookopen", "stream": "true"}]},
+	"bookclose": {"catagory": "ambient", "sounds": [{"name": "thenewjourney:bookclose", "stream": "true"}]},
+	"quazar": {"catagory": "record", "sounds": [{"name": "thenewjourney:quazar", "stream": "true"}]},
+	"saronade": {"catagory": "record", "sounds": [{"name": "thenewjourney:saronade", "stream": "true"}]},
+	"time": {"catagory": "record", "sounds": [{"name": "thenewjourney:time", "stream": "true"}]}
+}
