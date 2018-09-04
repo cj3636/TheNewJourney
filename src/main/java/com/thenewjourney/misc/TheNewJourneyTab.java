@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 public class TheNewJourneyTab extends CreativeTabs {
 	
 	public TheNewJourneyTab(String label) {
-		super("TheNewJourneyTab");
+		super("thenewjourneytab");
 		this.setBackgroundImageName("gui.png");
 	}	
 	@Override

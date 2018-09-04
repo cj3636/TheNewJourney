@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 public class TheNewJourneyWeaponTab extends CreativeTabs {
 
     public TheNewJourneyWeaponTab(String label) {
-        super("TheNewJourneyWeaponTab");
+        super("thenewjourneyweapontab");
         this.setBackgroundImageName("gui.png");
     }
 

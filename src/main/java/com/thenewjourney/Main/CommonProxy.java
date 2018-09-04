@@ -71,8 +71,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @Mod.EventBusSubscriber
 public class CommonProxy {
-    public static CreativeTabs TheNewJourneyTab = new TheNewJourneyTab("customTab");
-    public static CreativeTabs TheNewJourneyWeaponTab = new TheNewJourneyWeaponTab("customWTab");
+    public static CreativeTabs TheNewJourneyTab = new TheNewJourneyTab("customtab");
+    public static CreativeTabs TheNewJourneyWeaponTab = new TheNewJourneyWeaponTab("customwtab");
 
     public void preInit(FMLPreInitializationEvent e) {
         //Main Stuff

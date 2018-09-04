@@ -47,6 +47,10 @@ public class GrassRegistry extends Block {
         Block blockSu = worldIn.getBlockState(pos.south().up()).getBlock();
         Block blockEu = worldIn.getBlockState(pos.east().up()).getBlock();
         Block blockWu = worldIn.getBlockState(pos.west().up()).getBlock();
+        Block blockNd = worldIn.getBlockState(pos.north().down()).getBlock();
+        Block blockSd = worldIn.getBlockState(pos.south().down()).getBlock();
+        Block blockEd = worldIn.getBlockState(pos.east().down()).getBlock();
+        Block blockWd = worldIn.getBlockState(pos.west().down()).getBlock();
         if (blockN.equals(Blocks.GRASS)) {
             worldIn.setBlockState(pos.north(), this.getDefaultState());
         }
@@ -70,6 +74,18 @@ public class GrassRegistry extends Block {
         }
         if (blockWu.equals(Blocks.GRASS)) {
             worldIn.setBlockState(pos.west().up(), this.getDefaultState());
+        }
+        if (blockNd.equals(Blocks.GRASS)) {
+            worldIn.setBlockState(pos.north().down(), this.getDefaultState());
+        }
+        if (blockSd.equals(Blocks.GRASS)) {
+            worldIn.setBlockState(pos.south().down(), this.getDefaultState());
+        }
+        if (blockEd.equals(Blocks.GRASS)) {
+            worldIn.setBlockState(pos.east().down(), this.getDefaultState());
+        }
+        if (blockWd.equals(Blocks.GRASS)) {
+            worldIn.setBlockState(pos.west().down(), this.getDefaultState());
         }
     }
 
