@@ -1,16 +1,15 @@
 package com.thenewjourney.blocks.apiary;
 
-import com.cj3636.lib.Ref;
 import com.thenewjourney.Main.TheNewJourneyMod;
+import com.thenewjourney.blocks.register.FaceRotatableBlockContainer;
 import com.thenewjourney.particle.BeeParticle;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
@@ -24,19 +23,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Random;
 
-public class ApiaryBlock extends BlockContainer {
+public class ApiaryBlock extends FaceRotatableBlockContainer {
 
     public static final String name = "Apiary";
     public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
-    public ApiaryBlock(String unlocalizedName) {
-        super(Material.WOOD);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
-        this.setCreativeTab(Ref.CTAB);
-        this.setUnlocalizedName(unlocalizedName);
-        this.setRegistryName(unlocalizedName);
-        this.setHardness(6F);
-        this.setResistance(16F);
+    public ApiaryBlock(String unlocalizedName, float hardness, float resistance) {
+        super(unlocalizedName, Material.WOOD, hardness, resistance);
     }
 
     @SideOnly(Side.CLIENT)
@@ -65,40 +58,12 @@ public class ApiaryBlock extends BlockContainer {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return new ApiaryTileEntity();
-    }
-
-    @Override
-    public int getMetaFromState(IBlockState state) {
-        return state.getValue(FACING).getIndex();
-    }
-
-    @Override
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING);
-    }
-
-    private void setDefaultFacing(World worldIn, BlockPos pos, IBlockState state) {
-        if (!worldIn.isRemote) {
-            Block block = worldIn.getBlockState(pos.north()).getBlock();
-            Block block1 = worldIn.getBlockState(pos.south()).getBlock();
-            Block block2 = worldIn.getBlockState(pos.west()).getBlock();
-            Block block3 = worldIn.getBlockState(pos.east()).getBlock();
-            EnumFacing enumfacing = state.getValue(FACING);
-
-            if (enumfacing == EnumFacing.NORTH && block.isFullBlock(state) && !block1.isFullBlock(state)) {
-                enumfacing = EnumFacing.SOUTH;
-            } else if (enumfacing == EnumFacing.SOUTH && block1.isFullBlock(state) && !block.isFullBlock(state)) {
-                enumfacing = EnumFacing.NORTH;
-            } else if (enumfacing == EnumFacing.WEST && block2.isFullBlock(state) && !block3.isFullBlock(state)) {
-                enumfacing = EnumFacing.EAST;
-            } else if (enumfacing == EnumFacing.EAST && block3.isFullBlock(state) && !block2.isFullBlock(state)) {
-                enumfacing = EnumFacing.WEST;
-            }
-
-            worldIn.setBlockState(pos, state.withProperty(FACING, enumfacing), 2);
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+        if (tileEntity instanceof IInventory) {
+            InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tileEntity);
         }
+        super.breakBlock(worldIn, pos, state);
     }
 
     @Override

@@ -214,18 +214,18 @@ public final class ModBlocks {
         Weed = registerBlock(new Weed());
         ArcaneSoil = registerBlock(new ArcaneSoilRegistry("arcanesoil"));
         //Furnace
-        AndesiteFurnaceIdle = registerBlock(new AndesiteFurnaceBlock(false, "andesitefurnaceidle").setCreativeTab(Ref.CTAB));
-        AndesiteFurnaceActive = registerBlock(new AndesiteFurnaceBlock(true, "andesitefurnaceactive").setLightLevel(1.0F));
-        BrickFurnaceIdle = registerBlock(new BrickFurnaceBlock(false, "brickfurnaceidle").setCreativeTab(Ref.CTAB));
-        BrickFurnaceActive = registerBlock(new BrickFurnaceBlock(true, "brickfurnaceactive").setLightLevel(1.0F));
-        DioriteFurnaceIdle = registerBlock(new DioriteFurnaceBlock(false, "dioritefurnaceidle").setCreativeTab(Ref.CTAB));
-        DioriteFurnaceActive = registerBlock(new DioriteFurnaceBlock(true, "dioritefurnaceactive").setLightLevel(1.0F));
-        GraniteFurnaceIdle = registerBlock(new GraniteFurnaceBlock(false, "granitefurnaceidle").setCreativeTab(Ref.CTAB));
-        GraniteFurnaceActive = registerBlock(new GraniteFurnaceBlock(false, "granitefurnaceactive").setLightLevel(1.0F));
-        NetherBrickFurnaceIdle = registerBlock(new NetherBrickFurnaceBlock(false, "netherbrickfurnaceidle").setCreativeTab(Ref.CTAB));
-        NetherBrickFurnaceActive = registerBlock(new NetherBrickFurnaceBlock(true, "netherbrickfurnaceactive").setLightLevel(1.0F));
-        NetherrackFurnaceIdle = registerBlock(new NetherrackFurnaceBlock(false, "netherrackfurnaceidle").setCreativeTab(Ref.CTAB));
-        NetherrackFurnaceActive = registerBlock(new NetherrackFurnaceBlock(true, "netherrackfurnaceactive").setLightLevel(1.0F));
+        AndesiteFurnaceIdle = registerBlock(new AndesiteFurnaceBlock(false, "andesitefurnaceidle", 200).setCreativeTab(Ref.CTAB));
+        AndesiteFurnaceActive = registerBlock(new AndesiteFurnaceBlock(true, "andesitefurnaceactive", 200).setLightLevel(1.0F));
+        BrickFurnaceIdle = registerBlock(new BrickFurnaceBlock(false, "brickfurnaceidle", 180).setCreativeTab(Ref.CTAB));
+        BrickFurnaceActive = registerBlock(new BrickFurnaceBlock(true, "brickfurnaceactive", 180).setLightLevel(1.0F));
+        DioriteFurnaceIdle = registerBlock(new DioriteFurnaceBlock(false, "dioritefurnaceidle", 200).setCreativeTab(Ref.CTAB));
+        DioriteFurnaceActive = registerBlock(new DioriteFurnaceBlock(true, "dioritefurnaceactive", 200).setLightLevel(1.0F));
+        GraniteFurnaceIdle = registerBlock(new GraniteFurnaceBlock(false, "granitefurnaceidle", 200).setCreativeTab(Ref.CTAB));
+        GraniteFurnaceActive = registerBlock(new GraniteFurnaceBlock(false, "granitefurnaceactive", 200).setLightLevel(1.0F));
+        NetherBrickFurnaceIdle = registerBlock(new NetherBrickFurnaceBlock(false, "netherbrickfurnaceidle", 120).setCreativeTab(Ref.CTAB));
+        NetherBrickFurnaceActive = registerBlock(new NetherBrickFurnaceBlock(true, "netherbrickfurnaceactive", 120).setLightLevel(1.0F));
+        NetherrackFurnaceIdle = registerBlock(new NetherrackFurnaceBlock(false, "netherrackfurnaceidle", 150).setCreativeTab(Ref.CTAB));
+        NetherrackFurnaceActive = registerBlock(new NetherrackFurnaceBlock(true, "netherrackfurnaceactive", 150).setLightLevel(1.0F));
         //Special Blocks/OBJ's
         ArchaicInfuser = registerBlock(new InfuserBlock("archaicinfuser", Material.IRON));
         ArcanePillar = registerBlock(new ArcanePillarBlock("arcanepillar", Material.IRON, 5F, 20F));
@@ -237,7 +237,7 @@ public final class ModBlocks {
         Sphere = registerBlock(new VisceonFirePortal("sphere"));
         Spheref = registerBlock(new VisceonFlorusPortal("spheref"));
         Drawer = registerBlock(new DrawerBlock("drawer"));
-        Apiary = registerBlock(new ApiaryBlock("apiary"));
+        Apiary = registerBlock(new ApiaryBlock("apiary", 6F, 16F));
         BlastFurnace = registerBlock(new BlastFurnaceBlock("blastfurnace", false).setRegistryName("blastfurnace").setCreativeTab(Ref.CTAB));
         Purifier = registerBlock(new PurifierBlock("purifier").setRegistryName("purifier").setCreativeTab(Ref.CTAB));
         Duplicator = registerBlock(new DuplicatorBlock("duplicator").setRegistryName("duplicator").setCreativeTab(Ref.CTAB));

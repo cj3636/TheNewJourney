@@ -11,22 +11,24 @@ import net.minecraft.inventory.*;
 import net.minecraft.item.*;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntityLockable;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.datafix.DataFixer;
+import net.minecraft.util.datafix.FixTypes;
+import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BrickFurnaceTileEntity extends TileEntityLockable implements ITickable, ISidedInventory {
-    private static final int[] slotsTop = new int[]{0};
-    private static final int[] slotsBottom = new int[]{2, 1};
-    private static final int[] slotsSides = new int[]{1};
-    /**
-     * The ItemStacks that hold the items currently being used in the furnace
-     */
-    private ItemStack[] furnaceItemStacks = new ItemStack[3];
+    private static final int[] SLOTS_TOP = new int[]{0};
+    private static final int[] SLOTS_BOTTOM = new int[]{2, 1};
+    private static final int[] SLOTS_SIDES = new int[]{1};
+
+
+    private NonNullList<ItemStack> furnaceItemStacks = NonNullList.<ItemStack>withSize(3, ItemStack.EMPTY);
     /**
      * The number of ticks that the furnace will keep burning
      */
@@ -37,84 +39,65 @@ public class BrickFurnaceTileEntity extends TileEntityLockable implements ITicka
     private int currentItemBurnTime;
     private int cookTime;
     private int totalCookTime;
+    private int smeltTime;
     private String furnaceCustomName;
 
-    private static int burnStick = 80;
-    private static int burnCoal = 1400;
-    private static int burnLava = 18000;
-    private static int burnSapling = 80;
-    private static int burnBlaze = 2000;
-    private static int burnTool = 160;
-    private static int burnSlab = 110;
-    private static int burnCoalBlock = 14000;
-    private static int burnWood = 240;
-    //Speed
-    private static int cookSpeed = 140;
+    public BrickFurnaceTileEntity(int smeltTime) {
+        this.smeltTime = smeltTime;
+    }
+
+    public BrickFurnaceTileEntity() {
+        this.smeltTime = 200;
+    }
 
     /**
      * Returns the number of slots in the inventory.
      */
     public int getSizeInventory() {
-        return this.furnaceItemStacks.length;
+        return this.furnaceItemStacks.size();
     }
 
-    @Override
     public boolean isEmpty() {
-        return false;
+        for (ItemStack itemstack : this.furnaceItemStacks) {
+            if (!itemstack.isEmpty()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
      * Returns the stack in the given slot.
      */
     public ItemStack getStackInSlot(int index) {
-        return this.furnaceItemStacks[index];
+        return this.furnaceItemStacks.get(index);
     }
 
     /**
      * Removes up to a specified number of items from an inventory slot and returns them in a new stack.
      */
     public ItemStack decrStackSize(int index, int count) {
-        if (this.furnaceItemStacks[index] != null) {
-            if (this.furnaceItemStacks[index].getCount() <= count) {
-                ItemStack itemstack1 = this.furnaceItemStacks[index];
-                this.furnaceItemStacks[index] = null;
-                return itemstack1;
-            } else {
-                ItemStack itemstack = this.furnaceItemStacks[index].splitStack(count);
-
-                if (this.furnaceItemStacks[index].getCount() == 0) {
-                    this.furnaceItemStacks[index] = null;
-                }
-
-                return itemstack;
-            }
-        } else {
-            return null;
-        }
+        return ItemStackHelper.getAndSplit(this.furnaceItemStacks, index, count);
     }
 
     /**
      * Removes a stack from the given slot and returns it.
      */
     public ItemStack removeStackFromSlot(int index) {
-        if (this.furnaceItemStacks[index] != null) {
-            ItemStack itemstack = this.furnaceItemStacks[index];
-            this.furnaceItemStacks[index] = null;
-            return itemstack;
-        } else {
-            return null;
-        }
+        return ItemStackHelper.getAndRemove(this.furnaceItemStacks, index);
     }
 
     /**
      * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
      */
     public void setInventorySlotContents(int index, ItemStack stack) {
-        boolean flag = stack != null && stack.isItemEqual(this.furnaceItemStacks[index]) && ItemStack.areItemStackTagsEqual(stack, this.furnaceItemStacks[index]);
-        this.furnaceItemStacks[index] = stack;
+        ItemStack itemstack = this.furnaceItemStacks.get(index);
+        boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && ItemStack.areItemStackTagsEqual(stack, itemstack);
+        this.furnaceItemStacks.set(index, stack);
 
-        if (stack != null && stack.getCount() > this.getInventoryStackLimit()) {
-            stack.setCount(getInventoryStackLimit());
+        if (stack.getCount() > this.getInventoryStackLimit()) {
+            stack.setCount(this.getInventoryStackLimit());
         }
 
         if (index == 0 && !flag) {
@@ -135,31 +118,25 @@ public class BrickFurnaceTileEntity extends TileEntityLockable implements ITicka
      * Returns true if this thing is named
      */
     public boolean hasCustomName() {
-        return this.furnaceCustomName != null && this.furnaceCustomName.length() > 0;
+        return this.furnaceCustomName != null && !this.furnaceCustomName.isEmpty();
     }
 
     public void setCustomInventoryName(String p_145951_1_) {
         this.furnaceCustomName = p_145951_1_;
     }
 
+    public static void registerFixesFurnace(DataFixer fixer) {
+        fixer.registerWalker(FixTypes.BLOCK_ENTITY, new ItemStackDataLists(BrickFurnaceTileEntity.class, new String[]{"Items"}));
+    }
+
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        NBTTagList nbttaglist = compound.getTagList("Items", 10);
-        this.furnaceItemStacks = new ItemStack[this.getSizeInventory()];
-
-        for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-            NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
-            int j = nbttagcompound.getByte("Slot");
-
-            if (j >= 0 && j < this.furnaceItemStacks.length) {
-                this.furnaceItemStacks[j] = new ItemStack(nbttagcompound);
-            }
-        }
-
+        this.furnaceItemStacks = NonNullList.<ItemStack>withSize(this.getSizeInventory(), ItemStack.EMPTY);
+        ItemStackHelper.loadAllItems(compound, this.furnaceItemStacks);
         this.furnaceBurnTime = compound.getInteger("BurnTime");
         this.cookTime = compound.getInteger("CookTime");
         this.totalCookTime = compound.getInteger("CookTimeTotal");
-        this.currentItemBurnTime = getItemBurnTime(this.furnaceItemStacks[1]);
+        this.currentItemBurnTime = getItemBurnTime(this.furnaceItemStacks.get(1));
 
         if (compound.hasKey("CustomName", 8)) {
             this.furnaceCustomName = compound.getString("CustomName");
@@ -168,25 +145,15 @@ public class BrickFurnaceTileEntity extends TileEntityLockable implements ITicka
 
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
-        compound.setInteger("BurnTime", this.furnaceBurnTime);
-        compound.setInteger("CookTime", this.cookTime);
-        compound.setInteger("CookTimeTotal", this.totalCookTime);
-        NBTTagList nbttaglist = new NBTTagList();
-
-        for (int i = 0; i < this.furnaceItemStacks.length; ++i) {
-            if (this.furnaceItemStacks[i] != null) {
-                NBTTagCompound nbttagcompound = new NBTTagCompound();
-                nbttagcompound.setByte("Slot", (byte) i);
-                this.furnaceItemStacks[i].writeToNBT(nbttagcompound);
-                nbttaglist.appendTag(nbttagcompound);
-            }
-        }
-
-        compound.setTag("Items", nbttaglist);
+        compound.setInteger("BurnTime", (short) this.furnaceBurnTime);
+        compound.setInteger("CookTime", (short) this.cookTime);
+        compound.setInteger("CookTimeTotal", (short) this.totalCookTime);
+        ItemStackHelper.saveAllItems(compound, this.furnaceItemStacks);
 
         if (this.hasCustomName()) {
             compound.setString("CustomName", this.furnaceCustomName);
         }
+
         return compound;
     }
 
@@ -197,11 +164,6 @@ public class BrickFurnaceTileEntity extends TileEntityLockable implements ITicka
         return 64;
     }
 
-    @Override
-    public boolean isUsableByPlayer(EntityPlayer player) {
-        return false;
-    }
-
     /**
      * Furnace isBurning
      */
@@ -210,8 +172,8 @@ public class BrickFurnaceTileEntity extends TileEntityLockable implements ITicka
     }
 
     @SideOnly(Side.CLIENT)
-    public static boolean isBurning(IInventory p_174903_0_) {
-        return p_174903_0_.getField(0) > 0;
+    public static boolean isBurning(IInventory inventory) {
+        return inventory.getField(0) > 0;
     }
 
     /**
@@ -226,18 +188,23 @@ public class BrickFurnaceTileEntity extends TileEntityLockable implements ITicka
         }
 
         if (!this.world.isRemote) {
-            if (this.isBurning() || this.furnaceItemStacks[1] != null && this.furnaceItemStacks[0] != null) {
+            ItemStack itemstack = this.furnaceItemStacks.get(1);
+
+            if (this.isBurning() || !itemstack.isEmpty() && !((ItemStack) this.furnaceItemStacks.get(0)).isEmpty()) {
                 if (!this.isBurning() && this.canSmelt()) {
-                    this.currentItemBurnTime = this.furnaceBurnTime = getItemBurnTime(this.furnaceItemStacks[1]);
+                    this.furnaceBurnTime = getItemBurnTime(itemstack);
+                    this.currentItemBurnTime = this.furnaceBurnTime;
 
                     if (this.isBurning()) {
                         flag1 = true;
 
-                        if (this.furnaceItemStacks[1] != null) {
-                            furnaceItemStacks[1].setCount(furnaceItemStacks[1].getCount() - 1);
+                        if (!itemstack.isEmpty()) {
+                            Item item = itemstack.getItem();
+                            itemstack.shrink(1);
 
-                            if (this.furnaceItemStacks[1].getCount() == 0) {
-                                this.furnaceItemStacks[1] = furnaceItemStacks[1].getItem().getContainerItem(furnaceItemStacks[1]);
+                            if (itemstack.isEmpty()) {
+                                ItemStack item1 = item.getContainerItem(itemstack);
+                                this.furnaceItemStacks.set(1, item1);
                             }
                         }
                     }
@@ -248,7 +215,7 @@ public class BrickFurnaceTileEntity extends TileEntityLockable implements ITicka
 
                     if (this.cookTime == this.totalCookTime) {
                         this.cookTime = 0;
-                        this.totalCookTime = this.getCookTime(this.furnaceItemStacks[0]);
+                        this.totalCookTime = this.getCookTime(this.furnaceItemStacks.get(0));
                         this.smeltItem();
                         flag1 = true;
                     }
@@ -271,22 +238,34 @@ public class BrickFurnaceTileEntity extends TileEntityLockable implements ITicka
     }
 
     public int getCookTime(ItemStack stack) {
-        return 200;
+        return smeltTime;
     }
 
     /**
      * Returns true if the furnace can smelt an item, i.e. has a source item, destination stack isn't full, etc.
      */
     private boolean canSmelt() {
-        if (this.furnaceItemStacks[0] == null) {
+        if (((ItemStack) this.furnaceItemStacks.get(0)).isEmpty()) {
             return false;
         } else {
-            ItemStack itemstack = FurnaceRecipes.instance().getSmeltingResult(this.furnaceItemStacks[0]);
-            if (itemstack == null) return false;
-            if (this.furnaceItemStacks[2] == null) return true;
-            if (!this.furnaceItemStacks[2].isItemEqual(itemstack)) return false;
-            int result = furnaceItemStacks[2].getCount() + itemstack.getCount();
-            return result <= getInventoryStackLimit() && result <= this.furnaceItemStacks[2].getMaxStackSize(); //Forge BugFix: Make it respect stack sizes properly.
+            ItemStack itemstack = FurnaceRecipes.instance().getSmeltingResult(this.furnaceItemStacks.get(0));
+
+            if (itemstack.isEmpty()) {
+                return false;
+            } else {
+                ItemStack itemstack1 = this.furnaceItemStacks.get(2);
+
+                if (itemstack1.isEmpty()) {
+                    return true;
+                } else if (!itemstack1.isItemEqual(itemstack)) {
+                    return false;
+                } else if (itemstack1.getCount() + itemstack.getCount() <= this.getInventoryStackLimit() && itemstack1.getCount() + itemstack.getCount() <= itemstack1.getMaxStackSize())  // Forge fix: make furnace respect stack sizes in furnace recipes
+                {
+                    return true;
+                } else {
+                    return itemstack1.getCount() + itemstack.getCount() <= itemstack.getMaxStackSize(); // Forge fix: make furnace respect stack sizes in furnace recipes
+                }
+            }
         }
     }
 
@@ -295,23 +274,21 @@ public class BrickFurnaceTileEntity extends TileEntityLockable implements ITicka
      */
     public void smeltItem() {
         if (this.canSmelt()) {
-            ItemStack itemstack = FurnaceRecipes.instance().getSmeltingResult(this.furnaceItemStacks[0]);
+            ItemStack itemstack = this.furnaceItemStacks.get(0);
+            ItemStack itemstack1 = FurnaceRecipes.instance().getSmeltingResult(itemstack);
+            ItemStack itemstack2 = this.furnaceItemStacks.get(2);
 
-            if (this.furnaceItemStacks[2] == null) {
-                this.furnaceItemStacks[2] = itemstack.copy();
-            } else if (this.furnaceItemStacks[2].getItem() == itemstack.getItem()) {
-                furnaceItemStacks[2].setCount(furnaceItemStacks[2].getCount() + itemstack.getCount());
+            if (itemstack2.isEmpty()) {
+                this.furnaceItemStacks.set(2, itemstack1.copy());
+            } else if (itemstack2.getItem() == itemstack1.getItem()) {
+                itemstack2.grow(itemstack1.getCount());
             }
 
-            if (this.furnaceItemStacks[0].getItem() == Item.getItemFromBlock(Blocks.SPONGE) && this.furnaceItemStacks[0].getMetadata() == 1 && this.furnaceItemStacks[1] != null && this.furnaceItemStacks[1].getItem() == Items.BUCKET) {
-                this.furnaceItemStacks[1] = new ItemStack(Items.WATER_BUCKET);
+            if (itemstack.getItem() == Item.getItemFromBlock(Blocks.SPONGE) && itemstack.getMetadata() == 1 && !((ItemStack) this.furnaceItemStacks.get(1)).isEmpty() && ((ItemStack) this.furnaceItemStacks.get(1)).getItem() == Items.BUCKET) {
+                this.furnaceItemStacks.set(1, new ItemStack(Items.WATER_BUCKET));
             }
 
-            furnaceItemStacks[0].setCount(furnaceItemStacks[0].getCount() - 1);
-
-            if (this.furnaceItemStacks[0].getCount() <= 0) {
-                this.furnaceItemStacks[0] = null;
-            }
+            itemstack.shrink(1);
         }
     }
 
@@ -319,53 +296,73 @@ public class BrickFurnaceTileEntity extends TileEntityLockable implements ITicka
      * Returns the number of ticks that the supplied fuel item will keep the furnace burning, or 0 if the item isn't
      * fuel
      */
-    public static int getItemBurnTime(ItemStack p_145952_0_) {
-        if (p_145952_0_ == null) {
+    public static int getItemBurnTime(ItemStack stack) {
+        if (stack.isEmpty()) {
             return 0;
         } else {
-            Item item = p_145952_0_.getItem();
+            int burnTime = net.minecraftforge.event.ForgeEventFactory.getItemBurnTime(stack);
+            if (burnTime >= 0) return burnTime;
+            Item item = stack.getItem();
 
-            if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.AIR) {
-                Block block = Block.getBlockFromItem(item);
-
-                if (block == Blocks.WOODEN_SLAB) {
-                    return burnSlab;
+            if (item == Item.getItemFromBlock(Blocks.WOODEN_SLAB)) {
+                return 150;
+            } else if (item == Item.getItemFromBlock(Blocks.WOOL)) {
+                return 100;
+            } else if (item == Item.getItemFromBlock(Blocks.CARPET)) {
+                return 67;
+            } else if (item == Item.getItemFromBlock(Blocks.LADDER)) {
+                return 300;
+            } else if (item == Item.getItemFromBlock(Blocks.WOODEN_BUTTON)) {
+                return 100;
+            } else if (Block.getBlockFromItem(item).getDefaultState().getMaterial() == Material.WOOD) {
+                return 300;
+            } else if (item == Item.getItemFromBlock(Blocks.COAL_BLOCK)) {
+                return 16000;
+            } else if (item instanceof ItemTool && "WOOD".equals(((ItemTool) item).getToolMaterialName())) {
+                return 200;
+            } else if (item instanceof ItemSword && "WOOD".equals(((ItemSword) item).getToolMaterialName())) {
+                return 200;
+            } else if (item instanceof ItemHoe && "WOOD".equals(((ItemHoe) item).getMaterialName())) {
+                return 200;
+            } else if (item == Items.STICK) {
+                return 100;
+            } else if (item != Items.BOW && item != Items.FISHING_ROD) {
+                if (item == Items.SIGN) {
+                    return 200;
+                } else if (item == Items.COAL) {
+                    return 1600;
+                } else if (item == Items.LAVA_BUCKET) {
+                    return 20000;
+                } else if (item != Item.getItemFromBlock(Blocks.SAPLING) && item != Items.BOWL) {
+                    if (item == Items.BLAZE_ROD) {
+                        return 2400;
+                    } else if (item instanceof ItemDoor && item != Items.IRON_DOOR) {
+                        return 200;
+                    } else {
+                        return item instanceof ItemBoat ? 400 : 0;
+                    }
+                } else {
+                    return 100;
                 }
-
-                if (block.getDefaultState() == Material.WOOD) {
-                    return burnWood;
-                }
-
-                if (block == Blocks.COAL_BLOCK) {
-                    return burnCoalBlock;
-                }
+            } else {
+                return 300;
             }
-
-            if (item instanceof ItemTool && ((ItemTool) item).getToolMaterialName().equals("WOOD")) return burnTool;
-            if (item instanceof ItemSword && ((ItemSword) item).getToolMaterialName().equals("WOOD")) return burnTool;
-            if (item instanceof ItemHoe && ((ItemHoe) item).getMaterialName().equals("WOOD")) return burnTool;
-            if (item == Items.STICK) return burnStick;
-            if (item == Items.COAL) return burnCoal;
-            if (item == Items.LAVA_BUCKET) return burnLava;
-            if (item == Item.getItemFromBlock(Blocks.SAPLING)) return burnSapling;
-            if (item == Items.BLAZE_ROD) return burnBlaze;
-            return net.minecraftforge.fml.common.registry.GameRegistry.getFuelValue(p_145952_0_);
         }
     }
 
-    public static boolean isItemFuel(ItemStack p_145954_0_) {
-        /**
-         * Returns the number of ticks that the supplied fuel item will keep the furnace burning, or 0 if the item isn't
-         * fuel
-         */
-        return getItemBurnTime(p_145954_0_) > 0;
+    public static boolean isItemFuel(ItemStack stack) {
+        return getItemBurnTime(stack) > 0;
     }
 
     /**
-     * Do not make give this method the name canInteractWith because it clashes with Container
+     * Don't rename this method to canInteractWith due to conflicts with Container
      */
-    public boolean isUseableByPlayer(EntityPlayer player) {
-        return this.world.getTileEntity(this.pos) == this && player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
+    public boolean isUsableByPlayer(EntityPlayer player) {
+        if (this.world.getTileEntity(this.pos) != this) {
+            return false;
+        } else {
+            return player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
+        }
     }
 
     public void openInventory(EntityPlayer player) {
@@ -375,33 +372,45 @@ public class BrickFurnaceTileEntity extends TileEntityLockable implements ITicka
     }
 
     /**
-     * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.
+     * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot. For
+     * guis use Slot.isItemValid
      */
     public boolean isItemValidForSlot(int index, ItemStack stack) {
-        return index != 2 && (index != 1 || (isItemFuel(stack) || SlotFurnaceFuel.isBucket(stack)));
+        if (index == 2) {
+            return false;
+        } else if (index != 1) {
+            return true;
+        } else {
+            ItemStack itemstack = this.furnaceItemStacks.get(1);
+            return isItemFuel(stack) || SlotFurnaceFuel.isBucket(stack) && itemstack.getItem() != Items.BUCKET;
+        }
     }
 
     public int[] getSlotsForFace(EnumFacing side) {
-        return side == EnumFacing.DOWN ? slotsBottom : (side == EnumFacing.UP ? slotsTop : slotsSides);
+        if (side == EnumFacing.DOWN) {
+            return SLOTS_BOTTOM;
+        } else {
+            return side == EnumFacing.UP ? SLOTS_TOP : SLOTS_SIDES;
+        }
     }
 
     /**
-     * Returns true if automation can insert the given item in the given slot from the given side. Args: slot, item,
-     * side
+     * Returns true if automation can insert the given item in the given slot from the given side.
      */
     public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction) {
         return this.isItemValidForSlot(index, itemStackIn);
     }
 
     /**
-     * Returns true if automation can extract the given item in the given slot from the given side. Args: slot, item,
-     * side
+     * Returns true if automation can extract the given item in the given slot from the given side.
      */
     public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction) {
         if (direction == EnumFacing.DOWN && index == 1) {
             Item item = stack.getItem();
 
-            return item == Items.WATER_BUCKET || item == Items.BUCKET;
+            if (item != Items.WATER_BUCKET && item != Items.BUCKET) {
+                return false;
+            }
         }
 
         return true;
@@ -451,17 +460,17 @@ public class BrickFurnaceTileEntity extends TileEntityLockable implements ITicka
     }
 
     public void clear() {
-        for (int i = 0; i < this.furnaceItemStacks.length; ++i) {
-            this.furnaceItemStacks[i] = null;
-        }
+        this.furnaceItemStacks.clear();
     }
 
     net.minecraftforge.items.IItemHandler handlerTop = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.UP);
     net.minecraftforge.items.IItemHandler handlerBottom = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.DOWN);
     net.minecraftforge.items.IItemHandler handlerSide = new net.minecraftforge.items.wrapper.SidedInvWrapper(this, net.minecraft.util.EnumFacing.WEST);
 
+    @SuppressWarnings("unchecked")
     @Override
-    public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, net.minecraft.util.EnumFacing facing) {
+    @javax.annotation.Nullable
+    public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @javax.annotation.Nullable net.minecraft.util.EnumFacing facing) {
         if (facing != null && capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
             if (facing == EnumFacing.DOWN)
                 return (T) handlerBottom;

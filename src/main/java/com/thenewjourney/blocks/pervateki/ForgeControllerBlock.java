@@ -110,7 +110,7 @@ public class ForgeControllerBlock extends BlockContainer {
      */
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return new AndesiteFurnaceTileEntity();
+        return new ForgeBlockTileEntity();
     }
 
     /**
