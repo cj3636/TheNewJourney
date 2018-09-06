@@ -295,7 +295,7 @@ tile.substrate.name=substrate
 tile.arcanepillar.name=arcane pillar
 tile.pervatekiforge.name=pervateki forge
 tile.forgecontroller.name=forge controller
-tile.forgecontrolleron.name=forge controller (active)
+tile.forgecontrolleractive.name=forge controller (active)
 
 tile.archaicinfuser.name=archaic crafting table
 item.archaicinfuseri.name=archaic crafting table

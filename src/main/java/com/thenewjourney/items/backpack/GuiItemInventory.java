@@ -1,4 +1,4 @@
-package com.thenewjourney.blocks.drawer;
+package com.thenewjourney.items.backpack;
 
 import com.cj3636.lib.Ref;
 import com.thenewjourney.items.backpack.ContainerItem;

@@ -5,7 +5,6 @@ import com.thenewjourney.blocks.ModBlocks;
 import com.thenewjourney.items.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -19,15 +18,14 @@ import net.minecraft.world.World;
 public class GrinderRegistry extends Block {
 
     public static String modid = Ref.MODID;
-    private IBlockState getblockState;
 
     public GrinderRegistry(String unlocalizedName, Material material, float hardness, float resistance) {
         super(material);
-
         this.setCreativeTab(Ref.CTAB);
         this.setUnlocalizedName(unlocalizedName);
         this.setRegistryName(unlocalizedName);
         this.setHardness(hardness);
+        this.setResistance(resistance);
     }
 
     public boolean isFireSource(World world, BlockPos pos, EnumFacing side) {
@@ -64,20 +62,3 @@ public class GrinderRegistry extends Block {
         }
     }
 }
-
-/**
- * public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) {
- * <p>
- * world.setBlockState(pos, Blocks.air.getDefaultState());
- * this.gen(world, RANDOM, pos);
- * System.out.println("delete");
- * return true;
- * }
- * <p>
- * public void gen(World world, Random rand, BlockPos pos) {
- * <p>
- * FireRuin gen = new FireRuin();
- * gen.generate(world, rand, pos);
- * }
- * }
- **/

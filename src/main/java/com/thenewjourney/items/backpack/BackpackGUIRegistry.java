@@ -1,6 +1,5 @@
 package com.thenewjourney.items.backpack;
 
-import com.thenewjourney.blocks.drawer.GuiItemInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;

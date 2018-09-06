@@ -4,7 +4,6 @@ package com.thenewjourney.blocks.pillar;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -62,43 +61,35 @@ public class ArcanePillarContainer extends Container {
 
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int sourceSlotIndex) {
-        Slot sourceSlot = inventorySlots.get(sourceSlotIndex);
-        if (sourceSlot == null || !sourceSlot.getHasStack()) return null;
+        Slot sourceSlot = (Slot) inventorySlots.get(sourceSlotIndex);
+        if (sourceSlot == null || !sourceSlot.getHasStack()) return ItemStack.EMPTY;  //EMPTY_ITEM
         ItemStack sourceStack = sourceSlot.getStack();
         ItemStack copyOfSourceStack = sourceStack.copy();
-        if (sourceStack.getCount() > 1) {
-            return null;
-        }
 
         // Check if the slot clicked is one of the vanilla container slots
         if (sourceSlotIndex >= VANILLA_FIRST_SLOT_INDEX && sourceSlotIndex < VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT) {
-            // This is a vanilla container slot so merge the stack into one of the furnace slots
-            // If the stack is smeltable try to merge merge the stack into the input slots
-            if (ArcanePillarTileEntity.isItemValidInput(sourceStack)) {
-                if (!mergeItemStack(sourceStack, FIRST_INPUT_SLOT_INDEX, FIRST_INPUT_SLOT_INDEX + INPUT_SLOTS_COUNT, false)) {
-                    return null;
-                }
-            } else {
-                return null;
+            // This is a vanilla container slot so merge the stack into the tile inventory
+            if (!mergeItemStack(sourceStack, FIRST_FUEL_SLOT_INDEX, FIRST_FUEL_SLOT_INDEX + 1, false)) {
+                return ItemStack.EMPTY;  // EMPTY_ITEM
             }
-        } else if (sourceSlotIndex >= FIRST_FUEL_SLOT_INDEX && sourceSlotIndex < FIRST_FUEL_SLOT_INDEX + FURNACE_SLOTS_COUNT) {
-            // This is a furnace slot so merge the stack into the players inventory: try the hotbar first and then the main inventory
-            //   because the main inventory slots are immediately after the hotbar slots, we can just merge with a single call
+        } else if (sourceSlotIndex >= FIRST_FUEL_SLOT_INDEX && sourceSlotIndex < FIRST_FUEL_SLOT_INDEX + 1) {
+            // This is a TE slot so merge the stack into the players inventory
             if (!mergeItemStack(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
-                return null;
+                return ItemStack.EMPTY;   // EMPTY_ITEM
             }
         } else {
             System.err.print("Invalid slotIndex:" + sourceSlotIndex);
-            return null;
+            return ItemStack.EMPTY;   // EMPTY_ITEM
         }
+
         // If stack size == 0 (the entire stack was moved) set slot contents to null
-        if (sourceStack.getCount() == 0) {
-            sourceSlot.putStack(null);
+        if (sourceStack.getCount() == 0) {  // getStackSize
+            sourceSlot.putStack(ItemStack.EMPTY);  // EMPTY_ITEM
         } else {
             sourceSlot.onSlotChanged();
         }
 
-        sourceSlot.onTake(player, sourceStack);
+        sourceSlot.onTake(player, sourceStack);  //onPickupFromSlot()
         return copyOfSourceStack;
     }
     /* Client Synchronization */
@@ -112,37 +103,9 @@ public class ArcanePillarContainer extends Container {
     //   up into two shorts because the progress bar values are sent independently, and unless you add synchronisation logic at the
     //   receiving side, your int value will be wrong until the second short arrives.  Use a custom packet instead.
     @Override
-    public void detectAndSendChanges() {
-        super.detectAndSendChanges();
-
-        boolean allFieldsHaveChanged = false;
-        boolean fieldHasChanged[] = new boolean[tileInventoryArcanePillar.getFieldCount()];
-        if (cachedFields == null) {
-            cachedFields = new int[tileInventoryArcanePillar.getFieldCount()];
-            allFieldsHaveChanged = true;
-        }
-        for (int i = 0; i < cachedFields.length; ++i) {
-            if (allFieldsHaveChanged || cachedFields[i] != tileInventoryArcanePillar.getField(i)) {
-                cachedFields[i] = tileInventoryArcanePillar.getField(i);
-                fieldHasChanged[i] = true;
-            }
-        }
-
-        // go through the list of listeners (players using this container) and update them if necessary
-        for (IContainerListener listener : this.listeners) {
-            for (int fieldID = 0; fieldID < tileInventoryArcanePillar.getFieldCount(); ++fieldID) {
-                if (fieldHasChanged[fieldID]) {
-                    // Note that although sendProgressBarUpdate takes 2 ints on a server these are truncated to shorts
-                    listener.sendWindowProperty(this, fieldID, cachedFields[fieldID]);
-                }
-            }
-        }
-    }
-
-    @Override
-    public void addListener(IContainerListener listener) {
-        super.addListener(listener);
-        listener.sendAllWindowProperties(this, tileInventoryArcanePillar);
+    public void onContainerClosed(EntityPlayer playerIn) {
+        super.onContainerClosed(playerIn);
+        this.tileInventoryArcanePillar.closeInventory(playerIn);
     }
 
     public class SlotInput extends Slot {

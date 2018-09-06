@@ -1,7 +1,6 @@
 package com.thenewjourney.Main;
 
 import com.cj3636.lib.Ref;
-import com.thenewjourney.blocks.BlockRenderer;
 import com.thenewjourney.blocks.ModBlocks;
 import com.thenewjourney.blocks.crystal.CrystalTileEntity;
 import com.thenewjourney.blocks.crystal.CrystalTileEntityRenderer;
@@ -16,7 +15,7 @@ import com.thenewjourney.blocks.portal.VisceonFirePortal;
 import com.thenewjourney.blocks.portal.VisceonFlorusPortal;
 import com.thenewjourney.blocks.provider.CrystalProviderTileEntity;
 import com.thenewjourney.blocks.provider.CrystalProviderTileEntityRenderer;
-import com.thenewjourney.compat.baubles.ClientInitItems;
+import com.thenewjourney.compat.baubles.InitItems;
 import com.thenewjourney.entity.bluefireball.FlorucFireballEntity;
 import com.thenewjourney.entity.bluefireball.FlorucFireballRenderer;
 import com.thenewjourney.entity.effectcloud.EffectCloudFlorusEntity;
@@ -36,7 +35,6 @@ import com.thenewjourney.entity.vitraecstar.VitraecStarEntity;
 import com.thenewjourney.entity.vitraecstar.VitraecStarRenderer;
 import com.thenewjourney.fluid.ModFluids;
 import com.thenewjourney.handler.GuiOverlayHandler;
-import com.thenewjourney.items.ItemRenderer;
 import com.thenewjourney.items.ModItems;
 import com.thenewjourney.items.tranquilizer.EntityTranquilizerArrow;
 import com.thenewjourney.items.tranquilizer.RenderTranquilizerArrow;
@@ -132,11 +130,6 @@ public class ClientProxy extends CommonProxy {
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(ModBlocks.Spheref), 0, new ModelResourceLocation(Ref.MODID + ":" + VisceonFlorusPortal.name, "inventory"));
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(ModBlocks.Drawer), 0, new ModelResourceLocation(Ref.MODID + ":" + DrawerBlock.name, "inventory"));
         //TESR
-        ClientRegistry.bindTileEntitySpecialRenderer(CrystalTileEntity.class, new CrystalTileEntityRenderer());
-        ClientRegistry.bindTileEntitySpecialRenderer(InfuserTileEntity.class, new InfuserTileEntityRenderer());
-        ClientRegistry.bindTileEntitySpecialRenderer(ForgeBlockTileEntity.class, new ForgeTESR());
-        ClientRegistry.bindTileEntitySpecialRenderer(IdolTileEntity.class, new IdolTileEntityRenderer());
-        ClientRegistry.bindTileEntitySpecialRenderer(CrystalProviderTileEntity.class, new CrystalProviderTileEntityRenderer());
         //Fluid Model
         ModFluids.INSTANCE.registerModel();
         //Particle Stitcher
@@ -151,6 +144,11 @@ public class ClientProxy extends CommonProxy {
         //ItemRenderer.RegisterItemRenderer();
         //Gui Overlay
         MinecraftForge.EVENT_BUS.register(new GuiOverlayHandler());
+        ClientRegistry.bindTileEntitySpecialRenderer(CrystalTileEntity.class, new CrystalTileEntityRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(InfuserTileEntity.class, new InfuserTileEntityRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(ForgeBlockTileEntity.class, new ForgeTESR());
+        ClientRegistry.bindTileEntitySpecialRenderer(IdolTileEntity.class, new IdolTileEntityRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(CrystalProviderTileEntity.class, new CrystalProviderTileEntityRenderer());
     }
 
     @SubscribeEvent
@@ -161,15 +159,16 @@ public class ClientProxy extends CommonProxy {
         for (Item item : ModItems.Item_List) {
             ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
         }
+        if (Loader.isModLoaded("baubles")) {
+            for (Item item : InitItems.Bauble_Item_List) {
+                ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+            }
+        }
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(ModFluids.InversionSerum.getBlock()), 0, new ModelResourceLocation(ModFluids.InversionSerum.getBlock().getRegistryName(), "inventory"));
     }
 
     @Override
     public void postInit(FMLPostInitializationEvent e) {
         super.postInit(e);
-        //Baubles
-        if (Loader.isModLoaded("Baubles")) {
-            ClientInitItems.reg2();
-        }
     }
 }

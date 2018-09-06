@@ -2,12 +2,9 @@ package com.thenewjourney.blocks.purifier;
 
 import com.thenewjourney.Main.TheNewJourneyMod;
 import com.thenewjourney.blocks.ModBlocks;
+import com.thenewjourney.blocks.register.FaceRotatableBlockContainer;
 import com.thenewjourney.particle.SmokingFireParticle;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,26 +22,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Random;
 
-public class PurifierBlock extends BlockContainer {
+public class PurifierBlock extends FaceRotatableBlockContainer {
 
-    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-    private static boolean keepInventory;
-
-    public PurifierBlock(String unlocalizedName) {
-        super(Material.IRON);
-        this.setUnlocalizedName(unlocalizedName);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
-        this.setHardness(12F);
-        this.setResistance(120F);
+    public PurifierBlock(String unlocalizedName, Material material, float hardness, float resistance) {
+        super(unlocalizedName, material, hardness, resistance);
     }
 
     public static void setState(boolean active, World worldIn, BlockPos pos) {
         IBlockState iblockstate = worldIn.getBlockState(pos);
         TileEntity tileentity = worldIn.getTileEntity(pos);
-
-        keepInventory = true;
         worldIn.setBlockState(pos, ModBlocks.Purifier.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 3);
-        keepInventory = false;
         if (tileentity != null) {
             tileentity.validate();
             worldIn.setTileEntity(pos, tileentity);
@@ -65,72 +52,11 @@ public class PurifierBlock extends BlockContainer {
 
     @Override
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-        if (!keepInventory) {
-            TileEntity tileEntity = worldIn.getTileEntity(pos);
-            if (tileEntity instanceof IInventory) {
-                InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tileEntity);
-            }
-            super.breakBlock(worldIn, pos, state);
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+        if (tileEntity instanceof IInventory) {
+            InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tileEntity);
         }
-    }
-
-    @SideOnly(Side.CLIENT)
-    public IBlockState getStateForEntityRender(IBlockState state) {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.SOUTH);
-    }
-
-    /**
-     * Convert the given metadata into a BlockState for this Block
-     */
-    @Override
-    public IBlockState getStateFromMeta(int meta) {
-        EnumFacing enumfacing = EnumFacing.getFront(meta);
-
-        if (enumfacing.getAxis() == EnumFacing.Axis.Y) {
-            enumfacing = EnumFacing.NORTH;
-        }
-
-        return this.getDefaultState().withProperty(FACING, enumfacing);
-    }
-
-    /**
-     * Convert the BlockState into the correct metadata value
-     */
-    @Override
-    public int getMetaFromState(IBlockState state) {
-        return state.getValue(FACING).getIndex();
-    }
-
-    @Override
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING);
-    }
-
-    @Override
-    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
-        this.setDefaultFacing(worldIn, pos, state);
-    }
-
-    private void setDefaultFacing(World worldIn, BlockPos pos, IBlockState state) {
-        if (!worldIn.isRemote) {
-            Block block = worldIn.getBlockState(pos.north()).getBlock();
-            Block block1 = worldIn.getBlockState(pos.south()).getBlock();
-            Block block2 = worldIn.getBlockState(pos.west()).getBlock();
-            Block block3 = worldIn.getBlockState(pos.east()).getBlock();
-            EnumFacing enumfacing = state.getValue(FACING);
-
-            if (enumfacing == EnumFacing.NORTH && block.isFullBlock(state) && !block1.isFullBlock(state)) {
-                enumfacing = EnumFacing.SOUTH;
-            } else if (enumfacing == EnumFacing.SOUTH && block1.isFullBlock(state) && !block.isFullBlock(state)) {
-                enumfacing = EnumFacing.NORTH;
-            } else if (enumfacing == EnumFacing.WEST && block2.isFullBlock(state) && !block3.isFullBlock(state)) {
-                enumfacing = EnumFacing.EAST;
-            } else if (enumfacing == EnumFacing.EAST && block3.isFullBlock(state) && !block2.isFullBlock(state)) {
-                enumfacing = EnumFacing.WEST;
-            }
-
-            worldIn.setBlockState(pos, state.withProperty(FACING, enumfacing), 2);
-        }
+        super.breakBlock(worldIn, pos, state);
     }
 
     @Override

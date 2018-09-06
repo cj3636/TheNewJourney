@@ -1,6 +1,7 @@
 package com.thenewjourney.blocks.idol;
 
 import com.cj3636.lib.Ref;
+import com.thenewjourney.blocks.pervateki.RenderingUtils;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -8,6 +9,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
@@ -18,6 +20,16 @@ public class IdolTileEntityRenderer extends TileEntitySpecialRenderer<IdolTileEn
 
     public static final ResourceLocation TEXTURE_BEACON_BEAM = new ResourceLocation(Ref.MODID, "textures/entity/beam.png");
     private static final ResourceLocation gemTexture = new ResourceLocation(Ref.MODID, "textures/blocks/CGL.png");
+
+    public boolean isBeam() {
+        return beam;
+    }
+
+    public void setBeam(boolean beam) {
+        this.beam = beam;
+    }
+
+    private boolean beam;
 
     public static void renderBeamSegment(double x, double y, double z, double partialTicks, double textureScale, double totalWorldTime, int yOffset, int height, float[] colors, double beamRadius, double glowRadius) {
         int i = yOffset + height;
@@ -106,14 +118,26 @@ public class IdolTileEntityRenderer extends TileEntitySpecialRenderer<IdolTileEn
         GlStateManager.depthMask(true);
     }
 
+    private static long startLong = 0L;
+
     @Override
     public void render(IdolTileEntity tileEntity, double relativeX, double relativeY, double relativeZ, float partialTicks, int blockDamageProgress, float alpha) {
         if (tileEntity.getFullActive()) {
+            BlockPos posg = new BlockPos(0, 0, 0);
+            startLong += 1;
+            float offX = 0.5F;
+            float offY = 0.5F;
+            float offZ = 0.5F;
+            GlStateManager.pushMatrix();
+            GlStateManager.translate(relativeX + offX, relativeY + offY, relativeZ + offZ);
+            RenderingUtils.renderLightRayEffects(posg.getX(), posg.up().getY(), posg.getZ(), Color.GREEN, 0x12315L, startLong, 20, 2F, 21, 7);
+            GlStateManager.popMatrix();
             float[] colors = {1, 2, 18};
             this.bindTexture(TEXTURE_BEACON_BEAM);
             GlStateManager.disableFog();
             this.renderBeamSegment(relativeX, relativeY, relativeZ, (double) partialTicks, 1.0D, (double) tileEntity.getWorld().getTotalWorldTime(), 0, 256, colors, 0.25D, 0.3D);
             GlStateManager.enableFog();
+
         }
         IdolTileEntity ModTileEntityCrystal = (IdolTileEntity) tileEntity;
 

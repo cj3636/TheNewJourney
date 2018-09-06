@@ -1,5 +1,5 @@
 {
-	"parent": "thenewjourney:block/ForgeControllerOn",
+	"parent": "thenewjourney:block/forgecontrolleractive",
 	"display": {
 		"thirdperson": {
 			"rotation": [

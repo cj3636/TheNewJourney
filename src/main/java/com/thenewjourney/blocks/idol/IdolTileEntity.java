@@ -1,19 +1,19 @@
 package com.thenewjourney.blocks.idol;
 
 import com.thenewjourney.blocks.ModBlocks;
-import com.thenewjourney.blocks.provider.CrystalProviderTileEntityRenderer;
+import com.thenewjourney.blocks.pervateki.RenderingUtils;
 import com.thenewjourney.blocks.provider.Provider;
 import com.thenewjourney.items.ModItems;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -30,18 +30,22 @@ public class IdolTileEntity extends TileEntity implements ITickable {
     private double lastAngularPosition; // used for animation
 
     public boolean getActive() {
+        markDirty();
         return isActive;
     }
 
     public void setActive(boolean isActive) {
+        markDirty();
         this.isActive = isActive;
     }
 
     public boolean getFullActive() {
+        markDirty();
         return isFullActive;
     }
 
     public void setFullActive(boolean isFullActive) {
+        markDirty();
         this.isFullActive = isFullActive;
     }
 
@@ -108,10 +112,13 @@ public class IdolTileEntity extends TileEntity implements ITickable {
         AxisAlignedBB aabb = INFINITE_EXTENT_AABB;
         return aabb;
     }
+
     boolean prov1 = false;
     boolean prov2 = false;
     boolean prov3 = false;
     boolean prov4 = false;
+    float breakingTime;
+
     @Override
     public void update() {
         Random random = new Random();
@@ -132,7 +139,7 @@ public class IdolTileEntity extends TileEntity implements ITickable {
             }
             if (world.getTotalWorldTime() % 350 == 0) {
                 world.setBlockState(pos.west(), ModBlocks.Provider.getDefaultState().withProperty(Provider.FACING, EnumFacing.WEST));
-                prov3= true;
+                prov3 = true;
             }
             if (world.getTotalWorldTime() % 450 == 0) {
                 world.setBlockState(pos.east(), ModBlocks.Provider.getDefaultState().withProperty(Provider.FACING, EnumFacing.EAST));
@@ -145,8 +152,9 @@ public class IdolTileEntity extends TileEntity implements ITickable {
         }
         if (getFullActive()) {
             if (world.getBlockState(pos.up()).equals(Blocks.EMERALD_BLOCK.getDefaultState())) {
-                world.sendBlockBreakProgress(world.getClosestPlayer(getPos().getX(), getPos().getY(), getPos().getZ(), 10, false).getEntityId(), this.pos.up(), random.nextInt());
-                if (world.getTotalWorldTime() % 333 == 0) {
+                ++breakingTime;
+                int i = (int) (this.breakingTime / 240.0F * 10.0F);
+                if (breakingTime == 240) {
                     if (!world.isRemote) {
                         world.destroyBlock(pos.up(), false);
                         world.spawnEntity(new EntityItem(world, pos.up().getX(), pos.up().getY(), pos.up().getZ(), new ItemStack(ModItems.QuazanScale, random.nextInt(3))));
@@ -161,9 +169,36 @@ public class IdolTileEntity extends TileEntity implements ITickable {
                     world.removeTileEntity(pos);
                     world.destroyBlock(pos, false);
                     world.setBlockToAir(pos);
-                    world.setBlockState(pos, ModBlocks.Idol.getDefaultState(), 2);
+                    world.setBlockState(pos, ModBlocks.Idol.getDefaultState(), 3);
                 }
             }
         }
+    }
+    @Override
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+        super.writeToNBT(compound);
+        compound.setBoolean("isActive", this.isActive);
+        compound.setBoolean("isFullActive", this.isFullActive);
+        return compound;
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound nbtTagCompound) {
+        super.readFromNBT(nbtTagCompound);
+        this.isFullActive = nbtTagCompound.getBoolean("isFullActive");
+        this.isActive = nbtTagCompound.getBoolean("isActive");
+    }
+
+    @Override
+    public SPacketUpdateTileEntity getUpdatePacket() {
+        NBTTagCompound nbtTagCompound = new NBTTagCompound();
+        writeToNBT(nbtTagCompound);
+        final int METADATA = 0;
+        return new SPacketUpdateTileEntity(this.pos, METADATA, nbtTagCompound);
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+        readFromNBT(pkt.getNbtCompound());
     }
 }	

@@ -1,0 +1,22 @@
+{
+	"variants": {
+		"normal": {
+			"model": "thenewjourney:forgecontrolleractive"
+		},
+		"facing=north": {
+			"model": "thenewjourney:forgecontrolleractive"
+		},
+		"facing=south": {
+			"model": "thenewjourney:forgecontrolleractive",
+			"y": 180
+		},
+		"facing=west": {
+			"model": "thenewjourney:forgecontrolleractive",
+			"y": 270
+		},
+		"facing=east": {
+			"model": "thenewjourney:forgecontrolleractive",
+			"y": 90
+		}
+	}
+}

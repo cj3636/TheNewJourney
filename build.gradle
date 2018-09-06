@@ -1,36 +1,41 @@
 buildscript {
     repositories {
         jcenter()
-        maven { url = "http://files.minecraftforge.net/maven" }
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
-//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
-
-version = "1.1"
-group = "com.cj3636.thenewjourney" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "thenewjourney"
-
-sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
-compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
+plugins {
+    id 'org.ajoberstar.grgit' version '1.7.2'
+    id 'com.github.johnrengelman.shadow' version '1.2.4'
 }
 
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+final commitId
+
+if (hasProperty("grgit")) { // If there's a valid Git repository, get the latest commit ID
+    commitId = "${grgit.head().abbreviatedId}"
+} else { // Else fall back to NOGIT
+    commitId = "NOGIT"
+}
+
+version = "${mc_version}-${mod_version}-${commitId}"
+group = "${package_group}" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "${mod_name}"
+
 minecraft {
-    version = "1.12.2-14.23.4.2705"
+    version = "${mc_version}-${forge_version}"
     runDir = "run"
-    
-    // the mappings can be changed at any time, and must be in the following format.
-    // snapshot_YYYYMMDD   snapshot are built nightly.
-    // stable_#            stables are built at the discretion of the MCP team.
-    // Use non-default mappings at your own risk. they may not always work.
-    // simply re-run your setup task after changing the mappings to update your workspace.
-    mappings = "snapshot_20171003"
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+
+    if (project.hasProperty('mappings_version'))
+        mappings = project.mappings_version
 }
 
 repositories {
@@ -44,7 +49,18 @@ dependencies {
     runtime "mezz.jei:jei_${mc_version}:${jei_version}"
     deobfProvided "mcp.mobius.waila:Hwyla:${hwyla_version}_1.12"
     deobfCompile "com.github.azanor:Baubles:${baubles_version}"
+}
 
+shadowJar {
+    // Only shadow fluent-hc
+
+    // Relocate fluent-hc to prevent conflicts with other mods that include it
+
+    classifier '' // Replace the default JAR
+}
+
+reobf {
+    shadowJar {} // Reobfuscate the shadowed JAR
 }
 
 processResources {
@@ -55,13 +71,33 @@ processResources {
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
+
         // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'version': project.version, 'mcversion': project.minecraft.version
     }
-        
-    // copy everything else except the mcmod.info
+
+    // copy everything else, that's not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+        exclude 'log4j2.xml'
     }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.compilerArgs.addAll(['-Xlint:unchecked', '-Xlint:deprecation'])
+}
+
+tasks.withType(Javadoc) {
+    options.encoding = 'UTF-8'
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    from javadoc.destinationDir
+    classifier = 'javadoc'
+}
+
+artifacts {
+    archives javadocJar
+    archives shadowJar
 }

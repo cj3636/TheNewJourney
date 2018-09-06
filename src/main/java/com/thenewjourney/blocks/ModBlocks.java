@@ -43,6 +43,8 @@ import net.minecraft.item.ItemBlock;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
@@ -50,28 +52,28 @@ public final class ModBlocks {
     public static final List<Block> Block_List = new ArrayList<Block>();
     public static final List<Item> Block_Item_List = new ArrayList<Item>();
     //Ore
-    public static final Block AquisOre;
+    public static final Block RubyOre;
+    public static final Block CopperOre;
+    public static final Block TinOre;
+    public static final Block Graphite;
     public static final Block CobaltOre;
     public static final Block DistortedOre;
     public static final Block FireOre;
-    public static final Block RubyOre;
     public static final Block ShadowOre;
-    public static final Block Graphite;
-    public static final Block CopperOre;
-    public static final Block TinOre;
+    public static final Block AquisOre;
+
     //Ore Blocks
-    public static final Block CobaltBlock;
     public static final Block RubyBlock;
     public static final Block CopperBlock;
     public static final Block TinBlock;
     public static final Block BronzeBlock;
+    public static final Block CobaltBlock;
     public static final Block DistortedBlock;
-    public static final Block ShadowBlock;
     public static final Block FireBlock;
+    public static final Block ShadowBlock;
     public static final Block AquisBlock;
     //Building
-    public static final Block FlorusBlock;
-    public static final Block CompressedFlorusBlock;
+
     public static final Block ClearGlass;
     public static final Block BurntBricks;
     public static final Block BurntBrickStairs;
@@ -92,6 +94,8 @@ public final class ModBlocks {
     public static final Block ArmoredStone;
     public static final Block ArmoredGlass;
     public static final Block RefractoryBrick;
+    public static final Block FlorusBlock;
+    public static final Block CompressedFlorusBlock;
     //Magic
     public static final Block ArcaneFurnace;
     public static final Block Distributor;
@@ -112,7 +116,7 @@ public final class ModBlocks {
     public static final Block Provider;
     public static final Block PervatekiForge;
     public static final Block ForgeController;
-    public static final Block ForgeControllerOn;
+    public static final Block ForgeControllerActive;
     //Furnaces
     public static final Block GraniteFurnaceIdle;
     public static final Block GraniteFurnaceActive;
@@ -174,7 +178,7 @@ public final class ModBlocks {
         CopperOre = registerBlock(new BlockRegistry("copperore", Material.ROCK, 5F, 20F));
         TinOre = registerBlock(new BlockRegistry("tinore", Material.ROCK, 7F, 20F));
         //Misc Blocks
-        ArcaneFurnace = registerBlock(new ArcaneFurnaceBlock("arcanefurnace").setCreativeTab(Ref.CTAB));
+        ArcaneFurnace = registerBlock(new ArcaneFurnaceBlock("arcanefurnace", Material.ROCK, 16F, 120F).setCreativeTab(Ref.CTAB));
         ArmoredStone = registerBlock(new BlockRegistry("armoredstone", Material.IRON, 10F, 1200F));
         BurntBricks = registerBlock(new BlockRegistry("burntbricks", Material.ROCK, 7F, 1200F));
         BurntBrickStairs = registerBlock(new StairBlock(BurntBricks.getDefaultState(), "burntbrickstairs", 7F, 2000F));
@@ -236,17 +240,17 @@ public final class ModBlocks {
         CrypticBlock = registerBlock(new GrinderRegistry("crypticblock", Material.ROCK, 30F, 2000F));
         Sphere = registerBlock(new VisceonFirePortal("sphere"));
         Spheref = registerBlock(new VisceonFlorusPortal("spheref"));
-        Drawer = registerBlock(new DrawerBlock("drawer"));
+        Drawer = registerBlock(new DrawerBlock("drawer", Material.WOOD, 6F, 16F));
         Apiary = registerBlock(new ApiaryBlock("apiary", 6F, 16F));
-        BlastFurnace = registerBlock(new BlastFurnaceBlock("blastfurnace", false).setRegistryName("blastfurnace").setCreativeTab(Ref.CTAB));
-        Purifier = registerBlock(new PurifierBlock("purifier").setRegistryName("purifier").setCreativeTab(Ref.CTAB));
-        Duplicator = registerBlock(new DuplicatorBlock("duplicator").setRegistryName("duplicator").setCreativeTab(Ref.CTAB));
+        BlastFurnace = registerBlock(new BlastFurnaceBlock("blastfurnace", Material.IRON, 12F, 120F, false));
+        BlastFurnaceActive = registerBlock(new BlastFurnaceBlock("blastfurnaceactive", Material.IRON, 12F, 120F, true));
+        Purifier = registerBlock(new PurifierBlock("purifier", Material.ROCK, 12F, 120F));
+        Duplicator = registerBlock(new DuplicatorBlock("duplicator", Material.IRON, 12F, 120F));
         IngotCast = registerBlock(new IngotCastBlock("ingotcast", Material.IRON, 7F, 200F));
-        BlastFurnaceActive = registerBlock(new BlastFurnaceBlock("blastfurnaceactive", true).setRegistryName("blastfurnaceactive"));
         RefractoryBrick = registerBlock(new BlockRegistry("refractorybrick", Material.IRON, 8F, 120F));
         //Power
         Crystal = registerBlock(new CrystalBlock("crystal"));
-        CrystalProvider = registerBlock(new CrystalProvider("crystalprovider"));
+        CrystalProvider = registerBlock(new CrystalProvider("crystalprovider", Material.ROCK, 16F, 1600F).setLightLevel(.4F));
         Provider = registerBlock(new Provider("provider"));
         Distributor = registerBlock(new CoagulativeBlockRegistry("distributor", Material.IRON, 8F, 120F));
         Frame = registerBlock(new FrameBlock("frame", Material.IRON, 5F, 20F));
@@ -257,8 +261,8 @@ public final class ModBlocks {
         Quarry = registerBlock(new QuarryBlock("quarry", Material.IRON, 10F, 1200F));
 
         PervatekiForge = registerBlock(new TransparentRegistry("pervatekiforge", Material.IRON, 14F, 1200F, true));
-        ForgeController = registerBlock(new ForgeBlock(false, "forgecontroller", Material.IRON, 14F, 1200F));
-        ForgeControllerOn = registerBlock(new ForgeBlock(true, "forgecontrolleron", Material.IRON, 14F, 1200F));
+        ForgeController = registerBlock(new ForgeBlock("forgecontroller", Material.IRON, 14F, 1200F, false));
+        ForgeControllerActive = registerBlock(new ForgeBlock("forgecontrolleractive", Material.IRON, 14F, 1200F, true));
 
         PurviaLignumLog = registerBlock(new LogBlock("purvialignumlog", 4F, 14F));
         PurviaLignumPlanks = registerBlock(new BlockRegistry("purvialignumplanks", Material.WOOD, 3F, 7F));

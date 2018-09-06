@@ -3,7 +3,6 @@ package com.thenewjourney.blocks.idol;
 import com.cj3636.lib.Ref;
 import com.thenewjourney.blocks.ModBlocks;
 import com.thenewjourney.blocks.provider.CrystalProvider;
-import com.thenewjourney.blocks.provider.Provider;
 import com.thenewjourney.particle.BubblingFireParticle;
 import com.thenewjourney.power.ModPower;
 import net.minecraft.block.BlockContainer;
@@ -31,6 +30,12 @@ public class IdolBlock extends BlockContainer {
 
     public static Color gemColor;
 
+    public IdolTileEntity getTileEntity() {
+        return tileEntity;
+    }
+
+    private IdolTileEntity tileEntity;
+
     public IdolBlock(String unlocalizedName, Material material, float hardness, float resistance) {
         super(material);
         this.setCreativeTab(Ref.CTAB);
@@ -42,7 +47,7 @@ public class IdolBlock extends BlockContainer {
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if (playerIn.getHeldItemMainhand() != null) {
+        if (playerIn.getHeldItemMainhand() != ItemStack.EMPTY) {
             return false;
         }
         if (!(ModPower.getPowerTier(worldIn) >= 5)) {
@@ -53,29 +58,24 @@ public class IdolBlock extends BlockContainer {
                 worldIn.getBlockState(pos.south(2)).equals(ModBlocks.CrystalProvider.getDefaultState().withProperty(CrystalProvider.FACING, EnumFacing.NORTH)) &&
                 worldIn.getBlockState(pos.west(2)).equals(ModBlocks.CrystalProvider.getDefaultState().withProperty(CrystalProvider.FACING, EnumFacing.EAST)) &&
                 worldIn.getBlockState(pos.east(2)).equals(ModBlocks.CrystalProvider.getDefaultState().withProperty(CrystalProvider.FACING, EnumFacing.WEST))) {
-            if (worldIn.getTileEntity(pos) instanceof IdolTileEntity) {
-                IdolTileEntity thisTileEntity = (IdolTileEntity) worldIn.getTileEntity(pos);
-                thisTileEntity.setActive(true);
-            }
+            tileEntity.setActive(true);
         }
         return true;
     }
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
-        return new IdolTileEntity();
+        IdolTileEntity thisTileEntity = new IdolTileEntity();
+        this.tileEntity = thisTileEntity;
+        return thisTileEntity;
     }
 
     @Override
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
-        TileEntity tileentity = worldIn.getTileEntity(pos);
-        if (tileentity instanceof IdolTileEntity) {
-            IdolTileEntity tileEntityCrystal = (IdolTileEntity) tileentity;
-            Color gemColor = Color.BLUE;
-            this.gemColor = gemColor;
-            tileEntityCrystal.setGemColour(gemColor);
-        }
+        Color gemColor = Color.BLUE;
+        this.gemColor = gemColor;
+        tileEntity.setGemColour(gemColor);
     }
 
     @Override

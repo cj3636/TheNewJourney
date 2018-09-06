@@ -13,7 +13,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemFishFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
@@ -26,9 +25,10 @@ import java.util.Map.Entry;
 public class ArcaneRecipeManager implements IRecipe {
     private static final ArcaneRecipeManager SMELTING_BASE = new ArcaneRecipeManager();
     private final Map<ItemStack, ItemStack> smeltingList = Maps.newHashMap();
-    public static ArrayList<ItemStack> refiningList = new ArrayList();
+    public static ArrayList<ItemStack> refiningList = new ArrayList<>();
     private final Map<ItemStack, Float> experienceList = Maps.newHashMap();
     private final List<IRecipe> recipes = Lists.newArrayList();
+
     /**
      * Returns an instance of FurnaceRecipes.
      */
@@ -100,6 +100,7 @@ public class ArcaneRecipeManager implements IRecipe {
         this.smeltingList.put(input, stack);
         this.experienceList.put(stack, Float.valueOf(experience));
     }
+
     /**
      * Returns the smelting result of an item.
      */
@@ -152,6 +153,7 @@ public class ArcaneRecipeManager implements IRecipe {
     public ArrayList<ItemStack> getRefiningList() {
         return refiningList;
     }
+
     public float getSmeltingExperience(ItemStack stack) {
         float ret = stack.getItem().getSmeltingExperience(stack);
         if (ret != -1) return ret;

@@ -17,13 +17,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,8 +46,8 @@ public class ArcanePillarBlock extends BlockContainer {
         ArcanePillarTileEntity arcaneTileEntity = (ArcanePillarTileEntity) tileentity;
 
         ItemStack itemstack = arcaneTileEntity.getStackInSlot(0);
-        if (itemstack != null) {
-            arcaneTileEntity.setInventorySlotContents(0, null);
+        if (!itemstack.isEmpty()) {
+            arcaneTileEntity.setInventorySlotContents(0, ItemStack.EMPTY);
             ItemStack itemstack1 = itemstack.copy();
             EntityItem entityitem = new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), itemstack1);
             entityitem.setDefaultPickupDelay();
@@ -62,27 +60,31 @@ public class ArcanePillarBlock extends BlockContainer {
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         ItemStack heldItem = playerIn.getHeldItemMainhand();
-        if (heldItem == null) {
+        if (heldItem.isEmpty()) {
             if (worldIn.getTileEntity(pos) instanceof ArcanePillarTileEntity) {
                 ArcanePillarTileEntity thisTileEnity = (ArcanePillarTileEntity) worldIn.getTileEntity(pos);
-                if (thisTileEnity.getStackInSlot(0) != null) {
+                if (!thisTileEnity.getStackInSlot(0).isEmpty()) {
                     playerIn.setHeldItem(hand, thisTileEnity.getStackInSlot(0));
-                    thisTileEnity.setInventorySlotContents(0, null);
+                    thisTileEnity.setInventorySlotContents(0, ItemStack.EMPTY);
                     return true;
                 }
             }
         } else if (!heldItem.getItem().equals(ModItems.DistortionWand)) {
             if (worldIn.getTileEntity(pos) instanceof ArcanePillarTileEntity) {
                 ArcanePillarTileEntity thisTileEnity = (ArcanePillarTileEntity) worldIn.getTileEntity(pos);
-                if (thisTileEnity.getStackInSlot(0) == null) {
-                    thisTileEnity.setInventorySlotContents(0, heldItem.copy());
+                if (thisTileEnity.getStackInSlot(0) == ItemStack.EMPTY) {
+                    thisTileEnity.setInventorySlotContents(0, new ItemStack(heldItem.copy().getItem(), 1));
                     if (!playerIn.capabilities.isCreativeMode) {
                         heldItem.setCount(heldItem.getCount() - 1);
                     }
                     return true;
                 }
-                if (thisTileEnity.getStackInSlot(0) == heldItem) {
-                    thisTileEnity.setInventorySlotContents(0, null);
+                ItemStack stack1 = thisTileEnity.getStackInSlot(0).copy();
+                stack1.setCount(1);
+                ItemStack stack2 = heldItem.copy();
+                stack2.setCount(1);
+                if (stack1.equals(stack2)) {
+                    thisTileEnity.setInventorySlotContents(0, ItemStack.EMPTY);
                     if (!playerIn.capabilities.isCreativeMode) {
                         heldItem.setCount(heldItem.getCount() + 1);
                     }
@@ -143,7 +145,7 @@ public class ArcanePillarBlock extends BlockContainer {
             ItemStack stack5 = thisTileEntity.getStackInSlot(0);
 
 
-            if (stack1 != null && stack2 != null && stack3 != null && stack4 != null && stack5 != null) {
+            if (stack1 != ItemStack.EMPTY && stack2 != ItemStack.EMPTY && stack3 != ItemStack.EMPTY && stack4 != ItemStack.EMPTY && stack5 != ItemStack.EMPTY) {
                 int s1 = stack1.getCount();
                 int s2 = stack2.getCount();
                 int s3 = stack3.getCount();
@@ -168,13 +170,13 @@ public class ArcanePillarBlock extends BlockContainer {
                                 SoundCategory.AMBIENT, 100.0F, 0.2F);
                         genParticle(worldIn, posIn);
                         if (!playerIn.capabilities.isCreativeMode) {
-                            tileEntity1.setInventorySlotContents(0, null);
+                            tileEntity1.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity1.markDirty();
-                            tileEntity2.setInventorySlotContents(0, null);
+                            tileEntity2.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity2.markDirty();
-                            tileEntity3.setInventorySlotContents(0, null);
+                            tileEntity3.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity3.markDirty();
-                            tileEntity4.setInventorySlotContents(0, null);
+                            tileEntity4.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity4.markDirty();
                         }
                     }
@@ -190,13 +192,13 @@ public class ArcanePillarBlock extends BlockContainer {
                                 SoundCategory.AMBIENT, 100.0F, 0.2F);
                         genParticle(worldIn, posIn);
                         if (!playerIn.capabilities.isCreativeMode) {
-                            tileEntity1.setInventorySlotContents(0, null);
+                            tileEntity1.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity1.markDirty();
-                            tileEntity2.setInventorySlotContents(0, null);
+                            tileEntity2.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity2.markDirty();
-                            tileEntity3.setInventorySlotContents(0, null);
+                            tileEntity3.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity3.markDirty();
-                            tileEntity4.setInventorySlotContents(0, null);
+                            tileEntity4.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity4.markDirty();
                         }
                     }
@@ -212,13 +214,13 @@ public class ArcanePillarBlock extends BlockContainer {
                                 100.0F, 0.2F);
                         genParticle(worldIn, posIn);
                         if (!playerIn.capabilities.isCreativeMode) {
-                            tileEntity1.setInventorySlotContents(0, null);
+                            tileEntity1.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity1.markDirty();
-                            tileEntity2.setInventorySlotContents(0, null);
+                            tileEntity2.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity2.markDirty();
-                            tileEntity3.setInventorySlotContents(0, null);
+                            tileEntity3.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity3.markDirty();
-                            tileEntity4.setInventorySlotContents(0, null);
+                            tileEntity4.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity4.markDirty();
                         }
                     }
@@ -241,13 +243,13 @@ public class ArcanePillarBlock extends BlockContainer {
                                 SoundCategory.AMBIENT, 100.0F, 0.2F);
                         genParticle(worldIn, posIn);
                         if (!playerIn.capabilities.isCreativeMode) {
-                            tileEntity1.setInventorySlotContents(0, null);
+                            tileEntity1.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity1.markDirty();
-                            tileEntity2.setInventorySlotContents(0, null);
+                            tileEntity2.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity2.markDirty();
-                            tileEntity3.setInventorySlotContents(0, null);
+                            tileEntity3.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity3.markDirty();
-                            tileEntity4.setInventorySlotContents(0, null);
+                            tileEntity4.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity4.markDirty();
                         }
                     }
@@ -266,19 +268,19 @@ public class ArcanePillarBlock extends BlockContainer {
                                 SoundCategory.AMBIENT, 100.0F, 0.2F);
                         genParticle(worldIn, posIn);
                         if (!playerIn.capabilities.isCreativeMode) {
-                            tileEntity1.setInventorySlotContents(0, null);
+                            tileEntity1.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity1.markDirty();
-                            tileEntity2.setInventorySlotContents(0, null);
+                            tileEntity2.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity2.markDirty();
-                            tileEntity3.setInventorySlotContents(0, null);
+                            tileEntity3.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity3.markDirty();
-                            tileEntity4.setInventorySlotContents(0, null);
+                            tileEntity4.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity4.markDirty();
                         }
                     }
                 }
             }
-            if (stack1 != null && stack2 != null && stack3 != null && stack4 != null) {
+            if (stack1 != ItemStack.EMPTY && stack2 != ItemStack.EMPTY && stack3 != ItemStack.EMPTY && stack4 != ItemStack.EMPTY) {
                 Item t1 = stack1.getItem();
                 Item t2 = stack2.getItem();
                 Item t3 = stack3.getItem();
@@ -298,13 +300,13 @@ public class ArcanePillarBlock extends BlockContainer {
                                 100.0F, 0.2F);
                         genParticle(worldIn, posIn);
                         if (!playerIn.capabilities.isCreativeMode) {
-                            tileEntity1.setInventorySlotContents(0, null);
+                            tileEntity1.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity1.markDirty();
-                            tileEntity2.setInventorySlotContents(0, null);
+                            tileEntity2.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity2.markDirty();
-                            tileEntity3.setInventorySlotContents(0, null);
+                            tileEntity3.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity3.markDirty();
-                            tileEntity4.setInventorySlotContents(0, null);
+                            tileEntity4.setInventorySlotContents(0, ItemStack.EMPTY);
                             tileEntity4.markDirty();
                         }
                     }
