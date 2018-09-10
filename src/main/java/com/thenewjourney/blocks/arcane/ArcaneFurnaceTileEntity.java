@@ -3,7 +3,6 @@ package com.thenewjourney.blocks.arcane;
 import com.thenewjourney.world.ModWorldSaveData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;

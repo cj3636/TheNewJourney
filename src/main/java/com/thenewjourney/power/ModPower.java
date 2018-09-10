@@ -6,7 +6,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.awt.*;
-
+//Moving over to player capabilities system
+@Deprecated
 public class ModPower {
 
 	// Returns power tier

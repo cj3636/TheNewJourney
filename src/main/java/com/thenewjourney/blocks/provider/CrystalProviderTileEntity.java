@@ -8,7 +8,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 
 public class CrystalProviderTileEntity extends TileEntity implements ITickable {
-    private boolean isActive;
+    private static boolean isActive;
 
     public boolean getActive() {
         return isActive;
@@ -16,6 +16,7 @@ public class CrystalProviderTileEntity extends TileEntity implements ITickable {
 
     public void setActive(boolean isActive) {
         this.isActive = isActive;
+        markDirty();
     }
 
     @Override

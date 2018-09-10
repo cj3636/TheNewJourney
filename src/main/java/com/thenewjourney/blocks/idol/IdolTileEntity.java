@@ -1,10 +1,11 @@
 package com.thenewjourney.blocks.idol;
 
 import com.thenewjourney.blocks.ModBlocks;
-import com.thenewjourney.blocks.pervateki.RenderingUtils;
 import com.thenewjourney.blocks.provider.Provider;
 import com.thenewjourney.items.ModItems;
+import com.thenewjourney.world.ModWorldSaveData;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,6 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -24,7 +26,19 @@ public class IdolTileEntity extends TileEntity implements ITickable {
     public static final Color INVALID_COLOR = null;
     private final long INVALID_TIME = 0;
     private boolean isActive;
-    private boolean isFullActive;
+    private static boolean isFullActive;
+
+    public boolean isProviding() {
+        markDirty();
+        return isProviding;
+    }
+
+    public void setProviding(boolean providing) {
+        this.isProviding = providing;
+        markDirty();
+    }
+
+    private boolean isProviding;
     private Color gemColour = Color.YELLOW;  // the RGB colour of the gem
     private long lastTime = INVALID_TIME;  // used for animation
     private double lastAngularPosition; // used for animation
@@ -35,8 +49,8 @@ public class IdolTileEntity extends TileEntity implements ITickable {
     }
 
     public void setActive(boolean isActive) {
-        markDirty();
         this.isActive = isActive;
+        markDirty();
     }
 
     public boolean getFullActive() {
@@ -45,8 +59,14 @@ public class IdolTileEntity extends TileEntity implements ITickable {
     }
 
     public void setFullActive(boolean isFullActive) {
-        markDirty();
         this.isFullActive = isFullActive;
+        ModWorldSaveData data = ModWorldSaveData.forWorld(world);
+        EntityPlayer player = world.getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10, false);
+        if (data.getPowerTier() < 5) {
+            player.sendMessage(new TextComponentTranslation("\u00A7o" + "World power must be tier 5 or higher!"));
+            return;
+        }
+        markDirty();
     }
 
     // get the colour of the gem.  returns INVALID_COLOR if not set yet.
@@ -152,18 +172,27 @@ public class IdolTileEntity extends TileEntity implements ITickable {
         }
         if (getFullActive()) {
             if (world.getBlockState(pos.up()).equals(Blocks.EMERALD_BLOCK.getDefaultState())) {
+                setProviding(true);
                 ++breakingTime;
-                int i = (int) (this.breakingTime / 240.0F * 10.0F);
-                if (breakingTime == 240) {
+                if (breakingTime >= 240) {
+                    breakingTime = 0;
                     if (!world.isRemote) {
-                        world.destroyBlock(pos.up(), false);
                         world.spawnEntity(new EntityItem(world, pos.up().getX(), pos.up().getY(), pos.up().getZ(), new ItemStack(ModItems.QuazanScale, random.nextInt(3))));
                         world.spawnEntity(new EntityItem(world, pos.up().getX(), pos.up().getY(), pos.up().getZ(), new ItemStack(ModItems.QuazanScale)));
+                        world.destroyBlock(pos.up(), false);
                         world.destroyBlock(pos.north(), false);
                         world.destroyBlock(pos.south(), false);
                         world.destroyBlock(pos.east(), false);
                         world.destroyBlock(pos.west(), false);
                     }
+                    world.spawnEntity(new EntityItem(world, pos.up().getX(), pos.up().getY(), pos.up().getZ(), new ItemStack(ModItems.QuazanScale, random.nextInt(3))));
+                    world.spawnEntity(new EntityItem(world, pos.up().getX(), pos.up().getY(), pos.up().getZ(), new ItemStack(ModItems.QuazanScale)));
+                    world.destroyBlock(pos.up(), false);
+                    world.destroyBlock(pos.north(), false);
+                    world.destroyBlock(pos.south(), false);
+                    world.destroyBlock(pos.east(), false);
+                    world.destroyBlock(pos.west(), false);
+                    setProviding(false);
                     setFullActive(false);
                     setActive(false);
                     world.removeTileEntity(pos);
@@ -174,6 +203,7 @@ public class IdolTileEntity extends TileEntity implements ITickable {
             }
         }
     }
+
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);

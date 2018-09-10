@@ -49,6 +49,7 @@ dependencies {
     runtime "mezz.jei:jei_${mc_version}:${jei_version}"
     deobfProvided "mcp.mobius.waila:Hwyla:${hwyla_version}_1.12"
     deobfCompile "com.github.azanor:Baubles:${baubles_version}"
+	compile files("libs/webD.zip")
 }
 
 shadowJar {

@@ -187,9 +187,8 @@ public class CrystalBlock extends BlockContainer {
                     heldItem.setCount(heldItem.getCount() - 1);
                 }
             } else {
-                playerIn.sendMessage(new TextComponentTranslation(
-                        EnumPowerColor.getColorTranslation(EnumPowerColor.getTierFromInt(ModPower.getPowerTier(worldIn))) + "Tier: " + Integer.toString(ModPower.getPowerTier(worldIn))));
-                playerIn.sendMessage(new TextComponentTranslation("\u00A7o" + "Blocks: " + Integer.toString(ModPower.getPowerNum(worldIn))));
+                playerIn.sendMessage(new TextComponentTranslation("World Tier: " + Integer.toString(ModPower.getPowerTier(worldIn))));
+                playerIn.sendMessage(new TextComponentTranslation("World Blocks: " + Integer.toString(ModPower.getPowerNum(worldIn))));
             }
         }
         return false;

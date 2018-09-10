@@ -1,8 +1,6 @@
 package com.thenewjourney.items.tool.purvia;
 
 import com.cj3636.lib.Ref;
-import com.thenewjourney.world.ModWorldSaveData;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,7 +12,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class PurviaShovelRegistry extends ItemSpade {
 

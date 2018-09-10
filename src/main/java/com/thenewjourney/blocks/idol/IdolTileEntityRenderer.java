@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -122,16 +123,19 @@ public class IdolTileEntityRenderer extends TileEntitySpecialRenderer<IdolTileEn
 
     @Override
     public void render(IdolTileEntity tileEntity, double relativeX, double relativeY, double relativeZ, float partialTicks, int blockDamageProgress, float alpha) {
+        IdolTileEntity ModTileEntityCrystal = (IdolTileEntity) tileEntity;
         if (tileEntity.getFullActive()) {
-            BlockPos posg = new BlockPos(0, 0, 0);
-            startLong += 1;
-            float offX = 0.5F;
-            float offY = 0.5F;
-            float offZ = 0.5F;
-            GlStateManager.pushMatrix();
-            GlStateManager.translate(relativeX + offX, relativeY + offY, relativeZ + offZ);
-            RenderingUtils.renderLightRayEffects(posg.getX(), posg.up().getY(), posg.getZ(), Color.GREEN, 0x12315L, startLong, 20, 2F, 21, 7);
-            GlStateManager.popMatrix();
+            if (tileEntity.getWorld().getBlockState(tileEntity.getPos().up()).equals(Blocks.EMERALD_BLOCK.getDefaultState())) {
+                BlockPos posg = new BlockPos(0, 0, 0);
+                startLong += 1;
+                float offX = 0.5F;
+                float offY = 0.5F;
+                float offZ = 0.5F;
+                GlStateManager.pushMatrix();
+                GlStateManager.translate(relativeX + offX, relativeY + offY, relativeZ + offZ);
+                RenderingUtils.renderLightRayEffects(posg.getX(), posg.up().getY(), posg.getZ(), Color.GREEN, 0x12315L, startLong, 20, 2F, 21, 7);
+                GlStateManager.popMatrix();
+            }
             float[] colors = {1, 2, 18};
             this.bindTexture(TEXTURE_BEACON_BEAM);
             GlStateManager.disableFog();
@@ -139,7 +143,7 @@ public class IdolTileEntityRenderer extends TileEntitySpecialRenderer<IdolTileEn
             GlStateManager.enableFog();
 
         }
-        IdolTileEntity ModTileEntityCrystal = (IdolTileEntity) tileEntity;
+
 
         final double pedestalCentreOffsetX = 0.5;
         final double pedestalCentreOffsetY = 0.0;

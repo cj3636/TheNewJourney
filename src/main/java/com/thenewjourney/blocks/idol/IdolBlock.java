@@ -5,6 +5,7 @@ import com.thenewjourney.blocks.ModBlocks;
 import com.thenewjourney.blocks.provider.CrystalProvider;
 import com.thenewjourney.particle.BubblingFireParticle;
 import com.thenewjourney.power.ModPower;
+import com.thenewjourney.world.ModWorldSaveData;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -43,6 +44,12 @@ public class IdolBlock extends BlockContainer {
         this.setRegistryName(unlocalizedName);
         this.setHardness(hardness);
         this.setResistance(resistance);
+    }
+
+    @Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+        tileEntity.setFullActive(false);
+        super.breakBlock(worldIn, pos, state);
     }
 
     @Override

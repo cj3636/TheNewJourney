@@ -11,6 +11,8 @@ public class ModWorldSaveData extends WorldSavedData {
     private static final String key_powerNum = "powerNum";
     private static int powerTier;
     private static final String key_powerTier = "powerTier";
+    public static final String key_providerOn = "providerOn";
+    public static boolean providerOn = false;
 
     public ModWorldSaveData(String s) {
         super(s);
