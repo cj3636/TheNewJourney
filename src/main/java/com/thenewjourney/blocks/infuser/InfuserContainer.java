@@ -2,25 +2,32 @@ package com.thenewjourney.blocks.infuser;
 
 import com.thenewjourney.blocks.ModBlocks;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.network.play.server.SPacketSetSlot;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class InfuserContainer extends Container {
-
     /**
      * The crafting matrix inventory (3x3).
      */
-    public InventoryCrafting craftMatrix = new InfuserCraftingInventory(this, 3, 3);
-    public IInventory craftResult = new InventoryCraftResult();
-    private static World worldObj;
-    private static BlockPos pos;
+    public InfuserCraftingInventory craftMatrix = new InfuserCraftingInventory(this, 3, 3);
+    public InventoryCraftResult craftResult = new InventoryCraftResult();
+    private final World world;
+    /**
+     * Position of the workbench
+     */
+    private final BlockPos pos;
+    private final EntityPlayer player;
 
-    public InfuserContainer(InventoryPlayer playerInventory, BlockPos pos, World worldObj) {
-        InfuserContainer.pos = pos;
-        InfuserContainer.worldObj = worldObj;
+    public InfuserContainer(InventoryPlayer playerInventory, World worldIn, BlockPos posIn) {
+        this.world = worldIn;
+        this.pos = posIn;
+        this.player = playerInventory.player;
         this.addSlotToContainer(new SlotCrafting(playerInventory.player, this.craftMatrix, this.craftResult, 0, 124, 35));
 
         for (int i = 0; i < 3; ++i) {
@@ -38,15 +45,13 @@ public class InfuserContainer extends Container {
         for (int l = 0; l < 9; ++l) {
             this.addSlotToContainer(new Slot(playerInventory, l, 8 + l * 18, 142));
         }
-
-        this.onCraftMatrixChanged(this.craftMatrix);
     }
 
     /**
      * Callback for when the crafting matrix is changed.
      */
-    public void onCraftMatrixChanged(IInventory inventory) {
-        this.craftResult.setInventorySlotContents(0, InfuserCraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, worldObj));
+    public void onCraftMatrixChanged(IInventory inventoryIn) {
+        this.slotChangedCraftingGrid(this.world, this.player, this.craftMatrix, this.craftResult);
     }
 
     /**
@@ -54,25 +59,29 @@ public class InfuserContainer extends Container {
      */
     public void onContainerClosed(EntityPlayer playerIn) {
         super.onContainerClosed(playerIn);
-        for (int i = 0; i < 9; ++i) {
-            ItemStack itemstack = this.craftMatrix.removeStackFromSlot(i);
 
-            if (itemstack != null) {
-                playerIn.dropItem(itemstack, false);
-            }
+        if (!this.world.isRemote) {
+            this.clearContainer(playerIn, this.world, this.craftMatrix);
         }
     }
 
+    /**
+     * Determines whether supplied player can use this container
+     */
     public boolean canInteractWith(EntityPlayer playerIn) {
-        return worldObj.getBlockState(pos).getBlock() == ModBlocks.ArchaicInfuser && playerIn.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D;
+        if (this.world.getBlockState(this.pos).getBlock() != ModBlocks.ArchaicInfuser) {
+            return false;
+        } else {
+            return playerIn.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
+        }
     }
 
     /**
-     * Take a stack from the specified inventory slot.
+     * Handle when the stack in slot {@code index} is shift-clicked. Normally this moves the stack between the player
+     * inventory and the other inventory(s).
      */
-    @Override
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
-        ItemStack itemstack = null;
+        ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack()) {
@@ -80,34 +89,40 @@ public class InfuserContainer extends Container {
             itemstack = itemstack1.copy();
 
             if (index == 0) {
+                itemstack1.getItem().onCreated(itemstack1, this.world, playerIn);
+
                 if (!this.mergeItemStack(itemstack1, 10, 46, true)) {
-                    return null;
+                    return ItemStack.EMPTY;
                 }
 
                 slot.onSlotChange(itemstack1, itemstack);
             } else if (index >= 10 && index < 37) {
                 if (!this.mergeItemStack(itemstack1, 37, 46, false)) {
-                    return null;
+                    return ItemStack.EMPTY;
                 }
             } else if (index >= 37 && index < 46) {
                 if (!this.mergeItemStack(itemstack1, 10, 37, false)) {
-                    return null;
+                    return ItemStack.EMPTY;
                 }
             } else if (!this.mergeItemStack(itemstack1, 10, 46, false)) {
-                return null;
+                return ItemStack.EMPTY;
             }
 
-            if (itemstack1.getCount() == 0) {
-                slot.putStack(null);
+            if (itemstack1.isEmpty()) {
+                slot.putStack(ItemStack.EMPTY);
             } else {
                 slot.onSlotChanged();
             }
 
             if (itemstack1.getCount() == itemstack.getCount()) {
-                return null;
+                return ItemStack.EMPTY;
             }
 
-            slot.onTake(playerIn, itemstack1);
+            ItemStack itemstack2 = slot.onTake(playerIn, itemstack1);
+
+            if (index == 0) {
+                playerIn.dropItem(itemstack2, false);
+            }
         }
 
         return itemstack;
@@ -119,5 +134,19 @@ public class InfuserContainer extends Container {
      */
     public boolean canMergeSlot(ItemStack stack, Slot slotIn) {
         return slotIn.inventory != this.craftResult && super.canMergeSlot(stack, slotIn);
+    }
+
+    private void slotChangedCraftingGrid(World p_192389_1_, EntityPlayer p_192389_2_, InfuserCraftingInventory p_192389_3_, InventoryCraftResult p_192389_4_) {
+        if (!p_192389_1_.isRemote) {
+            EntityPlayerMP entityplayermp = (EntityPlayerMP) p_192389_2_;
+            ItemStack itemstack = ItemStack.EMPTY;
+            IRecipe irecipe = InfuserCraftingManager.findMatchingRecipe(p_192389_3_, p_192389_1_);
+            if (irecipe != null) {
+                p_192389_4_.setRecipeUsed(irecipe);
+                itemstack = irecipe.getCraftingResult(p_192389_3_);
+            }
+            p_192389_4_.setInventorySlotContents(0, itemstack);
+            entityplayermp.connection.sendPacket(new SPacketSetSlot(this.windowId, 0, itemstack));
+        }
     }
 }

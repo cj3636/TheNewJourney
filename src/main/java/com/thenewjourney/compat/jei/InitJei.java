@@ -5,7 +5,6 @@ import com.thenewjourney.blocks.arcane.ArcaneFurnaceGuiInventory;
 import com.thenewjourney.blocks.blastfurnace.BlastFurnaceGuiInventory;
 import com.thenewjourney.blocks.cauldron.ImbuedCraftingManager;
 import com.thenewjourney.blocks.infuser.InfuserContainer;
-import com.thenewjourney.blocks.infuser.InfuserCraftingManager;
 import com.thenewjourney.blocks.infuser.InfuserGuiInventory;
 import com.thenewjourney.blocks.purifier.PurifierGuiInventory;
 import com.thenewjourney.compat.baubles.InitItems;
@@ -39,7 +38,7 @@ public class InitJei implements IModPlugin {
         //Register
         //Infuser
 
-/*        registry.addRecipeHandlers(new InfuserHandler());
+/*      registry.addRecipeHandlers(new InfuserHandler());
         //Blast
 
         registry.addRecipeHandlers(new BlastHandler());
@@ -54,7 +53,7 @@ public class InitJei implements IModPlugin {
         registry.addRecipeHandlers(new ImbuedHandler());*/
         //Crafting Recipes
         //Infuser
-        registry.addRecipes(InfuserCraftingManager.getInstance().getRecipeList(), InfuserCategory.INFUSION);
+        //registry.addRecipes(InfuserCraftingManager, InfuserCategory.INFUSION);
         registry.addRecipeClickArea(InfuserGuiInventory.class, 1, 1, 64, 8, InfuserCategory.INFUSION);
         //Blast
         registry.addRecipes(BlastCraftingManager.getInstance().getRecipeList(), BlastCategory.BLASTFURNACE);

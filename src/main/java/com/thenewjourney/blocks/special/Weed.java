@@ -33,8 +33,8 @@ public class Weed extends BlockBush implements IGrowable, net.minecraftforge.com
         this.setDefaultState(this.blockState.getBaseState().withProperty(HALF, net.minecraft.block.BlockDoublePlant.EnumBlockHalf.LOWER).withProperty(FACING, EnumFacing.NORTH));
         this.setHardness(0.0F);
         this.setSoundType(SoundType.PLANT);
-        this.setUnlocalizedName("Weed");
-        this.setRegistryName("Weed");
+        this.setUnlocalizedName("weed");
+        this.setRegistryName("weed");
     }
     public int getMetaFromState(IBlockState state)
     {

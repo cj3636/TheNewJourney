@@ -9,37 +9,43 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
 @SideOnly(Side.CLIENT)
 public class InfuserGuiInventory extends GuiContainer {
-	// This is the resource location for the background image
-	private static final ResourceLocation texture = new ResourceLocation(Ref.MODID, "textures/gui/infuser.png");
+    private static final ResourceLocation texture = new ResourceLocation(Ref.MODID, "textures/gui/infuser.png");
 
-	public InfuserGuiInventory(InventoryPlayer invPlayer, BlockPos pos) {
-		super(new InfuserContainer(invPlayer, pos, invPlayer.player.getEntityWorld()));
+    public InfuserGuiInventory(InventoryPlayer invPlayer, BlockPos pos) {
+        super(new InfuserContainer(invPlayer, invPlayer.player.getEntityWorld(), pos));
+        xSize = 176;
+        ySize = 207;
+    }
 
-		xSize = 176;
-		ySize = 207;
+    public void drawGuiContainerBackgroundLayer(float partialTicks, int x, int y) {
+        GL11.glPushMatrix();
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        Minecraft.getMinecraft().renderEngine.bindTexture(texture);
+        int k = width / 2 - xSize / 2;
+        int l = height / 2 - ySize / 2;
+        drawTexturedModalRect(k, l, 0, 0, xSize, ySize);
+        GL11.glPopMatrix();
+    }
 
-	}
-	@Override
-	public void drawGuiContainerBackgroundLayer(float partialTicks, int x, int y) {
-		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
-	}
-	@Override
-	public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+    @Override
+    public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+        final int LABEL_XPOS = 5;
+        final int LABEL_YPOS = 5;
+        fontRenderer.drawString("Archaic Infuser", LABEL_XPOS, LABEL_YPOS, Color.white.getRGB());
+        Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+    }
 
-		final int LABEL_XPOS = 5;
-		final int LABEL_YPOS = 5;
-		fontRenderer.drawString("Archaic Infuser", LABEL_XPOS, LABEL_YPOS, Color.white.getRGB());
-//		// You must re bind the texture and reset the colour if you still need to use it after drawing a string
-//		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
-//		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-
-	}
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        this.drawDefaultBackground();
+        super.drawScreen(mouseX, mouseY, partialTicks);
+        this.renderHoveredToolTip(mouseX, mouseY);
+    }
 }

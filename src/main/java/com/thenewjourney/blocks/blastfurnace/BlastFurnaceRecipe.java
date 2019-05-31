@@ -16,7 +16,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -87,7 +87,7 @@ public class BlastFurnaceRecipe implements IRecipe {
      * Adds a smelting recipe using an ItemStack as the input for the recipe.
      */
     public void addSmeltingRecipe(ItemStack input, ItemStack stack, float experience) {
-        if (getSmeltingResult(input) != null) {
+        if (getSmeltingResult(input) != ItemStack.EMPTY) {
             net.minecraftforge.fml.common.FMLLog.info("Ignored smelting recipe with conflicting input: " + input + " = " + stack);
             return;
         }
@@ -98,7 +98,7 @@ public class BlastFurnaceRecipe implements IRecipe {
     /**
      * Returns the smelting result of an item.
      */
-    @Nullable
+    @Nonnull
     public ItemStack getSmeltingResult(ItemStack stack) {
         for (Entry<ItemStack, ItemStack> entry : this.smeltingList.entrySet()) {
             if (this.compareItemStacks(stack, entry.getKey())) {
@@ -106,12 +106,12 @@ public class BlastFurnaceRecipe implements IRecipe {
             }
         }
 
-        return null;
+        return ItemStack.EMPTY;
     }
 
-    @Nullable
+    @Nonnull
     public ItemStack getBlastSmeltingResult(ItemStack stack1, ItemStack stack2) {
-        if (stack1 != null && stack2 != null) {
+        if (stack1 != ItemStack.EMPTY && stack2 != ItemStack.EMPTY) {
             if (stack1.getItem() == ModItems.LowGradeSteelIngot && stack2.getItem() == ModItems.Carbon) {
                 return new ItemStack(ModItems.SteelIngot);
             }
@@ -134,13 +134,13 @@ public class BlastFurnaceRecipe implements IRecipe {
                 return new ItemStack(ModBlocks.ObsidianGlass, 2);
             }
         }
-        if (stack2 != null) {
-            return null;
+        if (stack2 != ItemStack.EMPTY) {
+            getSmeltingResult(stack2);
         }
-        if (stack1 != null) {
+        if (stack1 != ItemStack.EMPTY) {
             getSmeltingResult(stack1);
         }
-        return null;
+        return ItemStack.EMPTY;
     }
 
     /**
@@ -176,10 +176,9 @@ public class BlastFurnaceRecipe implements IRecipe {
         return false;
     }
 
-    @Nullable
     @Override
     public ItemStack getCraftingResult(InventoryCrafting inv) {
-        return null;
+        return ItemStack.EMPTY;
     }
 
     @Override
@@ -187,7 +186,6 @@ public class BlastFurnaceRecipe implements IRecipe {
         return true;
     }
 
-    @Nullable
     @Override
     public ItemStack getRecipeOutput() {
         return null;
@@ -198,7 +196,6 @@ public class BlastFurnaceRecipe implements IRecipe {
         return null;
     }
 
-    @Nullable
     @Override
     public ResourceLocation getRegistryName() {
         return null;

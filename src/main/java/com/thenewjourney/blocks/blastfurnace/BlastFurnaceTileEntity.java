@@ -1,5 +1,6 @@
 package com.thenewjourney.blocks.blastfurnace;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -31,11 +32,16 @@ public class BlastFurnaceTileEntity extends TileEntity implements ISidedInventor
     public static final int FIRST_INPUT_SLOT = FIRST_FUEL_SLOT + FUEL_SLOTS_COUNT;
     public static final int FIRST_OUTPUT_SLOT = FIRST_INPUT_SLOT + INPUT_SLOTS_COUNT;
 
-    private ItemStack[] itemStacks = new ItemStack[TOTAL_SLOTS_COUNT];
+    private ItemStack[] itemStacks;
 
     private static final int[] slotsTop = new int[]{2, 3};
     private static final int[] slotsBottom = new int[]{4};
     private static final int[] slotsSides = new int[]{0, 1};
+
+    public BlastFurnaceTileEntity() {
+        itemStacks = new ItemStack[TOTAL_SLOTS_COUNT];
+        clear();
+    }
 
     @Override
     public int[] getSlotsForFace(EnumFacing side) {
@@ -173,8 +179,9 @@ public class BlastFurnaceTileEntity extends TileEntity implements ISidedInventor
         int numberBurning = numberOfBurningFuelSlots();
         if (cachedNumberOfBurningSlots != numberBurning) {
             cachedNumberOfBurningSlots = numberBurning;
-            if (!world.isRemote) {
-                BlastFurnaceBlock.setState(this.isBurning(), this.world, this.pos);
+            if (world.isRemote) {
+                IBlockState iblockstate = this.world.getBlockState(pos);
+                world.notifyBlockUpdate(pos, iblockstate, iblockstate, 3);
             }
             world.checkLightFor(EnumSkyBlock.BLOCK, pos);
         }
@@ -243,17 +250,17 @@ public class BlastFurnaceTileEntity extends TileEntity implements ISidedInventor
     private boolean smeltItem(boolean performSmelt) {
         Integer firstSuitableInputSlot = null;
         Integer firstSuitableOutputSlot = null;
-        ItemStack result = null;
+        ItemStack result = ItemStack.EMPTY;
 
         // finds the first input slot which is smeltable and whose result fits into an output slot (stacking if possible)
         for (int inputSlot = FIRST_INPUT_SLOT; inputSlot < FIRST_INPUT_SLOT + INPUT_SLOTS_COUNT; inputSlot++) {
-            if (itemStacks[inputSlot] != null) {
+            if (itemStacks[inputSlot] != ItemStack.EMPTY) {
                 result = getSmeltingResultForItem(itemStacks[inputSlot], itemStacks[inputSlot + 1]);
-                if (result != null) {
+                if (result != ItemStack.EMPTY) {
                     // find the first suitable output slot- either empty, or with identical item that has enough space
                     for (int outputSlot = FIRST_OUTPUT_SLOT; outputSlot < FIRST_OUTPUT_SLOT + OUTPUT_SLOTS_COUNT; outputSlot++) {
                         ItemStack outputStack = itemStacks[outputSlot];
-                        if (outputStack == null) {
+                        if (outputStack == ItemStack.EMPTY) {
                             firstSuitableInputSlot = inputSlot;
                             firstSuitableOutputSlot = outputSlot;
                             break;
@@ -279,11 +286,11 @@ public class BlastFurnaceTileEntity extends TileEntity implements ISidedInventor
 
         // alter input and output
         itemStacks[firstSuitableInputSlot].setCount(itemStacks[firstSuitableInputSlot].getCount() - 1);
-        if (itemStacks[firstSuitableInputSlot + 1] != null) itemStacks[firstSuitableInputSlot].setCount(itemStacks[firstSuitableInputSlot + 1].getCount() - 1);
-        if (itemStacks[firstSuitableInputSlot].getCount() <= 0) itemStacks[firstSuitableInputSlot] = null;
-        if (itemStacks[firstSuitableInputSlot + 1] != null && itemStacks[firstSuitableInputSlot + 1].getCount() <= 0)
-            itemStacks[firstSuitableInputSlot + 1] = null;
-        if (itemStacks[firstSuitableOutputSlot] == null) {
+        itemStacks[firstSuitableInputSlot + 1].setCount(itemStacks[firstSuitableInputSlot + 1].getCount() - 1);
+        if (itemStacks[firstSuitableInputSlot].getCount() <= 0) itemStacks[firstSuitableInputSlot] = ItemStack.EMPTY;
+        if (itemStacks[firstSuitableInputSlot + 1].getCount() <= 0)
+            itemStacks[firstSuitableInputSlot + 1] = ItemStack.EMPTY;
+        if (itemStacks[firstSuitableOutputSlot] == ItemStack.EMPTY) {
             itemStacks[firstSuitableOutputSlot] = result.copy(); // Use deep .copy() to avoid altering the recipe
         } else {
             //itemStacks[firstSuitableOutputSlot].stackSize += result.stackSize;
@@ -296,14 +303,11 @@ public class BlastFurnaceTileEntity extends TileEntity implements ISidedInventor
 
     // returns the smelting result for the given stack. Returns null if the given stack can not be smelted
     public static ItemStack getSmeltingResultForItem(ItemStack stack1, ItemStack stack2) {
-        if (stack1 != null && stack2 != null) {
+        if (stack1 != ItemStack.EMPTY && stack2 != ItemStack.EMPTY) {
             return BlastFurnaceRecipe.instance().getBlastSmeltingResult(stack1, stack2);
         }
-        if (stack1 != null && stack2 == null) {
-            vanillaOre = true;
-            return BlastFurnaceRecipe.instance().getSmeltingResult(stack1);
-        }
-        return null;
+        vanillaOre = true;
+        return BlastFurnaceRecipe.instance().getSmeltingResult(stack1);
     }
 
     // returns the number of ticks the given item will burn. Returns 0 if the given item is not a valid fuel
@@ -339,16 +343,16 @@ public class BlastFurnaceTileEntity extends TileEntity implements ISidedInventor
     @Override
     public ItemStack decrStackSize(int slotIndex, int count) {
         ItemStack itemStackInSlot = getStackInSlot(slotIndex);
-        if (itemStackInSlot == null) return null;
+        if (itemStackInSlot == ItemStack.EMPTY) return ItemStack.EMPTY;
 
         ItemStack itemStackRemoved;
         if (itemStackInSlot.getCount() <= count) {
             itemStackRemoved = itemStackInSlot;
-            setInventorySlotContents(slotIndex, null);
+            setInventorySlotContents(slotIndex, ItemStack.EMPTY);
         } else {
             itemStackRemoved = itemStackInSlot.splitStack(count);
             if (itemStackInSlot.getCount() == 0) {
-                setInventorySlotContents(slotIndex, null);
+                setInventorySlotContents(slotIndex, ItemStack.EMPTY);
             }
         }
         markDirty();
@@ -359,7 +363,7 @@ public class BlastFurnaceTileEntity extends TileEntity implements ISidedInventor
     @Override
     public void setInventorySlotContents(int slotIndex, ItemStack itemstack) {
         itemStacks[slotIndex] = itemstack;
-        if (itemstack != null && itemstack.getCount() > getInventoryStackLimit()) {
+        if (itemstack != ItemStack.EMPTY && itemstack.getCount() > getInventoryStackLimit()) {
             itemstack.setCount(getInventoryStackLimit());
         }
         markDirty();
@@ -417,7 +421,7 @@ public class BlastFurnaceTileEntity extends TileEntity implements ISidedInventor
         // Each of these NBTTagCompound are then inserted into NBTTagList, which is similar to an array.
         NBTTagList dataForAllSlots = new NBTTagList();
         for (int i = 0; i < this.itemStacks.length; ++i) {
-            if (this.itemStacks[i] != null) {
+            if (this.itemStacks[i] != ItemStack.EMPTY) {
                 NBTTagCompound dataForThisSlot = new NBTTagCompound();
                 dataForThisSlot.setByte("Slot", (byte) i);
                 this.itemStacks[i].writeToNBT(dataForThisSlot);
@@ -441,7 +445,7 @@ public class BlastFurnaceTileEntity extends TileEntity implements ISidedInventor
         final byte NBT_TYPE_COMPOUND = 10;       // See NBTBase.createNewByType() for a listing
         NBTTagList dataForAllSlots = nbtTagCompound.getTagList("Items", NBT_TYPE_COMPOUND);
 
-        Arrays.fill(itemStacks, null);           // set all slots to empty
+        Arrays.fill(itemStacks, ItemStack.EMPTY);           // set all slots to empty
         for (int i = 0; i < dataForAllSlots.tagCount(); ++i) {
             NBTTagCompound dataForOneSlot = dataForAllSlots.getCompoundTagAt(i);
             byte slotNumber = dataForOneSlot.getByte("Slot");
@@ -477,7 +481,7 @@ public class BlastFurnaceTileEntity extends TileEntity implements ISidedInventor
     // set all slots to empty
     @Override
     public void clear() {
-        Arrays.fill(itemStacks, null);
+        Arrays.fill(itemStacks, ItemStack.EMPTY);
     }
 
     // will add a key for this container to the lang file so we can name it in the GUI
@@ -558,7 +562,7 @@ public class BlastFurnaceTileEntity extends TileEntity implements ISidedInventor
     @Override
     public ItemStack removeStackFromSlot(int slotIndex) {
         ItemStack itemStack = getStackInSlot(slotIndex);
-        if (itemStack != null) setInventorySlotContents(slotIndex, null);
+        if (itemStack != ItemStack.EMPTY) setInventorySlotContents(slotIndex, ItemStack.EMPTY);
         return itemStack;
     }
 
@@ -568,5 +572,9 @@ public class BlastFurnaceTileEntity extends TileEntity implements ISidedInventor
 
     @Override
     public void closeInventory(EntityPlayer player) {
+    }
+
+    public boolean isItemValidForFuelSlot(ItemStack stack) {
+        return true;
     }
 }

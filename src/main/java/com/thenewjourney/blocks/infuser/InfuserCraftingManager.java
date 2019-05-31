@@ -1,126 +1,191 @@
 package com.thenewjourney.blocks.infuser;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import net.minecraft.block.Block;
+import com.google.gson.*;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.*;
+import net.minecraft.util.JsonUtils;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.RegistryNamespaced;
 import net.minecraft.world.World;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nullable;
+import java.io.BufferedReader;
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.Reader;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.*;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.Iterator;
 
 public class InfuserCraftingManager {
-    /**
-     * The static instance of this class
-     */
-    private static final InfuserCraftingManager INSTANCE = new InfuserCraftingManager();
-    private final List<IRecipe> recipes = Lists.newArrayList();
+    private static final Logger LOGGER = LogManager.getLogger();
+    private static int nextAvailableId;
+    public static final RegistryNamespaced<ResourceLocation, IRecipe> REGISTRY = net.minecraftforge.registries.GameData.getWrapper(IRecipe.class);
 
-    /**
-     * Returns the static instance of this class
-     */
-    public static InfuserCraftingManager getInstance() {
-        /** The static instance of this class */
-        return INSTANCE;
+    public static boolean init() {
+        try {
+            register("armordye", new RecipesArmorDyes());
+            register("bookcloning", new RecipeBookCloning());
+            register("mapcloning", new RecipesMapCloning());
+            register("mapextending", new RecipesMapExtending());
+            register("fireworks", new RecipeFireworks());
+            register("repairitem", new RecipeRepairItem());
+            register("tippedarrow", new RecipeTippedArrow());
+            register("bannerduplicate", new RecipesBanners.RecipeDuplicatePattern());
+            register("banneraddpattern", new RecipesBanners.RecipeAddPattern());
+            register("shielddecoration", new ShieldRecipes.Decoration());
+            register("shulkerboxcoloring", new ShulkerBoxRecipes.ShulkerBoxColoring());
+            return parseJsonRecipes();
+        } catch (Throwable var1) {
+            return false;
+        }
     }
 
-    private InfuserCraftingManager() {
+    private static boolean parseJsonRecipes() {
+        FileSystem filesystem = null;
+        Gson gson = (new GsonBuilder()).setPrettyPrinting().disableHtmlEscaping().create();
+        boolean flag1;
 
+        try {
+            URL url = CraftingManager.class.getResource("/assets/.mcassetsroot");
 
-        /*Collections.sort(this.recipes, new Comparator<IRecipe>() {
-            public int compare(IRecipe p_compare_1_, IRecipe p_compare_2_) {
-                return p_compare_1_ instanceof InfuserRecipe && p_compare_2_ instanceof InfuserRecipe ? 1 : (p_compare_2_ instanceof InfuserRecipe && p_compare_1_ instanceof InfuserRecipe ? -1 : (p_compare_2_.getRecipeSize() < p_compare_1_.getRecipeSize() ? -1 : (p_compare_2_.getRecipeSize() > p_compare_1_.getRecipeSize() ? 1 : 0)));
+            if (url != null) {
+                URI uri = url.toURI();
+                Path path;
+
+                if ("file".equals(uri.getScheme())) {
+                    path = Paths.get(CraftingManager.class.getResource("/assets/minecraft/recipes").toURI());
+                } else {
+                    if (!"jar".equals(uri.getScheme())) {
+                        LOGGER.error("Unsupported scheme " + uri + " trying to list all recipes");
+                        boolean flag2 = false;
+                        return flag2;
+                    }
+
+                    filesystem = FileSystems.newFileSystem(uri, Collections.emptyMap());
+                    path = filesystem.getPath("/assets/minecraft/recipes");
+                }
+
+                Iterator<Path> iterator = Files.walk(path).iterator();
+
+                while (iterator.hasNext()) {
+                    Path path1 = iterator.next();
+
+                    if ("json".equals(FilenameUtils.getExtension(path1.toString()))) {
+                        Path path2 = path.relativize(path1);
+                        String s = FilenameUtils.removeExtension(path2.toString()).replaceAll("\\\\", "/");
+                        ResourceLocation resourcelocation = new ResourceLocation(s);
+                        BufferedReader bufferedreader = null;
+
+                        try {
+                            boolean flag;
+
+                            try {
+                                bufferedreader = Files.newBufferedReader(path1);
+                                register(s, parseRecipeJson((JsonObject) JsonUtils.fromJson(gson, bufferedreader, JsonObject.class)));
+                            } catch (JsonParseException jsonparseexception) {
+                                LOGGER.error("Parsing error loading recipe " + resourcelocation, (Throwable) jsonparseexception);
+                                flag = false;
+                                return flag;
+                            } catch (IOException ioexception) {
+                                LOGGER.error("Couldn't read recipe " + resourcelocation + " from " + path1, (Throwable) ioexception);
+                                flag = false;
+                                return flag;
+                            }
+                        } finally {
+                            IOUtils.closeQuietly((Reader) bufferedreader);
+                        }
+                    }
+                }
+
+                return true;
             }
-        });*/
+
+            LOGGER.error("Couldn't find .mcassetsroot");
+            flag1 = false;
+        } catch (IOException | URISyntaxException urisyntaxexception) {
+            LOGGER.error("Couldn't get a list of all recipe files", (Throwable) urisyntaxexception);
+            flag1 = false;
+            return flag1;
+        } finally {
+            IOUtils.closeQuietly((Closeable) filesystem);
+        }
+
+        return flag1;
     }
 
-    /**
-     * Adds a shaped recipe to the games recipe list.
-     */
-    public InfuserRecipe addRecipe(ItemStack stack, Object... recipeComponents) {
-        String s = "";
-        int i = 0;
-        int j = 0;
-        int k = 0;
+    private static IRecipe parseRecipeJson(JsonObject p_193376_0_) {
+        String s = JsonUtils.getString(p_193376_0_, "type");
 
-        if (recipeComponents[i] instanceof String[]) {
-            String[] astring = (String[]) recipeComponents[i++];
-
-            for (String s2 : astring) {
-                ++k;
-                j = s2.length();
-                s = s + s2;
-            }
+        if ("crafting_shaped".equals(s)) {
+            return ShapedRecipes.deserialize(p_193376_0_);
+        } else if ("crafting_shapeless".equals(s)) {
+            return ShapelessRecipes.deserialize(p_193376_0_);
         } else {
-            while (recipeComponents[i] instanceof String) {
-                String s1 = (String) recipeComponents[i++];
-                ++k;
-                j = s1.length();
-                s = s + s1;
-            }
+            throw new JsonSyntaxException("Invalid or unsupported recipe type '" + s + "'");
         }
-
-        Map<Character, ItemStack> map;
-
-        for (map = Maps.newHashMap(); i < recipeComponents.length; i += 2) {
-            Character character = (Character) recipeComponents[i];
-            ItemStack itemstack = null;
-
-            if (recipeComponents[i + 1] instanceof Item) {
-                itemstack = new ItemStack((Item) recipeComponents[i + 1]);
-            } else if (recipeComponents[i + 1] instanceof Block) {
-                itemstack = new ItemStack((Block) recipeComponents[i + 1], 1, 32767);
-            } else if (recipeComponents[i + 1] instanceof ItemStack) {
-                itemstack = (ItemStack) recipeComponents[i + 1];
-            }
-
-            map.put(character, itemstack);
-        }
-
-        ItemStack[] aitemstack = new ItemStack[j * k];
-
-        for (int l = 0; l < j * k; ++l) {
-            char c0 = s.charAt(l);
-
-            if (map.containsKey(Character.valueOf(c0))) {
-                aitemstack[l] = map.get(Character.valueOf(c0)).copy();
-            } else {
-                aitemstack[l] = null;
-            }
-        }
-
-        InfuserRecipe InfuserRecipe = new InfuserRecipe(j, k, aitemstack, stack);
-        this.recipes.add(InfuserRecipe);
-        return InfuserRecipe;
     }
 
-    public void addRecipe(IRecipe recipe) {
-        this.recipes.add(recipe);
+    //Forge: Made private use GameData/Registry events!
+    private static void register(String name, IRecipe recipe) {
+        register(new ResourceLocation(name), recipe);
+    }
+
+    //Forge: Made private use GameData/Registry events!
+    public static void register(ResourceLocation name, IRecipe recipe) {
+        if (REGISTRY.containsKey(name)) {
+            throw new IllegalStateException("Duplicate recipe ignored with ID " + name);
+        } else {
+            REGISTRY.register(nextAvailableId++, name, recipe);
+        }
     }
 
     /**
      * Retrieves an ItemStack that has multiple recipes for it.
      */
-    @Nullable
-    public ItemStack findMatchingRecipe(InventoryCrafting craftMatrix, World worldIn) {
-        for (IRecipe irecipe : this.recipes) {
+    public static ItemStack findMatchingResult(InventoryCrafting craftMatrix, World worldIn) {
+        for (IRecipe irecipe : REGISTRY) {
             if (irecipe.matches(craftMatrix, worldIn)) {
                 return irecipe.getCraftingResult(craftMatrix);
             }
         }
 
+        return ItemStack.EMPTY;
+    }
+
+    @Nullable
+    public static IRecipe findMatchingRecipe(InfuserCraftingInventory craftMatrix, World worldIn) {
+        for (IRecipe irecipe : REGISTRY) {
+            if (irecipe.matches(craftMatrix, worldIn)) {
+                return irecipe;
+            }
+        }
         return null;
     }
 
+    public static NonNullList<ItemStack> getRemainingItems(InfuserCraftingInventory craftMatrix, World worldIn) {
+        for (IRecipe irecipe : REGISTRY) {
+            if (irecipe.matches(craftMatrix, worldIn)) {
+                return irecipe.getRemainingItems(craftMatrix);
+            }
+        }
 
+        NonNullList<ItemStack> nonnulllist = NonNullList.<ItemStack>withSize(craftMatrix.getSizeInventory(), ItemStack.EMPTY);
 
-    public List<IRecipe> getRecipeList() {
-        return this.recipes;
+        for (int i = 0; i < nonnulllist.size(); ++i) {
+            nonnulllist.set(i, craftMatrix.getStackInSlot(i));
+        }
+
+        return nonnulllist;
     }
+
 }

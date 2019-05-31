@@ -322,8 +322,8 @@ public final class ModItems extends Item {
         Pestal = registerItem(new Pestal("pestal"));
         PheonixDust = registerItem(new FireStarterRegistry("pheonixdust"));
         TranquilizerArrow = registerItem(new ItemTranquilizerArrow("tranquilizerarrow"));
-        FireLight = registerItem(new FireStarterRegistry("firelight"));
-        AtriumLight = registerItem(new FireStarterRegistry("atriumlight"));
+        FireLight = registerItem(new ItemRegistry("firelight"));
+        AtriumLight = registerItem(new ItemRegistry("atriumlight"));
         FireGem = registerItem(new ItemRegistry("firegem"));
         BloodGem = registerItem(new ItemRegistry("bloodgem"));
         FloricOrb = registerItem(new ItemRegistry("floricorb"));

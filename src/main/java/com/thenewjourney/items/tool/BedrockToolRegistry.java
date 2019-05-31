@@ -2,7 +2,6 @@ package com.thenewjourney.items.tool;
 
 import com.cj3636.lib.Ref;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -42,7 +41,7 @@ public class BedrockToolRegistry extends ItemTool {
     			int x = pos.getX();
     			int y = pos.getY();
     			int z = pos.getZ();
-    			world.setBlockToAir(pos);
+                world.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
     			stack.damageItem(1, player);
     			EntityItem item = new EntityItem(world, x, y, z, new ItemStack(Blocks.BEDROCK));
     			world.spawnEntity(item);

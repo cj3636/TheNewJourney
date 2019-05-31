@@ -97,8 +97,8 @@ public class BlastFurnaceContainer extends Container {
 
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int sourceSlotIndex) {
-        Slot sourceSlot = inventorySlots.get(sourceSlotIndex);
-        if (sourceSlot == null || !sourceSlot.getHasStack()) return null;
+        Slot sourceSlot = (Slot) inventorySlots.get(sourceSlotIndex);
+        if (sourceSlot == null || !sourceSlot.getHasStack()) return ItemStack.EMPTY;  //EMPTY_ITEM
         ItemStack sourceStack = sourceSlot.getStack();
         ItemStack copyOfSourceStack = sourceStack.copy();
 
@@ -106,44 +106,46 @@ public class BlastFurnaceContainer extends Container {
         if (sourceSlotIndex >= VANILLA_FIRST_SLOT_INDEX && sourceSlotIndex < VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT) {
             // This is a vanilla container slot so merge the stack into one of the furnace slots
             // If the stack is smeltable try to merge merge the stack into the input slots
-            if (BlastFurnaceTileEntity.getItemBurnTime(sourceStack) > 0) {
+            if (!tileInventoryFurnace.getSmeltingResultForItem(sourceStack, ItemStack.EMPTY).isEmpty()) {  //isEmptyItem
+                if (!mergeItemStack(sourceStack, FIRST_INPUT_SLOT_INDEX, FIRST_INPUT_SLOT_INDEX + INPUT_SLOTS_COUNT, false)) {
+                    return ItemStack.EMPTY;  //EMPTY_ITEM;
+                }
+            } else if (tileInventoryFurnace.getItemBurnTime(sourceStack) > 0) {
                 if (!mergeItemStack(sourceStack, FIRST_FUEL_SLOT_INDEX, FIRST_FUEL_SLOT_INDEX + FUEL_SLOTS_COUNT, true)) {
                     // Setting the boolean to true places the stack in the bottom slot first
-                    return null;
-                }
-            } else if (BlastFurnaceTileEntity.isItemValidForInputSlot(sourceStack)) {
-                if (!mergeItemStack(sourceStack, FIRST_INPUT_SLOT_INDEX, FIRST_INPUT_SLOT_INDEX + INPUT_SLOTS_COUNT, false)) {
-                    return null;
+                    return ItemStack.EMPTY;  //EMPTY_ITEM;
                 }
             } else {
-                return null;
+                return ItemStack.EMPTY;  //EMPTY_ITEM;
             }
         } else if (sourceSlotIndex >= FIRST_FUEL_SLOT_INDEX && sourceSlotIndex < FIRST_FUEL_SLOT_INDEX + FURNACE_SLOTS_COUNT) {
             // This is a furnace slot so merge the stack into the players inventory: try the hotbar first and then the main inventory
             //   because the main inventory slots are immediately after the hotbar slots, we can just merge with a single call
             if (!mergeItemStack(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
-                return null;
+                return ItemStack.EMPTY;  //EMPTY_ITEM;
             }
         } else {
             System.err.print("Invalid slotIndex:" + sourceSlotIndex);
-            return null;
+            return ItemStack.EMPTY;  //EMPTY_ITEM;
         }
+
         // If stack size == 0 (the entire stack was moved) set slot contents to null
-        if (sourceStack.getCount() == 0) {
-            sourceSlot.putStack(null);
+        if (sourceStack.getCount() == 0) {  //getStackSize()
+            sourceSlot.putStack(ItemStack.EMPTY);  // Empty Item
         } else {
             sourceSlot.onSlotChanged();
         }
 
-        sourceSlot.onTake(player, sourceStack);
+        sourceSlot.onTake(player, sourceStack);  // onPickupFromSlot()
         return copyOfSourceStack;
     }
+
     /* Client Synchronization */
 
     // This is where you check if any values have changed and if so send an update to any clients accessing this container
     // The container itemstacks are tested in Container.detectAndSendChanges, so we don't need to do that
     // We iterate through all of the TileEntity Fields to find any which have changed, and send them.
-    // You don't have to use fields if you don't wish to; just manually match the ID in sendProgressBarUpdate with the value in
+    // You don't have to use fields if you don't wish to; just manually match the ID in sendWindowProperty with the value in
     //   updateProgressBar()
     // The progress bar values are restricted to shorts.  If you have a larger value (eg int), it's not a good idea to try and split it
     //   up into two shorts because the progress bar values are sent independently, and unless you add synchronisation logic at the
@@ -169,21 +171,15 @@ public class BlastFurnaceContainer extends Container {
         for (IContainerListener listener : this.listeners) {
             for (int fieldID = 0; fieldID < tileInventoryFurnace.getFieldCount(); ++fieldID) {
                 if (fieldHasChanged[fieldID]) {
-                    // Note that although sendProgressBarUpdate takes 2 ints on a server these are truncated to shorts
+                    // Note that although sendWindowProperty takes 2 ints on a server these are truncated to shorts
                     listener.sendWindowProperty(this, fieldID, cachedFields[fieldID]);
                 }
             }
         }
     }
 
-    @Override
-    public void addListener(IContainerListener listener) {
-        super.addListener(listener);
-        listener.sendAllWindowProperties(this, tileInventoryFurnace);
-    }
-
     // Called when a progress bar update is received from the server. The two values (id and data) are the same two
-    // values given to sendProgressBarUpdate.  In this case we are using fields so we just pass them to the tileEntity.
+    // values given to sendWindowProperty.  In this case we are using fields so we just pass them to the tileEntity.
     @SideOnly(Side.CLIENT)
     @Override
     public void updateProgressBar(int id, int data) {
@@ -199,7 +195,7 @@ public class BlastFurnaceContainer extends Container {
         // if this function returns false, the player won't be able to insert the given item into this slot
         @Override
         public boolean isItemValid(ItemStack stack) {
-            return true;
+            return tileInventoryFurnace.isItemValidForFuelSlot(stack);
         }
     }
 
@@ -212,7 +208,7 @@ public class BlastFurnaceContainer extends Container {
         // if this function returns false, the player won't be able to insert the given item into this slot
         @Override
         public boolean isItemValid(ItemStack stack) {
-            return true;
+            return tileInventoryFurnace.isItemValidForInputSlot(stack);
         }
     }
 
@@ -225,7 +221,7 @@ public class BlastFurnaceContainer extends Container {
         // if this function returns false, the player won't be able to insert the given item into this slot
         @Override
         public boolean isItemValid(ItemStack stack) {
-            return false;
+            return tileInventoryFurnace.isItemValidForOutputSlot(stack);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.cj3636.lib;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -23,7 +24,21 @@ public class LocUtil {
         boolean returnValue = false;
         for (BlockPos posAt : posList) {
             IBlockState stateCheck = worldIn.getBlockState(posAt);
+            System.out.println(stateCheck);
             if (stateCheck.equals(state)) {
+                returnValue = true;
+            } else {
+                return false;
+            }
+        }
+        return returnValue;
+    }
+
+    private static boolean runCheckB(World worldIn, Block blockIn, BlockPos[] posList) {
+        boolean returnValue = false;
+        for (BlockPos posAt : posList) {
+            Block stateCheck = worldIn.getBlockState(posAt).getBlock();
+            if (stateCheck.equals(blockIn)) {
                 returnValue = true;
             } else {
                 return false;
@@ -257,7 +272,7 @@ public class LocUtil {
      * @param state   to check for
      * @return boolean result of check
      */
-    public static boolean checkHorizontals(BlockPos pos, World worldIn, IBlockState state) {
+    public static boolean checkHorizontalAxis(BlockPos pos, World worldIn, IBlockState state) {
         BlockPos[] posList = {
                 pos.north(),
                 pos.south(),
@@ -265,6 +280,42 @@ public class LocUtil {
                 pos.west()
         };
         return runCheck(worldIn, state, posList);
+    }
+
+    /**
+     * Four main sides on Z axis (probably, IDFK which axis is which)HAHA JK I LOOKED IT UP (up down, left, right)
+     *
+     * @param pos     block position
+     * @param worldIn world class
+     * @param blockIn to check for
+     * @return boolean result of check
+     */
+    public static boolean checkVerticalAxisZ(BlockPos pos, World worldIn, Block blockIn) {
+        BlockPos[] posList = {
+                pos.north(),
+                pos.south(),
+                pos.up(),
+                pos.down()
+        };
+        return runCheckB(worldIn, blockIn, posList);
+    }
+
+    /**
+     * Four main sides on Z axis (up down, left, right...in the 'other' direction)
+     *
+     * @param pos     block position
+     * @param worldIn world class
+     * @param blockIn to check for
+     * @return boolean result of check
+     */
+    public static boolean checkVerticalAxisX(BlockPos pos, World worldIn, Block blockIn) {
+        BlockPos[] posList = {
+                pos.east(),
+                pos.west(),
+                pos.up(),
+                pos.down()
+        };
+        return runCheckB(worldIn, blockIn, posList);
     }
 
     /**

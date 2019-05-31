@@ -38,7 +38,6 @@ public class ApiaryContainer extends Container {
 
     public ApiaryContainer(InventoryPlayer invPlayer, ApiaryTileEntity tileInventoryApiary) {
         this.tileInventoryApiary = tileInventoryApiary;
-
         final int SLOT_X_SPACING = 18;
         final int SLOT_Y_SPACING = 18;
         final int HOTBAR_XPOS = 8;
@@ -60,10 +59,8 @@ public class ApiaryContainer extends Container {
                 addSlotToContainer(new Slot(invPlayer, slotNumber, xpos, ypos));
             }
         }
-
-        final int FUEL_SLOTS_XPOS = 62;
-        final int FUEL_SLOTS_YPOS = 96;
         addSlotToContainer(new SlotInput(tileInventoryApiary, 0, 28, 61));
+        addSlotToContainer(new SlotOutput(tileInventoryApiary, 1, 134, 61));
     }
 
     // Checks each tick to make sure the player is still able to access the inventory and if not closes the gui
@@ -75,7 +72,7 @@ public class ApiaryContainer extends Container {
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int sourceSlotIndex) {
         Slot sourceSlot = inventorySlots.get(sourceSlotIndex);
-        if (sourceSlot == null || !sourceSlot.getHasStack()) return null;
+        if (sourceSlot == null || !sourceSlot.getHasStack()) return ItemStack.EMPTY;
         ItemStack sourceStack = sourceSlot.getStack();
         ItemStack copyOfSourceStack = sourceStack.copy();
 
@@ -85,24 +82,24 @@ public class ApiaryContainer extends Container {
             // If the stack is smeltable try to merge merge the stack into the input slots
             if (ApiaryTileEntity.isItemValidInput(sourceStack)) {
                 if (!mergeItemStack(sourceStack, FIRST_INPUT_SLOT_INDEX, FIRST_INPUT_SLOT_INDEX + INPUT_SLOTS_COUNT, false)) {
-                    return null;
+                    return ItemStack.EMPTY;
                 }
             } else {
-                return null;
+                return ItemStack.EMPTY;
             }
         } else if (sourceSlotIndex >= FIRST_FUEL_SLOT_INDEX && sourceSlotIndex < FIRST_FUEL_SLOT_INDEX + FURNACE_SLOTS_COUNT) {
             // This is a furnace slot so merge the stack into the players inventory: try the hotbar first and then the main inventory
             //   because the main inventory slots are immediately after the hotbar slots, we can just merge with a single call
             if (!mergeItemStack(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
-                return null;
+                return ItemStack.EMPTY;
             }
         } else {
             System.err.print("Invalid slotIndex:" + sourceSlotIndex);
-            return null;
+            return ItemStack.EMPTY;
         }
         // If stack size == 0 (the entire stack was moved) set slot contents to null
         if (sourceStack.getCount() == 0) {
-            sourceSlot.putStack(null);
+            sourceSlot.putStack(ItemStack.EMPTY);
         } else {
             sourceSlot.onSlotChanged();
         }

@@ -92,4 +92,9 @@ public class ApiaryBlock extends FaceRotatableBlockContainer {
     public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
         return true;
     }
+
+    @Override
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
+        return new ApiaryTileEntity();
+    }
 }

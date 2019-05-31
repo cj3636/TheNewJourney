@@ -21,7 +21,7 @@ public class InfuserGUIRegistry implements IGuiHandler {
 		TileEntity tileEntity = world.getTileEntity(xyz);
 		if (tileEntity instanceof InfuserTileEntity) {
 			InfuserTileEntity ModTileEntityInfuser = (InfuserTileEntity) tileEntity;
-			return new InfuserContainer(player.inventory, pos, player.getEntityWorld());
+			return new InfuserContainer(player.inventory, player.getEntityWorld(), pos);
 		}
 		return null;
 	}

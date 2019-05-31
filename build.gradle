@@ -1,67 +1,77 @@
 buildscript {
     repositories {
         jcenter()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
+        maven { url = "http://files.minecraftforge.net/maven" }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
-
-plugins {
-    id 'org.ajoberstar.grgit' version '1.7.2'
-    id 'com.github.johnrengelman.shadow' version '1.2.4'
-}
-
 apply plugin: 'net.minecraftforge.gradle.forge'
+//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
-final commitId
 
-if (hasProperty("grgit")) { // If there's a valid Git repository, get the latest commit ID
-    commitId = "${grgit.head().abbreviatedId}"
-} else { // Else fall back to NOGIT
-    commitId = "NOGIT"
+version = "1.1"
+group = "com.cj3636.thenewjourney" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "thenewjourney"
+
+sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
 }
-
-version = "${mc_version}-${mod_version}-${commitId}"
-group = "${package_group}" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "${mod_name}"
 
 minecraft {
-    version = "${mc_version}-${forge_version}"
+    version = "1.12.2-14.23.5.2768"
     runDir = "run"
 
-    if (project.hasProperty('mappings_version'))
-        mappings = project.mappings_version
+    // the mappings can be changed at any time, and must be in the following format.
+    // snapshot_YYYYMMDD   snapshot are built nightly.
+    // stable_#            stables are built at the discretion of the MCP team.
+    // Use non-default mappings at your own risk. they may not always work.
+    // simply re-run your setup task after changing the mappings to update your workspace.
+    mappings = "snapshot_20171003"
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
-
 repositories {
-    maven { url = "http://dvs1.progwml6.com/files/maven" }
-    maven { url = "http://tehnut.info/maven" }
+    maven {
+        // location of the maven that hosts JEI files
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.k-4u.nl"
+    }
     maven { url 'https://jitpack.io' }
 }
-
 dependencies {
+    // compile against the JEI API but do not include it at runtime
     deobfProvided "mezz.jei:jei_${mc_version}:${jei_version}:api"
+    // at runtime, use the full JEI jar
     runtime "mezz.jei:jei_${mc_version}:${jei_version}"
-    deobfProvided "mcp.mobius.waila:Hwyla:${hwyla_version}_1.12"
-    deobfCompile "com.github.azanor:Baubles:${baubles_version}"
-	compile files("libs/webD.zip")
-}
+    //deobfCompile "com.github.azanor:Baubles:${baubles_version}"
+    // you may put jars on which you depend on in ./libs
+    // or you may define them like so..
+    //compile "some.group:artifact:version:classifier"
+    //compile "some.group:artifact:version"
 
-shadowJar {
-    // Only shadow fluent-hc
+    // real examples
+    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
+    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
 
-    // Relocate fluent-hc to prevent conflicts with other mods that include it
+    // the 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
+    //provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
 
-    classifier '' // Replace the default JAR
-}
+    // the deobf configurations:  'deobfCompile' and 'deobfProvided' are the same as the normal compile and provided,
+    // except that these dependencies get remapped to your current MCP mappings
+    //deobfCompile 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+    //deobfProvided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
 
-reobf {
-    shadowJar {} // Reobfuscate the shadowed JAR
+    // for more info...
+    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+
 }
 
 processResources {
@@ -77,28 +87,8 @@ processResources {
         expand 'version': project.version, 'mcversion': project.minecraft.version
     }
 
-    // copy everything else, that's not the mcmod.info
+    // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
-        exclude 'log4j2.xml'
     }
-}
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-    options.compilerArgs.addAll(['-Xlint:unchecked', '-Xlint:deprecation'])
-}
-
-tasks.withType(Javadoc) {
-    options.encoding = 'UTF-8'
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    from javadoc.destinationDir
-    classifier = 'javadoc'
-}
-
-artifacts {
-    archives javadocJar
-    archives shadowJar
 }

@@ -1,5 +1,6 @@
 package com.thenewjourney.blocks.visceon;
 
+import com.cj3636.lib.LocUtil;
 import com.cj3636.lib.Ref;
 import com.thenewjourney.blocks.ModBlocks;
 import com.thenewjourney.blocks.portal.VisceonFirePortal;
@@ -64,73 +65,46 @@ public class SubstrateBlock extends Block {
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         ItemStack heldItem = playerIn.getHeldItemMainhand();
-        if (heldItem != null && heldItem.getItem().equals(ModItems.FireLight) && ModPower.isAtTier(worldIn, 4)) {
-            BlockPos up = pos.up();
-            BlockPos down = pos.down();
-            BlockPos left = pos.east();
-            BlockPos lefta = pos.north();
-            BlockPos right = pos.west();
-            BlockPos righta = pos.south();
-            if (worldIn.getBlockState(up).getBlock().equals(ModBlocks.VisceonCore) && worldIn.getBlockState(down).getBlock().equals(ModBlocks.VisceonCore)) {
-                if (worldIn.getBlockState(left).getBlock().equals(ModBlocks.VisceonCore) && worldIn.getBlockState(right).getBlock().equals(ModBlocks.VisceonCore)) {
-                    worldIn.setBlockState(pos, ModBlocks.Sphere.getDefaultState().withProperty(VisceonFirePortal.AXIS, EnumFacing.Axis.Z));
-                    if (!playerIn.capabilities.isCreativeMode) {
-                        heldItem.setCount(heldItem.getCount() - 1);
-                    }
-                } else if (worldIn.getBlockState(lefta).getBlock().equals(ModBlocks.VisceonCore) && worldIn.getBlockState(righta).getBlock().equals(ModBlocks.VisceonCore)) {
-                    worldIn.setBlockState(pos, ModBlocks.Sphere.getDefaultState().withProperty(VisceonFirePortal.AXIS, EnumFacing.Axis.X));
-                    if (!playerIn.capabilities.isCreativeMode) {
-                        heldItem.setCount(heldItem.getCount() - 1);
-                    }
-                } else {
-                    if (!worldIn.isRemote) {
-                        playerIn.sendMessage(new TextComponentTranslation("\u00A75" + "\u00A7o" + "Invalid Configuration!"));
-                    }
-                }
-            } else {
-                if (!worldIn.isRemote) {
-                    playerIn.sendMessage(new TextComponentTranslation("\u00A75" + "\u00A7o" + "Invalid Configuration!"));
-                }
-            }
-        } else if (heldItem != null && heldItem.getItem().equals(ModItems.FireLight)) {
+        if (test(worldIn, pos, heldItem, isBuiltAndPoweredZ(pos, worldIn, playerIn), EnumFacing.Axis.X, playerIn))
+            return true;
+        if (test(worldIn, pos, heldItem, isBuiltAndPoweredX(pos, worldIn, playerIn), EnumFacing.Axis.Z, playerIn))
+            return true;
+        if (!worldIn.isRemote) {
+            playerIn.sendMessage(new TextComponentTranslation("\u00A75" + "\u00A7o" + "Invalid Configuration!"));
+        }
+        return false;
+    }
+
+    private boolean test(World worldIn, BlockPos pos, ItemStack heldItem, boolean builtAndPoweredZ, EnumFacing.Axis x, EntityPlayer playerIn) {
+        if (heldItem.getItem().equals(ModItems.FireLight) && builtAndPoweredZ) {
+            worldIn.setBlockState(pos, ModBlocks.Sphere.getDefaultState().withProperty(VisceonFirePortal.AXIS, x));
+            return true;
+        }
+        if (heldItem.getItem().equals(ModItems.AtriumLight) && builtAndPoweredZ) {
+            worldIn.setBlockState(pos, ModBlocks.Spheref.getDefaultState().withProperty(VisceonFlorusPortal.AXIS, x));
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isBuiltAndPoweredZ(BlockPos pos, World worldIn, EntityPlayer playerIn) {
+        if (!ModPower.isAtTier(worldIn, 4)) {
             if (!worldIn.isRemote) {
                 playerIn.sendMessage(new TextComponentTranslation("\u00A75" + "\u00A7o" + "World power must be at tier 4 or higher."));
             }
-            if (heldItem != null && heldItem.getItem().equals(ModItems.AtriumLight) && ModPower.isAtTier(worldIn, 4)) {
-                BlockPos up = pos.up();
-                BlockPos down = pos.down();
-                BlockPos left = pos.east();
-                BlockPos lefta = pos.north();
-                BlockPos right = pos.west();
-                BlockPos righta = pos.south();
-                if (worldIn.getBlockState(up).getBlock().equals(ModBlocks.VisceonCore) && worldIn.getBlockState(down).getBlock().equals(ModBlocks.VisceonCore)) {
-                    if (worldIn.getBlockState(left).getBlock().equals(ModBlocks.VisceonCore) && worldIn.getBlockState(right).getBlock().equals(ModBlocks.VisceonCore)) {
-                        worldIn.setBlockState(pos, ModBlocks.Spheref.getDefaultState().withProperty(VisceonFlorusPortal.AXIS, EnumFacing.Axis.Z));
-                        if (!playerIn.capabilities.isCreativeMode) {
-                            heldItem.setCount(heldItem.getCount() - 1);
-                        }
-                    } else if (worldIn.getBlockState(lefta).getBlock().equals(ModBlocks.VisceonCore) && worldIn.getBlockState(righta).getBlock().equals(ModBlocks.VisceonCore)) {
-                        worldIn.setBlockState(pos, ModBlocks.Spheref.getDefaultState().withProperty(VisceonFlorusPortal.AXIS, EnumFacing.Axis.X));
-                        if (!playerIn.capabilities.isCreativeMode) {
-                            heldItem.setCount(heldItem.getCount() - 1);
-                        }
-                    } else {
-                        if (!worldIn.isRemote) {
-                            playerIn.sendMessage(new TextComponentTranslation("\u00A75" + "\u00A7o" + "Invalid Configuration!"));
-                        }
-                    }
-                } else {
-                    if (!worldIn.isRemote) {
-                        playerIn.sendMessage(new TextComponentTranslation("\u00A75" + "\u00A7o" + "Invalid Configuration."));
-                    }
-                }
-            } else if (heldItem != null && heldItem.getItem().equals(ModItems.AtriumLight)) {
-                if (!worldIn.isRemote) {
-                    playerIn.sendMessage(new TextComponentTranslation("\u00A75" + "\u00A7o" + "World power must be at tier 4 or higher."));
-                }
-            }
+            return false;
         }
-        return true;
+        return LocUtil.checkVerticalAxisZ(pos, worldIn, ModBlocks.VisceonCore);
+    }
+
+    private boolean isBuiltAndPoweredX(BlockPos pos, World worldIn, EntityPlayer playerIn) {
+        if (!ModPower.isAtTier(worldIn, 4)) {
+            if (!worldIn.isRemote) {
+                playerIn.sendMessage(new TextComponentTranslation("\u00A75" + "\u00A7o" + "World power must be at tier 4 or higher."));
+            }
+            return false;
+        }
+        return LocUtil.checkVerticalAxisX(pos, worldIn, ModBlocks.VisceonCore);
     }
 
     @Override

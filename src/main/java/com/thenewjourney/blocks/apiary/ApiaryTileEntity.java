@@ -24,14 +24,18 @@ import java.util.Arrays;
 public class ApiaryTileEntity extends TileEntity implements IInventory, ITickable {
     public static ApiaryTileEntity instance = new ApiaryTileEntity();
     private int invSize = 2;
-    private int stackLimit = 64;
     private int beeTime;
     private int totalBeeTime = 100000;
-    private ItemStack[] itemStacks = new ItemStack[invSize];
+    private ItemStack[] itemStacks;
 
     public double getBeeTime() {
         double fraction = (double) beeTime / (double) totalBeeTime;
         return MathHelper.clamp(fraction, 0.0, 1.0);
+    }
+
+    public ApiaryTileEntity() {
+        itemStacks = new ItemStack[invSize];
+        clear();
     }
 
     @Override
@@ -52,16 +56,16 @@ public class ApiaryTileEntity extends TileEntity implements IInventory, ITickabl
     @Override
     public ItemStack decrStackSize(int index, int count) {
         ItemStack itemStackInSlot = getStackInSlot(index);
-        if (itemStackInSlot == null) return null;
+        if (itemStackInSlot == ItemStack.EMPTY) return ItemStack.EMPTY;
 
         ItemStack itemStackRemoved;
         if (itemStackInSlot.getCount() <= count) {
             itemStackRemoved = itemStackInSlot;
-            setInventorySlotContents(index, null);
+            setInventorySlotContents(index, ItemStack.EMPTY);
         } else {
             itemStackRemoved = itemStackInSlot.splitStack(count);
             if (itemStackInSlot.getCount() == 0) {
-                setInventorySlotContents(index, null);
+                setInventorySlotContents(index, ItemStack.EMPTY);
             }
         }
         markDirty();
@@ -71,8 +75,8 @@ public class ApiaryTileEntity extends TileEntity implements IInventory, ITickabl
     @Override
     public ItemStack removeStackFromSlot(int index) {
         ItemStack itemStack = getStackInSlot(index);
-        if (itemStack != null) {
-            setInventorySlotContents(index, null);
+        if (itemStack != ItemStack.EMPTY) {
+            setInventorySlotContents(index, ItemStack.EMPTY);
         }
         return itemStack;
     }
@@ -80,7 +84,7 @@ public class ApiaryTileEntity extends TileEntity implements IInventory, ITickabl
     @Override
     public void setInventorySlotContents(int index, ItemStack stack) {
         itemStacks[index] = stack;
-        if (stack != null && stack.getCount() > getInventoryStackLimit()) {
+        if (stack != ItemStack.EMPTY && stack.getCount() > getInventoryStackLimit()) {
             stack.setCount(getInventoryStackLimit());
         }
         markDirty();
@@ -88,6 +92,7 @@ public class ApiaryTileEntity extends TileEntity implements IInventory, ITickabl
 
     @Override
     public int getInventoryStackLimit() {
+        int stackLimit = 64;
         return stackLimit;
     }
 
@@ -117,13 +122,13 @@ public class ApiaryTileEntity extends TileEntity implements IInventory, ITickabl
     public boolean isItemValidForSlot(int index, ItemStack stack) {
         FurnaceRecipes recipe = FurnaceRecipes.instance();
         ItemStack result = recipe.getSmeltingResult(stack);
-        return result != null;
+        return result != ItemStack.EMPTY;
     }
 
     public static boolean isItemValidInput(ItemStack stack) {
         FurnaceRecipes recipe = FurnaceRecipes.instance();
         ItemStack result = recipe.getSmeltingResult(stack);
-        return result != null;
+        return result != ItemStack.EMPTY;
     }
 
     private static final byte BeeTime_id = 0;
@@ -160,7 +165,7 @@ public class ApiaryTileEntity extends TileEntity implements IInventory, ITickabl
 
     @Override
     public void clear() {
-        Arrays.fill(itemStacks, null);
+        Arrays.fill(itemStacks, ItemStack.EMPTY);
     }
 
     @Override
@@ -180,7 +185,7 @@ public class ApiaryTileEntity extends TileEntity implements IInventory, ITickabl
 
     @Override
     public void update() {
-        if (canGrow() && getStackInSlot(0) != null && getStackInSlot(0).getItem().equals(ModItems.Bee)) {
+        if (canGrow() && getStackInSlot(0) != ItemStack.EMPTY && getStackInSlot(0).getItem().equals(ModItems.Bee)) {
             addBeeTime();
             if (beeTime >= totalBeeTime) {
                 createJelly();
@@ -212,7 +217,6 @@ public class ApiaryTileEntity extends TileEntity implements IInventory, ITickabl
         }
         beeTime += timeToAdd;
         markDirty();
-        timeToAdd = 0;
     }
 
     private boolean canGrow() {
@@ -240,9 +244,9 @@ public class ApiaryTileEntity extends TileEntity implements IInventory, ITickabl
     private void createJelly() {
         double rand = Math.random();
         if (rand < 0.3D && !world.getBlockState(pos.up()).getBlock().equals(ModBlocks.Crystal)) {
-            itemStacks[0] = null;
+            itemStacks[0] = ItemStack.EMPTY;
         }
-        if (itemStacks[1] != null) {
+        if (itemStacks[1] != ItemStack.EMPTY) {
             itemStacks[1].setCount(itemStacks[1].getCount() + 1);
         } else {
             itemStacks[1] = new ItemStack(ModItems.RoyalJelly);
@@ -255,7 +259,7 @@ public class ApiaryTileEntity extends TileEntity implements IInventory, ITickabl
         super.writeToNBT(compound);
         NBTTagList dataForAllSlots = new NBTTagList();
         for (int i = 0; i < this.itemStacks.length; ++i) {
-            if (this.itemStacks[i] != null) {
+            if (this.itemStacks[i] != ItemStack.EMPTY) {
                 NBTTagCompound dataForThisSlot = new NBTTagCompound();
                 dataForThisSlot.setByte("Slot", (byte) i);
                 this.itemStacks[i].writeToNBT(dataForThisSlot);
@@ -274,7 +278,7 @@ public class ApiaryTileEntity extends TileEntity implements IInventory, ITickabl
         final byte NBT_TYPE_COMPOUND = 10;
         NBTTagList dataForAllSlots = nbtTagCompound.getTagList("Items", NBT_TYPE_COMPOUND);
 
-        Arrays.fill(itemStacks, null);
+        Arrays.fill(itemStacks, ItemStack.EMPTY);
         for (int i = 0; i < dataForAllSlots.tagCount(); ++i) {
             NBTTagCompound dataForOneSlot = dataForAllSlots.getCompoundTagAt(i);
             byte slotNumber = dataForOneSlot.getByte("Slot");
