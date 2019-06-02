@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "state=false": {
+      "model": "thenewjourney:IngotCast"
+    },
+    "state=true": {
+      "model": "thenewjourney:IngotCastFull"
+    }
+  }
+}

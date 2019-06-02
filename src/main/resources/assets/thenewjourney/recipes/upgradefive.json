@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "OGO",
+    "BEB",
+    "ORO"
+  ],
+  "key": {
+    "B": {
+      "item": "thenewjourney:steelrod"
+    },
+    "R": {
+      "item": "thenewjourney:ancientingot"
+    },
+    "E": {
+      "item": "thenewjourney:cobaltblock"
+    },
+    "G": {
+      "item": "thenewjourney:aquisore"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:upgradefive"
+  }
+}

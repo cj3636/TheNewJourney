@@ -1,6 +1,7 @@
 {
 	"parent": "block/cube_all",
 	"textures": {
-		"all": "thenewjourney:blocks/BurntStone"
+      "all": "thenewjourney:blocks/BurntStone",
+      "particle": "thenewjourney:blocks/BurntStone"
 	}
 }

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GCG",
+    "GBG",
+    " G "
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:golden_apple",
+      "data": 0
+    },
+    "C": {
+      "item": "thenewjourney:clearglass"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:goblet"
+  }
+}

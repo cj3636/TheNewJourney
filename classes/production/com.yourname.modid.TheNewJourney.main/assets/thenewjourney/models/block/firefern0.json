@@ -1,0 +1,6 @@
+{
+  "parent": "block/crop",
+  "textures": {
+    "crop": "thenewjourney:blocks/FireFern_layer_0"
+  }
+}

@@ -93,7 +93,7 @@ public class ArcanePillarBlock extends BlockContainer {
             }
         }
 
-        if (heldItem != null && heldItem.getItem().equals(ModItems.DistortionWand)) {
+        if (heldItem.getItem().equals(ModItems.DistortionWand)) {
             ArrayList<BlockPos> pillarList = new ArrayList<BlockPos>();
             BlockPos[] posList = {pos.north().north().west().west(), pos.north().north().east().east(),
                     pos.south().south().east().east(), pos.south().south().west().west()};
@@ -132,6 +132,7 @@ public class ArcanePillarBlock extends BlockContainer {
                 && worldIn.getTileEntity(pos.get(2)) instanceof ArcanePillarTileEntity
                 && worldIn.getTileEntity(pos.get(3)) instanceof ArcanePillarTileEntity
                 && worldIn.getTileEntity(posIn) instanceof ArcanePillarTileEntity) {
+            System.out.println("1");
             ArcanePillarTileEntity tileEntity1 = (ArcanePillarTileEntity) worldIn.getTileEntity(pos.get(0));
             ArcanePillarTileEntity tileEntity2 = (ArcanePillarTileEntity) worldIn.getTileEntity(pos.get(1));
             ArcanePillarTileEntity tileEntity3 = (ArcanePillarTileEntity) worldIn.getTileEntity(pos.get(2));
@@ -146,6 +147,7 @@ public class ArcanePillarBlock extends BlockContainer {
 
 
             if (stack1 != ItemStack.EMPTY && stack2 != ItemStack.EMPTY && stack3 != ItemStack.EMPTY && stack4 != ItemStack.EMPTY && stack5 != ItemStack.EMPTY) {
+                System.out.println("2");
                 int s1 = stack1.getCount();
                 int s2 = stack2.getCount();
                 int s3 = stack3.getCount();
@@ -162,6 +164,7 @@ public class ArcanePillarBlock extends BlockContainer {
                                 ModItems.ArchiumIngot, ModItems.VitaemIngot, ModItems.FloriumIngot));
 
                 if (stackList.containsAll(checkList)) {
+                    System.out.println("3");
                     if ((s1 == s2) && (s2 == s3) && (s3 == s4) && (s4 == s5)) {
                         thisTileEntity.setInventorySlotContents(0, new ItemStack(ModItems.UpgradeEight, s1));
                         thisTileEntity.markDirty();

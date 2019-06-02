@@ -24,7 +24,6 @@ public class LocUtil {
         boolean returnValue = false;
         for (BlockPos posAt : posList) {
             IBlockState stateCheck = worldIn.getBlockState(posAt);
-            System.out.println(stateCheck);
             if (stateCheck.equals(state)) {
                 returnValue = true;
             } else {

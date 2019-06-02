@@ -1,8 +1,6 @@
 package com.thenewjourney.power;
 
 import com.thenewjourney.world.ModWorldSaveData;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.awt.*;
@@ -84,83 +82,5 @@ public class ModPower {
 			break;
 		}
 		return finalColor;
-	}
-
-	public static boolean getRecipeCompletion(World worldIn, BlockPos pos, IBlockState blockState, int powerTier) {
-		if (ModPower.getPowerTier(worldIn) < powerTier) {
-			return false;
-		}
-		if (!ModPower.isFullPowered(worldIn)) {
-			return false;
-		}
-		BlockPos pos_n = pos.north().up();
-		BlockPos pos_n2 = pos.north(2).up();
-		BlockPos pos_s = pos.south().up();
-		BlockPos pos_s2 = pos.south(2).up();
-		BlockPos pos_e = pos.east().up();
-		BlockPos pos_e2 = pos.east(2).up();
-		BlockPos pos_w = pos.west().up();
-		BlockPos pos_w2 = pos.west(2).up();
-
-		IBlockState block_n = worldIn.getBlockState(pos_n);
-		IBlockState block_n2 = worldIn.getBlockState(pos_n2);
-		IBlockState block_s = worldIn.getBlockState(pos_s);
-		IBlockState block_s2 = worldIn.getBlockState(pos_s2);
-		IBlockState block_e = worldIn.getBlockState(pos_e);
-		IBlockState block_e2 = worldIn.getBlockState(pos_e2);
-		IBlockState block_w = worldIn.getBlockState(pos_w);
-		IBlockState block_w2 = worldIn.getBlockState(pos_w2);
-
-		if (blockState.equals(block_n) && blockState.equals(block_s) && blockState.equals(block_e)
-				&& blockState.equals(block_w)) {
-			return true;
-		}
-		return blockState.equals(block_n2) && blockState.equals(block_s2) && blockState.equals(block_e2)
-				&& blockState.equals(block_w2);
-	}
-
-	public static boolean getRecipeCompletionAndDestroy(World worldIn, BlockPos pos, IBlockState blockState,
-			int powerTier) {
-		if (ModPower.getPowerTier(worldIn) < powerTier) {
-			return false;
-		}
-		if (!ModPower.isFullPowered(worldIn)) {
-			return false;
-		}
-		BlockPos pos_n = pos.north().up();
-		BlockPos pos_n2 = pos.north(2).up();
-		BlockPos pos_s = pos.south().up();
-		BlockPos pos_s2 = pos.south(2).up();
-		BlockPos pos_e = pos.east().up();
-		BlockPos pos_e2 = pos.east(2).up();
-		BlockPos pos_w = pos.west().up();
-		BlockPos pos_w2 = pos.west(2).up();
-
-		IBlockState block_n = worldIn.getBlockState(pos_n);
-		IBlockState block_n2 = worldIn.getBlockState(pos_n2);
-		IBlockState block_s = worldIn.getBlockState(pos_s);
-		IBlockState block_s2 = worldIn.getBlockState(pos_s2);
-		IBlockState block_e = worldIn.getBlockState(pos_e);
-		IBlockState block_e2 = worldIn.getBlockState(pos_e2);
-		IBlockState block_w = worldIn.getBlockState(pos_w);
-		IBlockState block_w2 = worldIn.getBlockState(pos_w2);
-
-		if (blockState.equals(block_n) && blockState.equals(block_s) && blockState.equals(block_e)
-				&& blockState.equals(block_w)) {
-			worldIn.destroyBlock(pos_n, false);
-			worldIn.destroyBlock(pos_s, false);
-			worldIn.destroyBlock(pos_e, false);
-			worldIn.destroyBlock(pos_w, false);
-			return true;
-		}
-		if (blockState.equals(block_n2) && blockState.equals(block_s2) && blockState.equals(block_e2)
-				&& blockState.equals(block_w2)) {
-			worldIn.destroyBlock(pos_n2, false);
-			worldIn.destroyBlock(pos_s2, false);
-			worldIn.destroyBlock(pos_e2, false);
-			worldIn.destroyBlock(pos_w2, false);
-			return true;
-		}
-		return false;
 	}
 }

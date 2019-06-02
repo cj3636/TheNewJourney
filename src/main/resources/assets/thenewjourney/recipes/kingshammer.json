@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "*X*",
+    " X "
+  ],
+  "key": {
+    "#": {
+      "item": "thenewjourney:steelingot"
+    },
+    "X": {
+      "item": "thenewjourney:steelrod"
+    },
+    "*": {
+      "item": "thenewjourney:fireingot"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:kingshammer"
+  }
+}

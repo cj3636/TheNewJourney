@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "OGO",
+    "BEB",
+    "ORO"
+  ],
+  "key": {
+    "B": {
+      "item": "thenewjourney:archiumingot"
+    },
+    "R": {
+      "item": "thenewjourney:inversionserumbottle"
+    },
+    "E": {
+      "item": "thenewjourney:etherealclock"
+    },
+    "G": {
+      "item": "thenewjourney:stoneman"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:upgradesix"
+  }
+}

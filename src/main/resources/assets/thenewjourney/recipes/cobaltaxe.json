@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "## ",
+    "#I ",
+    " I "
+  ],
+  "key": {
+    "#": {
+      "item": "thenewjourney:cobaltingot"
+    },
+    "I": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:cobaltaxe"
+  }
+}

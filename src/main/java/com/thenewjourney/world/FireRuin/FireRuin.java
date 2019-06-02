@@ -8,7 +8,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntityChest;
@@ -233,7 +232,7 @@ public class FireRuin extends WorldGenerator {
         world.setBlockState(pos79, stateFire);
 
         world.setBlockState(pos64, stateChest);
-        if (rand.nextFloat() < .12) {
+        if (rand.nextFloat() < .33) {
             if (!world.isRemote) {
                 WorldServer worldserver = (WorldServer) world;
                 MinecraftServer minecraftserver = world.getMinecraftServer();

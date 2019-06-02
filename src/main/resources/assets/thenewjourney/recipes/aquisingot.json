@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "thenewjourney:aquisblock"
+    }
+  ],
+  "result": {
+    "item": "thenewjourney:aquisingot",
+    "count": 9
+  }
+}

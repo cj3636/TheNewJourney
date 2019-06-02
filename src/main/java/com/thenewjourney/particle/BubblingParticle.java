@@ -13,6 +13,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.util.Random;
+
 @SideOnly(Side.CLIENT)
 public class BubblingParticle extends Particle {
     float smokeParticleScale;
@@ -65,6 +67,7 @@ public class BubblingParticle extends Particle {
 
         this.motionY += 0.004D;
         this.move(this.motionX, this.motionY, this.motionZ);
+        Random random = new Random();
 
         if (this.posY == this.prevPosY) {
             this.motionX *= 1.1D;

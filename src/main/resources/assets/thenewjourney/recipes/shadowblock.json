@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "thenewjourney:shadowingot"
+    },
+    {
+      "item": "thenewjourney:shadowingot"
+    },
+    {
+      "item": "thenewjourney:shadowingot"
+    },
+    {
+      "item": "thenewjourney:shadowingot"
+    },
+    {
+      "item": "thenewjourney:shadowingot"
+    },
+    {
+      "item": "thenewjourney:shadowingot"
+    },
+    {
+      "item": "thenewjourney:shadowingot"
+    },
+    {
+      "item": "thenewjourney:shadowingot"
+    },
+    {
+      "item": "thenewjourney:shadowingot"
+    }
+  ],
+  "result": {
+    "item": "thenewjourney:shadowblock"
+  }
+}

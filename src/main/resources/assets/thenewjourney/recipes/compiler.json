@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DWD",
+    "DPD",
+    "WPW"
+  ],
+  "key": {
+    "P": {
+      "item": "minecraft:piston"
+    },
+    "D": {
+      "item": "thenewjourney:distortiongem"
+    },
+    "W": {
+      "item": "thenewjourney:warpstone"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:compiler"
+  }
+}

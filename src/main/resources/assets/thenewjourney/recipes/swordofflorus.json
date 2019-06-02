@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " F ",
+    " F ",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "item": "thenewjourney:steelrod"
+    },
+    "F": {
+      "item": "thenewjourney:floriumingot"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:swordofflorus"
+  }
+}

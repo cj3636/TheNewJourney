@@ -1,0 +1,209 @@
+{
+  "variants": {
+    "facing=east,half=bottom,shape=straight": {
+      "model": "thenewjourney:BurntStairs"
+    },
+    "facing=west,half=bottom,shape=straight": {
+      "model": "thenewjourney:BurntStairs",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=south,half=bottom,shape=straight": {
+      "model": "thenewjourney:BurntStairs",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=north,half=bottom,shape=straight": {
+      "model": "thenewjourney:BurntStairs",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=east,half=bottom,shape=outer_right": {
+      "model": "thenewjourney:BurntOuterStairs"
+    },
+    "facing=west,half=bottom,shape=outer_right": {
+      "model": "thenewjourney:BurntOuterStairs",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=south,half=bottom,shape=outer_right": {
+      "model": "thenewjourney:BurntOuterStairs",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=north,half=bottom,shape=outer_right": {
+      "model": "thenewjourney:BurntOuterStairs",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=east,half=bottom,shape=outer_left": {
+      "model": "thenewjourney:BurntOuterStairs",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=west,half=bottom,shape=outer_left": {
+      "model": "thenewjourney:BurntOuterStairs",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south,half=bottom,shape=outer_left": {
+      "model": "thenewjourney:BurntOuterStairs"
+    },
+    "facing=north,half=bottom,shape=outer_left": {
+      "model": "thenewjourney:BurntOuterStairs",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=east,half=bottom,shape=inner_right": {
+      "model": "thenewjourney:BurntInnerStairs"
+    },
+    "facing=west,half=bottom,shape=inner_right": {
+      "model": "thenewjourney:BurntInnerStairs",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=south,half=bottom,shape=inner_right": {
+      "model": "thenewjourney:BurntInnerStairs",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=north,half=bottom,shape=inner_right": {
+      "model": "thenewjourney:BurntInnerStairs",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=east,half=bottom,shape=inner_left": {
+      "model": "thenewjourney:BurntInnerStairs",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=west,half=bottom,shape=inner_left": {
+      "model": "thenewjourney:BurntInnerStairs",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south,half=bottom,shape=inner_left": {
+      "model": "thenewjourney:BurntInnerStairs"
+    },
+    "facing=north,half=bottom,shape=inner_left": {
+      "model": "thenewjourney:BurntInnerStairs",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=east,half=top,shape=straight": {
+      "model": "thenewjourney:BurntStairs",
+      "x": 180,
+      "uvlock": true
+    },
+    "facing=west,half=top,shape=straight": {
+      "model": "thenewjourney:BurntStairs",
+      "x": 180,
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=south,half=top,shape=straight": {
+      "model": "thenewjourney:BurntStairs",
+      "x": 180,
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=north,half=top,shape=straight": {
+      "model": "thenewjourney:BurntStairs",
+      "x": 180,
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=east,half=top,shape=outer_right": {
+      "model": "thenewjourney:BurntOuterStairs",
+      "x": 180,
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=west,half=top,shape=outer_right": {
+      "model": "thenewjourney:BurntOuterStairs",
+      "x": 180,
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=south,half=top,shape=outer_right": {
+      "model": "thenewjourney:BurntOuterStairs",
+      "x": 180,
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=north,half=top,shape=outer_right": {
+      "model": "thenewjourney:BurntOuterStairs",
+      "x": 180,
+      "uvlock": true
+    },
+    "facing=east,half=top,shape=outer_left": {
+      "model": "thenewjourney:BurntOuterStairs",
+      "x": 180,
+      "uvlock": true
+    },
+    "facing=west,half=top,shape=outer_left": {
+      "model": "thenewjourney:BurntOuterStairs",
+      "x": 180,
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=south,half=top,shape=outer_left": {
+      "model": "thenewjourney:BurntOuterStairs",
+      "x": 180,
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=north,half=top,shape=outer_left": {
+      "model": "thenewjourney:BurntOuterStairs",
+      "x": 180,
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=east,half=top,shape=inner_right": {
+      "model": "thenewjourney:BurntInnerStairs",
+      "x": 180,
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=west,half=top,shape=inner_right": {
+      "model": "thenewjourney:BurntInnerStairs",
+      "x": 180,
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=south,half=top,shape=inner_right": {
+      "model": "thenewjourney:BurntInnerStairs",
+      "x": 180,
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=north,half=top,shape=inner_right": {
+      "model": "thenewjourney:BurntInnerStairs",
+      "x": 180,
+      "uvlock": true
+    },
+    "facing=east,half=top,shape=inner_left": {
+      "model": "thenewjourney:BurntInnerStairs",
+      "x": 180,
+      "uvlock": true
+    },
+    "facing=west,half=top,shape=inner_left": {
+      "model": "thenewjourney:BurntInnerStairs",
+      "x": 180,
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=south,half=top,shape=inner_left": {
+      "model": "thenewjourney:BurntInnerStairs",
+      "x": 180,
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=north,half=top,shape=inner_left": {
+      "model": "thenewjourney:BurntInnerStairs",
+      "x": 180,
+      "y": 270,
+      "uvlock": true
+    }
+  }
+}

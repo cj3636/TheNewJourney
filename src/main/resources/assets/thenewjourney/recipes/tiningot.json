@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "thenewjourney:tinblock"
+    }
+  ],
+  "result": {
+    "item": "thenewjourney:tiningot",
+    "count": 9
+  }
+}

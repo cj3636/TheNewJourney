@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#A#",
+    "DFD",
+    "FFF"
+  ],
+  "key": {
+    "A": {
+      "item": "thenewjourney:arcaneartifact"
+    },
+    "#": {
+      "item": "minecraft:planks",
+      "data": 0
+    },
+    "D": {
+      "item": "thenewjourney:distortedstone"
+    },
+    "F": {
+      "item": "thenewjourney:burntstone"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:archaicinfuseri"
+  }
+}

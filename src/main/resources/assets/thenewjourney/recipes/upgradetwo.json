@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "OGO",
+    "BEB",
+    "ORO"
+  ],
+  "key": {
+    "B": {
+      "item": "thenewjourney:bindingpowder"
+    },
+    "R": {
+      "item": "thenewjourney:ruby"
+    },
+    "E": {
+      "item": "minecraft:emerald_block"
+    },
+    "G": {
+      "item": "thenewjourney:bloodgem"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:upgradetwo"
+  }
+}

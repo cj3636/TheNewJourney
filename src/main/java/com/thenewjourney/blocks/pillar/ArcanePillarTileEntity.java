@@ -159,7 +159,7 @@ public class ArcanePillarTileEntity extends TickableInventory implements ITickab
         super.writeToNBT(compound);
         NBTTagList dataForAllSlots = new NBTTagList();
         for (int i = 0; i < this.itemStacks.length; ++i) {
-            if (this.itemStacks[i] != null) {
+            if (this.itemStacks[i] != ItemStack.EMPTY) {
                 NBTTagCompound dataForThisSlot = new NBTTagCompound();
                 dataForThisSlot.setByte("Slot", (byte) i);
                 this.itemStacks[i].writeToNBT(dataForThisSlot);

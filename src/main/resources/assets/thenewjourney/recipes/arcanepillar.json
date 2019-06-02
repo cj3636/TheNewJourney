@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FCF",
+    "F F",
+    "FRF"
+  ],
+  "key": {
+    "R": {
+      "item": "thenewjourney:ruby"
+    },
+    "C": {
+      "item": "minecraft:crafting_table"
+    },
+    "F": {
+      "item": "thenewjourney:burntstone"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:arcanepillar"
+  }
+}

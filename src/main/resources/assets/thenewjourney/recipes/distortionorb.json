@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#*#",
+    " F "
+  ],
+  "key": {
+    "#": {
+      "item": "thenewjourney:distortiongem"
+    },
+    "F": {
+      "item": "thenewjourney:firedust"
+    },
+    "*": {
+      "item": "minecraft:ender_eye"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:distortionorb"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BLS",
+    "G G",
+    "SLB"
+  ],
+  "key": {
+    "B": {
+      "item": "thenewjourney:bronzeingot"
+    },
+    "S": {
+      "item": "thenewjourney:steelingot"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "L": {
+      "item": "thenewjourney:leatherstrip"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:goldring"
+  }
+}

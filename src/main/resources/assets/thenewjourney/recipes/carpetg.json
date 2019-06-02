@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SWS",
+    "WDW",
+    "SWS"
+  ],
+  "key": {
+    "S": {
+      "item": "thenewjourney:marble"
+    },
+    "D": {
+      "item": "minecraft:dye",
+      "data": 2
+    },
+    "W": {
+      "item": "minecraft:glass"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:carpetg",
+    "count": 8
+  }
+}

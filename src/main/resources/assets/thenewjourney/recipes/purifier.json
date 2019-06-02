@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RWR",
+    "RFR",
+    "WBW"
+  ],
+  "key": {
+    "B": {
+      "item": "thenewjourney:fireblock"
+    },
+    "R": {
+      "item": "thenewjourney:ruby"
+    },
+    "F": {
+      "item": "thenewjourney:firecrystal"
+    },
+    "W": {
+      "item": "thenewjourney:warpstone"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:purifier"
+  }
+}

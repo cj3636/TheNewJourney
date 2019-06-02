@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "thenewjourney:fireblock"
+    }
+  ],
+  "result": {
+    "item": "thenewjourney:fireingot",
+    "count": 9
+  }
+}

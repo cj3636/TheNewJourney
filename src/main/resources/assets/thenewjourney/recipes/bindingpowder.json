@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PRP",
+    "RBR",
+    "PRP"
+  ],
+  "key": {
+    "P": {
+      "item": "thenewjourney:spatiumpowder"
+    },
+    "R": {
+      "item": "thenewjourney:burntredstone"
+    },
+    "B": {
+      "item": "thenewjourney:bloodgem"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:bindingpowder",
+    "count": 4
+  }
+}

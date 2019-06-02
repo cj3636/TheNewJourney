@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "thenewjourney:shadowblock"
+    }
+  ],
+  "result": {
+    "item": "thenewjourney:shadowingot",
+    "count": 9
+  }
+}

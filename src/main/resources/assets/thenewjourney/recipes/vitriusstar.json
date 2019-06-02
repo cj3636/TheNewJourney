@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " V ",
+    "VRV",
+    " V "
+  ],
+  "key": {
+    "R": {
+      "item": "thenewjourney:ruby"
+    },
+    "V": {
+      "item": "thenewjourney:vitaemingot"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:vitriusstar"
+  }
+}

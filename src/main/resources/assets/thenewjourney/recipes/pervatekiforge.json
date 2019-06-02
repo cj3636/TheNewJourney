@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SBS",
+    "DTD",
+    "SBS"
+  ],
+  "key": {
+    "B": {
+      "item": "thenewjourney:burntstone"
+    },
+    "S": {
+      "item": "thenewjourney:spatiumpowder"
+    },
+    "D": {
+      "item": "thenewjourney:distortedbricks"
+    },
+    "T": {
+      "item": "thenewjourney:substrate"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:pervatekiforge"
+  }
+}

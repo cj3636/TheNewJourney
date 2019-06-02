@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "thenewjourney:firedust"
+    },
+    {
+      "item": "thenewjourney:bloodgem"
+    },
+    {
+      "item": "thenewjourney:firegem"
+    },
+    {
+      "item": "thenewjourney:spatiumpowder"
+    },
+    {
+      "item": "minecraft:gunpowder"
+    },
+    {
+      "item": "minecraft:blaze_powder"
+    },
+    {
+      "item": "thenewjourney:bindingpowder"
+    }
+  ],
+  "result": {
+    "item": "thenewjourney:pheonixdust"
+  }
+}

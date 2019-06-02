@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PRP",
+    "RBR",
+    "PRP"
+  ],
+  "key": {
+    "P": {
+      "item": "minecraft:dye",
+      "data": 5
+    },
+    "R": {
+      "item": "thenewjourney:burntredstone"
+    },
+    "B": {
+      "item": "minecraft:dye",
+      "data": 15
+    }
+  },
+  "result": {
+    "item": "thenewjourney:spatiumpowder",
+    "count": 4
+  }
+}

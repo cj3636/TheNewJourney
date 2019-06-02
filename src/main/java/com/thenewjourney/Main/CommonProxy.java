@@ -21,7 +21,6 @@ import com.thenewjourney.blocks.furnace.tileentity.*;
 import com.thenewjourney.blocks.idol.IdolTileEntity;
 import com.thenewjourney.blocks.infuser.InfuserGUIRegistry;
 import com.thenewjourney.blocks.infuser.InfuserTileEntity;
-import com.thenewjourney.blocks.infuser.InfusionCraftingHandler;
 import com.thenewjourney.blocks.pervateki.ForgeBlockTileEntity;
 import com.thenewjourney.blocks.pillar.ArcanePillarGUIRegistry;
 import com.thenewjourney.blocks.pillar.ArcanePillarTileEntity;
@@ -29,6 +28,15 @@ import com.thenewjourney.blocks.provider.CrystalProviderTileEntity;
 import com.thenewjourney.blocks.purifier.PurifierGUIRegistry;
 import com.thenewjourney.blocks.purifier.PurifierTileEntity;
 import com.thenewjourney.blocks.stoneman.StoneManTileEntity;
+import com.thenewjourney.capability.block.BlockStorage;
+import com.thenewjourney.capability.block.IPowerBlockCapability;
+import com.thenewjourney.capability.block.ModPowerBlock;
+import com.thenewjourney.capability.owner.IOwnerCapability;
+import com.thenewjourney.capability.owner.ModOwner;
+import com.thenewjourney.capability.owner.OwnerStorage;
+import com.thenewjourney.capability.tier.IPowerTierCapability;
+import com.thenewjourney.capability.tier.ModPowerTier;
+import com.thenewjourney.capability.tier.TierStorage;
 import com.thenewjourney.compat.baubles.InitItems;
 import com.thenewjourney.dimension.ModDimension;
 import com.thenewjourney.entity.bluefireball.FlorucFireballEntity;
@@ -58,6 +66,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -121,15 +130,20 @@ public class CommonProxy {
     }
 
     public void init(FMLInitializationEvent e) {
+        //Cababilities
+        CapabilityManager.INSTANCE.register(IPowerBlockCapability.class, new BlockStorage(), ModPowerBlock::new);
+        CapabilityManager.INSTANCE.register(IPowerTierCapability.class, new TierStorage(), ModPowerTier::new);
+        CapabilityManager.INSTANCE.register(IOwnerCapability.class, new OwnerStorage(), ModOwner::new);
         //Achievements
         //ModAchievements.mainRegistry();
         //Event Handlers
         MinecraftForge.EVENT_BUS.register(new ToolCraftingHandler());
         MinecraftForge.EVENT_BUS.register(new GlassBreakerHandler());
         MinecraftForge.EVENT_BUS.register(new EntityAttackHandler());
-        MinecraftForge.EVENT_BUS.register(new InfusionCraftingHandler());
         MinecraftForge.EVENT_BUS.register(new PlayerLoggedInHandler());
         MinecraftForge.EVENT_BUS.register(new LootHandler());
+        MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
+        MinecraftForge.EVENT_BUS.register(new BlockCapabilityHandler());
         //Recipes
         //RecipeGen.generateConstants();
         RecipeManager.mainRegistry();

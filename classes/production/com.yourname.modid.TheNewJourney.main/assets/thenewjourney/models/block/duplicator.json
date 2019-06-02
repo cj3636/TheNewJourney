@@ -1,0 +1,8 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "thenewjourney:blocks/DuplicatorTop",
+    "front": "thenewjourney:blocks/DuplicatorFront",
+    "side": "thenewjourney:blocks/DuplicatorSide"
+  }
+}

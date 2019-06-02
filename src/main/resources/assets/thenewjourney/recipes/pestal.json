@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    " S ",
+    " B "
+  ],
+  "key": {
+    "B": {
+      "item": "thenewjourney:burntstone"
+    },
+    "S": {
+      "item": "thenewjourney:steelrod"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:pestal"
+  }
+}

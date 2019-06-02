@@ -1,0 +1,40 @@
+{
+  "variants": {
+    "extended=false,facing=down": {
+      "model": "thenewjourney:VisceonCore"
+    },
+    "extended=false,facing=up": {
+      "model": "thenewjourney:VisceonCore"
+    },
+    "extended=false,facing=north": {
+      "model": "thenewjourney:VisceonCore"
+    },
+    "extended=false,facing=south": {
+      "model": "thenewjourney:VisceonCore"
+    },
+    "extended=false,facing=west": {
+      "model": "thenewjourney:VisceonCore"
+    },
+    "extended=false,facing=east": {
+      "model": "thenewjourney:VisceonCore"
+    },
+    "extended=true,facing=down": {
+      "model": "thenewjourney:VisceonCoreDown"
+    },
+    "extended=true,facing=up": {
+      "model": "thenewjourney:VisceonCoreUp"
+    },
+    "extended=true,facing=north": {
+      "model": "thenewjourney:VisceonCoreNorth"
+    },
+    "extended=true,facing=south": {
+      "model": "thenewjourney:VisceonCoreSouth"
+    },
+    "extended=true,facing=west": {
+      "model": "thenewjourney:VisceonCoreWest"
+    },
+    "extended=true,facing=east": {
+      "model": "thenewjourney:VisceonCoreEast"
+    }
+  }
+}

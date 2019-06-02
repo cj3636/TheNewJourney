@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FEF",
+    "EAE",
+    "FEF"
+  ],
+  "key": {
+    "A": {
+      "item": "thenewjourney:archiumingot"
+    },
+    "E": {
+      "item": "thenewjourney:emeraldshard"
+    },
+    "F": {
+      "item": "thenewjourney:firedust"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:orbmesh"
+  }
+}

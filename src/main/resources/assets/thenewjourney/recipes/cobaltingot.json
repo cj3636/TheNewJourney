@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "thenewjourney:cobaltblock"
+    }
+  ],
+  "result": {
+    "item": "thenewjourney:cobaltingot",
+    "count": 9
+  }
+}

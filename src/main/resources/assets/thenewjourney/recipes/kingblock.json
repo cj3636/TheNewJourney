@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CFC",
+    "FAF",
+    "CFC"
+  ],
+  "key": {
+    "A": {
+      "item": "thenewjourney:aquisingot"
+    },
+    "C": {
+      "item": "thenewjourney:cobaltingot"
+    },
+    "F": {
+      "item": "thenewjourney:fireblock"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:kingblock"
+  }
+}

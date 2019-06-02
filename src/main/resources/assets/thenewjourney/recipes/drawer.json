@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WCW",
+    "R R",
+    "WCW"
+  ],
+  "key": {
+    "R": {
+      "item": "thenewjourney:ruby"
+    },
+    "C": {
+      "item": "minecraft:chest"
+    },
+    "W": {
+      "item": "minecraft:log",
+      "data": 32767
+    }
+  },
+  "result": {
+    "item": "thenewjourney:drawer"
+  }
+}

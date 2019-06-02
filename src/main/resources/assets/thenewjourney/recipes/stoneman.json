@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "SAS",
+    " S "
+  ],
+  "key": {
+    "A": {
+      "item": "thenewjourney:archaicorb"
+    },
+    "S": {
+      "item": "thenewjourney:burntstone"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:stoneman",
+    "count": 4
+  }
+}

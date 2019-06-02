@@ -1,0 +1,29 @@
+{
+  "variants": {
+    "moisture=0": {
+      "model": "thenewjourney:ArcaneSoilDry"
+    },
+    "moisture=1": {
+      "model": "thenewjourney:ArcaneSoilDry"
+    },
+    "moisture=2": {
+      "model": "thenewjourney:ArcaneSoilDry"
+    },
+    "moisture=3": {
+      "model": "thenewjourney:ArcaneSoilDry"
+    },
+    "moisture=4": {
+      "model": "thenewjourney:ArcaneSoilDry"
+    },
+    "moisture=5": {
+      "model": "thenewjourney:ArcaneSoilDry"
+    },
+    "moisture=6": {
+      "model": "thenewjourney:ArcaneSoilDry"
+    },
+    "moisture=7": {
+      "model": "thenewjourney:ArcaneSoilWet"
+    }
+  }
+}
+

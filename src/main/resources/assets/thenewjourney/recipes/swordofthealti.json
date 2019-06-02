@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    " A ",
+    " S "
+  ],
+  "key": {
+    "A": {
+      "item": "thenewjourney:archiumingot"
+    },
+    "S": {
+      "item": "thenewjourney:steelrod"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:swordofthealti"
+  }
+}

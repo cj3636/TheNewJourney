@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " V ",
+    " V ",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "V": {
+      "item": "thenewjourney:quazanscale"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:greenblade"
+  }
+}

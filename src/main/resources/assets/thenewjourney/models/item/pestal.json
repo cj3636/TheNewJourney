@@ -2,7 +2,8 @@
     "__comment": "Model generated using MrCrayfish's Model Creator (https://mrcrayfish.com/tools?id=mc)",
     "textures": {
         "0": "thenewjourney:blocks/BurntStone",
-        "1": "thenewjourney:blocks/LightStoneBrick"
+      "1": "thenewjourney:blocks/LightStoneBrick",
+      "particle": "thenewjourney:blocks/BurntStone"
     },
     "display": {
         "gui": {
@@ -21,22 +22,38 @@
             "scale": [ 0.5, 0.5, 0.5 ]
         },
         "thirdperson_righthand": {
-            "rotation": [ 75, 45, 0 ],
+          "rotation": [
+            0,
+            180,
+            180
+          ],
             "translation": [ 1.0, -2, 0 ],
             "scale": [ 1, 1, 1 ]
         },
         "thirdperson_lefthand": {
-            "rotation": [ 75, 255, 0 ],
+          "rotation": [
+            0,
+            180,
+            180
+          ],
             "translation": [ 1.0, -2, 0 ],
             "scale": [ 1, 1, 1 ]
         },
         "firstperson_righthand": {
-            "rotation": [ 0, 45, 0 ],
+          "rotation": [
+            0,
+            180,
+            180
+          ],
             "translation": [ 1.0, -2, 0 ],
             "scale": [ 1, 1, 1 ]
         },
         "firstperson_lefthand": {
-            "rotation": [ 0, 225, 0 ],
+          "rotation": [
+            0,
+            180,
+            180
+          ],
             "translation": [ 1.0, -2, 0 ],
             "scale": [ 1, 1, 1 ]
         }

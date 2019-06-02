@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "thenewjourney:copperingot"
+    },
+    {
+      "item": "thenewjourney:copperingot"
+    },
+    {
+      "item": "thenewjourney:copperingot"
+    },
+    {
+      "item": "thenewjourney:copperingot"
+    },
+    {
+      "item": "thenewjourney:copperingot"
+    },
+    {
+      "item": "thenewjourney:copperingot"
+    },
+    {
+      "item": "thenewjourney:copperingot"
+    },
+    {
+      "item": "thenewjourney:copperingot"
+    },
+    {
+      "item": "thenewjourney:copperingot"
+    }
+  ],
+  "result": {
+    "item": "thenewjourney:copperblock"
+  }
+}

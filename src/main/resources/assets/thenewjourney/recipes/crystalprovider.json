@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RPR",
+    "ACA",
+    "ARA"
+  ],
+  "key": {
+    "P": {
+      "item": "thenewjourney:pheonixdust"
+    },
+    "A": {
+      "item": "thenewjourney:ancientingot"
+    },
+    "R": {
+      "item": "thenewjourney:ruby"
+    },
+    "C": {
+      "item": "thenewjourney:crystal"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:crystalprovider",
+    "count": 4
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  #",
+    " * ",
+    "D  "
+  ],
+  "key": {
+    "#": {
+      "item": "thenewjourney:firecrystal"
+    },
+    "D": {
+      "item": "thenewjourney:distortiongem"
+    },
+    "*": {
+      "item": "minecraft:blaze_rod"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:babylonwand"
+  }
+}

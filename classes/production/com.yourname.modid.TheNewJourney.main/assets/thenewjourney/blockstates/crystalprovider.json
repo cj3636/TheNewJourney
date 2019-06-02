@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "normal": {
+      "model": "thenewjourney:CrystalProvider"
+    },
+    "facing=north": {
+      "model": "thenewjourney:CrystalProvider"
+    },
+    "facing=south": {
+      "model": "thenewjourney:CrystalProvider",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "thenewjourney:CrystalProvider",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "thenewjourney:CrystalProvider",
+      "y": 90
+    }
+  }
+}

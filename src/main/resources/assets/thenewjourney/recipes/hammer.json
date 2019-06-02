@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "#S#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "thenewjourney:tiningot"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:hammer"
+  }
+}

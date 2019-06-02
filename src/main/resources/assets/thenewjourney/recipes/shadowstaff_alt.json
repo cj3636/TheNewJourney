@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    " * ",
+    " * "
+  ],
+  "key": {
+    "#": {
+      "item": "thenewjourney:shadoworb"
+    },
+    "*": {
+      "item": "minecraft:blaze_rod"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:shadowstaff"
+  }
+}

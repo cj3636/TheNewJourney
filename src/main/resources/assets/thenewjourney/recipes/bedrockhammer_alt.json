@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AFA",
+    "SRS",
+    " R "
+  ],
+  "key": {
+    "A": {
+      "item": "thenewjourney:aquisingot"
+    },
+    "R": {
+      "item": "thenewjourney:steelrod"
+    },
+    "S": {
+      "item": "thenewjourney:steelingot"
+    },
+    "F": {
+      "item": "thenewjourney:firedust"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:bedrockhammer"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "B#B",
+    "#*#",
+    "B#B"
+  ],
+  "key": {
+    "B": {
+      "item": "thenewjourney:bindingpowder"
+    },
+    "#": {
+      "item": "thenewjourney:distortiongem"
+    },
+    "*": {
+      "item": "thenewjourney:crystalbinder"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:distortionboundcrystal"
+  }
+}

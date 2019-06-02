@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WIW",
+    "FPE",
+    "WWW"
+  ],
+  "key": {
+    "P": {
+      "item": "thenewjourney:pervatekiforge"
+    },
+    "E": {
+      "item": "thenewjourney:gobletofemerald"
+    },
+    "F": {
+      "item": "thenewjourney:gobletoffire"
+    },
+    "W": {
+      "item": "thenewjourney:warpstone"
+    },
+    "I": {
+      "item": "thenewjourney:gobletofice"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:arcanefurnace"
+  }
+}

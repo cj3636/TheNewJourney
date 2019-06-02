@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BFB",
+    "CLC",
+    "BFB"
+  ],
+  "key": {
+    "B": {
+      "item": "thenewjourney:burntstone"
+    },
+    "C": {
+      "item": "thenewjourney:cobaltingot"
+    },
+    "F": {
+      "item": "thenewjourney:firegem"
+    },
+    "L": {
+      "item": "minecraft:redstone_lamp"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:lamp",
+    "count": 4
+  }
+}

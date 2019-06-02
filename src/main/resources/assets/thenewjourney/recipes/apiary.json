@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WGW",
+    "WDW",
+    "RRR"
+  ],
+  "key": {
+    "R": {
+      "item": "thenewjourney:warpstone"
+    },
+    "D": {
+      "item": "thenewjourney:drawer"
+    },
+    "W": {
+      "item": "minecraft:planks",
+      "data": 0
+    },
+    "G": {
+      "item": "thenewjourney:ruby"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:apiary"
+  }
+}

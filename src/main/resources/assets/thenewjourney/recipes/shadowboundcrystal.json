@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "B#B",
+    "#*#",
+    "B#B"
+  ],
+  "key": {
+    "B": {
+      "item": "thenewjourney:bindingpowder"
+    },
+    "#": {
+      "item": "thenewjourney:shadowingot"
+    },
+    "*": {
+      "item": "thenewjourney:crystalbinder"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:shadowboundcrystal"
+  }
+}

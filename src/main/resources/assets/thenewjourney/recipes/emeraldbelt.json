@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " C ",
+    "L L",
+    " L "
+  ],
+  "key": {
+    "C": {
+      "item": "thenewjourney:emeraldcrystal"
+    },
+    "L": {
+      "item": "thenewjourney:leatherstrip"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:emeraldbelt"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "thenewjourney:distortionblock"
+    }
+  ],
+  "result": {
+    "item": "thenewjourney:distortiongem",
+    "count": 9
+  }
+}

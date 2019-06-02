@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "thenewjourney:blocks/BeeHive",
+    "side": "thenewjourney:blocks/BeeHiveSide"
+  }
+}

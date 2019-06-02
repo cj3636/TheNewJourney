@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:gravel"
+    },
+    {
+      "item": "minecraft:sand",
+      "data": 0
+    },
+    {
+      "item": "minecraft:clay_ball"
+    },
+    {
+      "item": "thenewjourney:burntredstone"
+    }
+  ],
+  "result": {
+    "item": "thenewjourney:claymixture"
+  }
+}

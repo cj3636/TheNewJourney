@@ -4,13 +4,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.thenewjourney.items.ModItems;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockStoneBrick;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemFishFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
@@ -37,38 +32,6 @@ public class ArcaneRecipeManager implements IRecipe {
     }
 
     private ArcaneRecipeManager() {
-        this.addSmeltingRecipeForBlock(Blocks.IRON_ORE, new ItemStack(Items.IRON_INGOT), 0.7F);
-        this.addSmeltingRecipeForBlock(Blocks.GOLD_ORE, new ItemStack(Items.GOLD_INGOT), 1.0F);
-        this.addSmeltingRecipeForBlock(Blocks.DIAMOND_ORE, new ItemStack(Items.DIAMOND), 1.0F);
-        this.addSmeltingRecipeForBlock(Blocks.SAND, new ItemStack(Blocks.GLASS), 0.1F);
-        this.addSmelting(Items.PORKCHOP, new ItemStack(Items.COOKED_PORKCHOP), 0.35F);
-        this.addSmelting(Items.BEEF, new ItemStack(Items.COOKED_BEEF), 0.35F);
-        this.addSmelting(Items.CHICKEN, new ItemStack(Items.COOKED_CHICKEN), 0.35F);
-        this.addSmelting(Items.RABBIT, new ItemStack(Items.COOKED_RABBIT), 0.35F);
-        this.addSmelting(Items.MUTTON, new ItemStack(Items.COOKED_MUTTON), 0.35F);
-        this.addSmeltingRecipeForBlock(Blocks.COBBLESTONE, new ItemStack(Blocks.STONE), 0.1F);
-        this.addSmeltingRecipe(new ItemStack(Blocks.STONEBRICK, 1, BlockStoneBrick.DEFAULT_META), new ItemStack(Blocks.STONEBRICK, 1, BlockStoneBrick.CRACKED_META), 0.1F);
-        this.addSmelting(Items.CLAY_BALL, new ItemStack(Items.BRICK), 0.3F);
-        this.addSmeltingRecipeForBlock(Blocks.CLAY, new ItemStack(Blocks.HARDENED_CLAY), 0.35F);
-        this.addSmeltingRecipeForBlock(Blocks.CACTUS, new ItemStack(Items.DYE, 1, EnumDyeColor.GREEN.getDyeDamage()), 0.2F);
-        this.addSmeltingRecipeForBlock(Blocks.LOG, new ItemStack(Items.COAL, 1, 1), 0.15F);
-        this.addSmeltingRecipeForBlock(Blocks.LOG2, new ItemStack(Items.COAL, 1, 1), 0.15F);
-        this.addSmeltingRecipeForBlock(Blocks.EMERALD_ORE, new ItemStack(Items.EMERALD), 1.0F);
-        this.addSmelting(Items.POTATO, new ItemStack(Items.BAKED_POTATO), 0.35F);
-        this.addSmeltingRecipeForBlock(Blocks.NETHERRACK, new ItemStack(Items.NETHERBRICK), 0.1F);
-        this.addSmeltingRecipe(new ItemStack(Blocks.SPONGE, 1, 1), new ItemStack(Blocks.SPONGE, 1, 0), 0.15F);
-        this.addSmelting(Items.CHORUS_FRUIT, new ItemStack(Items.CHORUS_FRUIT_POPPED), 0.1F);
-
-        for (ItemFishFood.FishType itemfishfood$fishtype : ItemFishFood.FishType.values()) {
-            if (itemfishfood$fishtype.canCook()) {
-                this.addSmeltingRecipe(new ItemStack(Items.FISH, 1, itemfishfood$fishtype.getMetadata()), new ItemStack(Items.COOKED_FISH, 1, itemfishfood$fishtype.getMetadata()), 0.35F);
-            }
-        }
-
-        this.addSmeltingRecipeForBlock(Blocks.COAL_ORE, new ItemStack(Items.COAL), 0.1F);
-        this.addSmeltingRecipeForBlock(Blocks.REDSTONE_ORE, new ItemStack(Items.REDSTONE), 0.7F);
-        this.addSmeltingRecipeForBlock(Blocks.LAPIS_ORE, new ItemStack(Items.DYE, 1, EnumDyeColor.BLUE.getDyeDamage()), 0.2F);
-        this.addSmeltingRecipeForBlock(Blocks.QUARTZ_ORE, new ItemStack(Items.QUARTZ), 0.2F);
 
         this.addSmelting(ModItems.ArchaicOrb, new ItemStack(ModItems.ArchiumIngot), 1.0F);
         this.addSmelting(ModItems.FloricOrb, new ItemStack(ModItems.FloriumIngot), 1.0F);
@@ -93,7 +56,7 @@ public class ArcaneRecipeManager implements IRecipe {
      * Adds a smelting recipe using an ItemStack as the input for the recipe.
      */
     public void addSmeltingRecipe(ItemStack input, ItemStack stack, float experience) {
-        if (getSmeltingResult(input) != null) {
+        if (getSmeltingResult(input) == null) {
             net.minecraftforge.fml.common.FMLLog.info("Ignored smelting recipe with conflicting input: " + input + " = " + stack);
             return;
         }
@@ -111,13 +74,12 @@ public class ArcaneRecipeManager implements IRecipe {
                 return entry.getValue();
             }
         }
-
-        return null;
+        return ItemStack.EMPTY;
     }
 
     @Nullable
     public ItemStack getBlastSmeltingResult(ItemStack stack1, ItemStack stack2) {
-        if (stack1 != null && stack2 != null) {
+        if (stack1 != ItemStack.EMPTY && stack2 != ItemStack.EMPTY) {
             if (stack1.getItem() == ModItems.LowGradeSteelIngot && stack2.getItem() == ModItems.Carbon) {
                 return new ItemStack(ModItems.SteelIngot);
             }
@@ -130,13 +92,13 @@ public class ArcaneRecipeManager implements IRecipe {
                 return new ItemStack(ModItems.SteelRod);
             }
         }
-        if (stack2 != null) {
-            return null;
+        if (stack2 != ItemStack.EMPTY) {
+            return ItemStack.EMPTY;
         }
-        if (stack1 != null) {
+        if (stack1 != ItemStack.EMPTY) {
             getSmeltingResult(stack1);
         }
-        return null;
+        return ItemStack.EMPTY;
     }
 
     /**
@@ -175,7 +137,7 @@ public class ArcaneRecipeManager implements IRecipe {
     @Nullable
     @Override
     public ItemStack getCraftingResult(InventoryCrafting inv) {
-        return null;
+        return ItemStack.EMPTY;
     }
 
     @Override
@@ -186,7 +148,7 @@ public class ArcaneRecipeManager implements IRecipe {
     @Nullable
     @Override
     public ItemStack getRecipeOutput() {
-        return null;
+        return ItemStack.EMPTY;
     }
 
     @Override

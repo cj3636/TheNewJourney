@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ANA",
+    "ABA",
+    " B "
+  ],
+  "key": {
+    "A": {
+      "item": "thenewjourney:archiumingot"
+    },
+    "B": {
+      "item": "minecraft:blaze_rod"
+    },
+    "N": {
+      "item": "minecraft:nether_star"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:zirconiumstaff"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:leather"
+    },
+    {
+      "item": "thenewjourney:hammer",
+      "data": 32767
+    }
+  ],
+  "result": {
+    "item": "thenewjourney:leatherstrip",
+    "count": 2
+  }
+}

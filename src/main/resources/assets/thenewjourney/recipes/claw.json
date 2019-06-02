@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "# #",
+    " # ",
+    " I "
+  ],
+  "key": {
+    "#": {
+      "item": "thenewjourney:steelingot"
+    },
+    "I": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:claw"
+  }
+}

@@ -28,19 +28,24 @@ public class ArcaneFurnaceTileEntity extends TileEntity implements IInventory, I
     private int invSize = 2;
     private int stackLimit = 64;
     private int smeltTime;
-    private int totalSmeltTime = 3000;
+    private int totalSmeltTime = 5000;
     private int lavaTime;
-    private ItemStack[] itemStacks = new ItemStack[invSize];
+    private ItemStack[] itemStacks;
+
+    public ArcaneFurnaceTileEntity() {
+        itemStacks = new ItemStack[invSize];
+        clear();
+    }
 
     public static boolean isItemValidInput(ItemStack stack) {
         FurnaceRecipes recipe = FurnaceRecipes.instance();
         ItemStack result = recipe.getSmeltingResult(stack);
-        if (result != null) {
+        if (result != ItemStack.EMPTY) {
             return true;
         }
         ArcaneRecipeManager recipe2 = ArcaneRecipeManager.getInstance();
         ItemStack result2 = recipe2.getSmeltingResult(stack);
-        return result2 != null;
+        return result2 != ItemStack.EMPTY;
     }
 
     public double getSmeltTime() {
@@ -67,16 +72,16 @@ public class ArcaneFurnaceTileEntity extends TileEntity implements IInventory, I
     @Override
     public ItemStack decrStackSize(int index, int count) {
         ItemStack itemStackInSlot = getStackInSlot(index);
-        if (itemStackInSlot == null) return null;
+        if (itemStackInSlot == ItemStack.EMPTY) return ItemStack.EMPTY;
 
         ItemStack itemStackRemoved;
         if (itemStackInSlot.getCount() <= count) {
             itemStackRemoved = itemStackInSlot;
-            setInventorySlotContents(index, null);
+            setInventorySlotContents(index, ItemStack.EMPTY);
         } else {
             itemStackRemoved = itemStackInSlot.splitStack(count);
             if (itemStackInSlot.getCount() == 0) {
-                setInventorySlotContents(index, null);
+                setInventorySlotContents(index, ItemStack.EMPTY);
             }
         }
         markDirty();
@@ -86,8 +91,8 @@ public class ArcaneFurnaceTileEntity extends TileEntity implements IInventory, I
     @Override
     public ItemStack removeStackFromSlot(int index) {
         ItemStack itemStack = getStackInSlot(index);
-        if (itemStack != null) {
-            setInventorySlotContents(index, null);
+        if (itemStack != ItemStack.EMPTY) {
+            setInventorySlotContents(index, ItemStack.EMPTY);
         }
         return itemStack;
     }
@@ -95,7 +100,7 @@ public class ArcaneFurnaceTileEntity extends TileEntity implements IInventory, I
     @Override
     public void setInventorySlotContents(int index, ItemStack stack) {
         itemStacks[index] = stack;
-        if (stack != null && stack.getCount() > getInventoryStackLimit()) {
+        if (stack != ItemStack.EMPTY && stack.getCount() > getInventoryStackLimit()) {
             stack.setCount(getInventoryStackLimit());
         }
         markDirty();
@@ -135,12 +140,12 @@ public class ArcaneFurnaceTileEntity extends TileEntity implements IInventory, I
         }
         FurnaceRecipes recipe = FurnaceRecipes.instance();
         ItemStack result = recipe.getSmeltingResult(stack);
-        if (result != null) {
+        if (result != ItemStack.EMPTY) {
             return true;
         }
         ArcaneRecipeManager recipe2 = ArcaneRecipeManager.getInstance();
         ItemStack result2 = recipe2.getSmeltingResult(stack);
-        return result2 != null;
+        return result2 != ItemStack.EMPTY;
     }
 
     @Override
@@ -173,7 +178,7 @@ public class ArcaneFurnaceTileEntity extends TileEntity implements IInventory, I
 
     @Override
     public void clear() {
-        Arrays.fill(itemStacks, null);
+        Arrays.fill(itemStacks, ItemStack.EMPTY);
     }
 
     @Override
@@ -211,46 +216,43 @@ public class ArcaneFurnaceTileEntity extends TileEntity implements IInventory, I
     }
 
     private boolean canSmelt() {
+        ItemStack input = itemStacks[0];
+        if (input.isEmpty()) {
+            return false;
+        }
         EnumFacing facing = world.getBlockState(pos).getValue(ArcaneFurnaceBlock.FACING);
-        return world.getBlockState(pos.offset(facing.getOpposite())).getBlock().equals(Blocks.LAVA) && itemStacks[0] != null;
+        return world.getBlockState(pos.offset(facing.getOpposite())).getBlock().equals(Blocks.LAVA) && itemStacks[0] != ItemStack.EMPTY;
     }
 
     private void doSmelt() {
         ArcaneRecipeManager recipe = ArcaneRecipeManager.getInstance();
-
-        ItemStack slot0 = itemStacks[0];
-        ItemStack slot1 = itemStacks[1];
-
-        ItemStack result = recipe.getSmeltingResult(slot0);
-
-        if (slot1 != null && slot1.getCount() >= 64) {
-            itemStacks[1].setCount(64);
-            return;
-        }
-        if (result != null) {
-            if (slot1 == null) {
+        ItemStack input = itemStacks[0];
+        ItemStack output = itemStacks[1];
+        ItemStack result = recipe.getSmeltingResult(input);
+        if (result != ItemStack.EMPTY) {
+            if (output.getCount() == 64) {
+                markDirty();
+                return;
+            }
+            if (output == ItemStack.EMPTY) {
+                input.shrink(1);
                 itemStacks[1] = result.copy();
-                itemStacks[0].setCount(itemStacks[0].getCount() - 1);
-                lavaTime++;
-                if (itemStacks[0].getCount() <= 0) {
-                    itemStacks[0] = null;
-                }
+                lavaTime += 1;
                 EnumFacing facing = world.getBlockState(pos).getValue(ArcaneFurnaceBlock.FACING);
                 world.setBlockState(pos.offset(facing.getOpposite()), Blocks.AIR.getDefaultState());
                 world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, 3.0F, (float) Math.random(), false);
-            } else if (slot1.getItem() == result.getItem()) {
-                itemStacks[1].setCount(itemStacks[1].getCount() + 1);
-                itemStacks[0].setCount(itemStacks[0].getCount() - 1);
-                lavaTime++;
-                if (itemStacks[0].getCount() <= 0) {
-                    itemStacks[0] = null;
-                }
+            } else if (result.getItem().equals(output.getItem())) {
+                input.shrink(1);
+                itemStacks[1].grow(1);
+                lavaTime += 1;
                 EnumFacing facing = world.getBlockState(pos).getValue(ArcaneFurnaceBlock.FACING);
                 world.setBlockState(pos.offset(facing.getOpposite()), Blocks.AIR.getDefaultState());
                 world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, 3.0F, (float) Math.random(), false);
+            } else {
+                markDirty();
+                return;
             }
         }
-
         markDirty();
     }
 
@@ -259,7 +261,7 @@ public class ArcaneFurnaceTileEntity extends TileEntity implements IInventory, I
         super.writeToNBT(compound);
         NBTTagList dataForAllSlots = new NBTTagList();
         for (int i = 0; i < this.itemStacks.length; ++i) {
-            if (this.itemStacks[i] != null) {
+            if (this.itemStacks[i] != ItemStack.EMPTY) {
                 NBTTagCompound dataForThisSlot = new NBTTagCompound();
                 dataForThisSlot.setByte("Slot", (byte) i);
                 this.itemStacks[i].writeToNBT(dataForThisSlot);
@@ -279,7 +281,7 @@ public class ArcaneFurnaceTileEntity extends TileEntity implements IInventory, I
         final byte NBT_TYPE_COMPOUND = 10;
         NBTTagList dataForAllSlots = nbtTagCompound.getTagList("Items", NBT_TYPE_COMPOUND);
 
-        Arrays.fill(itemStacks, null);
+        Arrays.fill(itemStacks, ItemStack.EMPTY);
         for (int i = 0; i < dataForAllSlots.tagCount(); ++i) {
             NBTTagCompound dataForOneSlot = dataForAllSlots.getCompoundTagAt(i);
             byte slotNumber = dataForOneSlot.getByte("Slot");

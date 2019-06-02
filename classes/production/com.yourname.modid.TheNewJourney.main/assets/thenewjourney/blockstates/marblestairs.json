@@ -1,0 +1,209 @@
+{
+  "variants": {
+    "facing=east,half=bottom,shape=straight": {
+      "model": "thenewjourney:MarbleStairs"
+    },
+    "facing=west,half=bottom,shape=straight": {
+      "model": "thenewjourney:MarbleStairs",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=south,half=bottom,shape=straight": {
+      "model": "thenewjourney:MarbleStairs",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=north,half=bottom,shape=straight": {
+      "model": "thenewjourney:MarbleStairs",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=east,half=bottom,shape=outer_right": {
+      "model": "thenewjourney:MarbleOuterStairs"
+    },
+    "facing=west,half=bottom,shape=outer_right": {
+      "model": "thenewjourney:MarbleOuterStairs",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=south,half=bottom,shape=outer_right": {
+      "model": "thenewjourney:MarbleOuterStairs",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=north,half=bottom,shape=outer_right": {
+      "model": "thenewjourney:MarbleOuterStairs",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=east,half=bottom,shape=outer_left": {
+      "model": "thenewjourney:MarbleOuterStairs",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=west,half=bottom,shape=outer_left": {
+      "model": "thenewjourney:MarbleOuterStairs",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south,half=bottom,shape=outer_left": {
+      "model": "thenewjourney:MarbleOuterStairs"
+    },
+    "facing=north,half=bottom,shape=outer_left": {
+      "model": "thenewjourney:MarbleOuterStairs",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=east,half=bottom,shape=inner_right": {
+      "model": "thenewjourney:MarbleInnerStairs"
+    },
+    "facing=west,half=bottom,shape=inner_right": {
+      "model": "thenewjourney:MarbleInnerStairs",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=south,half=bottom,shape=inner_right": {
+      "model": "thenewjourney:MarbleInnerStairs",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=north,half=bottom,shape=inner_right": {
+      "model": "thenewjourney:MarbleInnerStairs",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=east,half=bottom,shape=inner_left": {
+      "model": "thenewjourney:MarbleInnerStairs",
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=west,half=bottom,shape=inner_left": {
+      "model": "thenewjourney:MarbleInnerStairs",
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=south,half=bottom,shape=inner_left": {
+      "model": "thenewjourney:MarbleInnerStairs"
+    },
+    "facing=north,half=bottom,shape=inner_left": {
+      "model": "thenewjourney:MarbleInnerStairs",
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=east,half=top,shape=straight": {
+      "model": "thenewjourney:MarbleStairs",
+      "x": 180,
+      "uvlock": true
+    },
+    "facing=west,half=top,shape=straight": {
+      "model": "thenewjourney:MarbleStairs",
+      "x": 180,
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=south,half=top,shape=straight": {
+      "model": "thenewjourney:MarbleStairs",
+      "x": 180,
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=north,half=top,shape=straight": {
+      "model": "thenewjourney:MarbleStairs",
+      "x": 180,
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=east,half=top,shape=outer_right": {
+      "model": "thenewjourney:MarbleOuterStairs",
+      "x": 180,
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=west,half=top,shape=outer_right": {
+      "model": "thenewjourney:MarbleOuterStairs",
+      "x": 180,
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=south,half=top,shape=outer_right": {
+      "model": "thenewjourney:MarbleOuterStairs",
+      "x": 180,
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=north,half=top,shape=outer_right": {
+      "model": "thenewjourney:MarbleOuterStairs",
+      "x": 180,
+      "uvlock": true
+    },
+    "facing=east,half=top,shape=outer_left": {
+      "model": "thenewjourney:MarbleOuterStairs",
+      "x": 180,
+      "uvlock": true
+    },
+    "facing=west,half=top,shape=outer_left": {
+      "model": "thenewjourney:MarbleOuterStairs",
+      "x": 180,
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=south,half=top,shape=outer_left": {
+      "model": "thenewjourney:MarbleOuterStairs",
+      "x": 180,
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=north,half=top,shape=outer_left": {
+      "model": "thenewjourney:MarbleOuterStairs",
+      "x": 180,
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=east,half=top,shape=inner_right": {
+      "model": "thenewjourney:MarbleInnerStairs",
+      "x": 180,
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=west,half=top,shape=inner_right": {
+      "model": "thenewjourney:MarbleInnerStairs",
+      "x": 180,
+      "y": 270,
+      "uvlock": true
+    },
+    "facing=south,half=top,shape=inner_right": {
+      "model": "thenewjourney:MarbleInnerStairs",
+      "x": 180,
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=north,half=top,shape=inner_right": {
+      "model": "thenewjourney:MarbleInnerStairs",
+      "x": 180,
+      "uvlock": true
+    },
+    "facing=east,half=top,shape=inner_left": {
+      "model": "thenewjourney:MarbleInnerStairs",
+      "x": 180,
+      "uvlock": true
+    },
+    "facing=west,half=top,shape=inner_left": {
+      "model": "thenewjourney:MarbleInnerStairs",
+      "x": 180,
+      "y": 180,
+      "uvlock": true
+    },
+    "facing=south,half=top,shape=inner_left": {
+      "model": "thenewjourney:MarbleInnerStairs",
+      "x": 180,
+      "y": 90,
+      "uvlock": true
+    },
+    "facing=north,half=top,shape=inner_left": {
+      "model": "thenewjourney:MarbleInnerStairs",
+      "x": 180,
+      "y": 270,
+      "uvlock": true
+    }
+  }
+}

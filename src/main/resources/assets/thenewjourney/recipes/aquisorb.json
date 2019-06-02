@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " # ",
+    "#*#",
+    " F "
+  ],
+  "key": {
+    "#": {
+      "item": "thenewjourney:aquisingot"
+    },
+    "F": {
+      "item": "thenewjourney:firedust"
+    },
+    "*": {
+      "item": "thenewjourney:orbmesh"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:aquisorb"
+  }
+}

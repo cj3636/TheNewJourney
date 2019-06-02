@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SRS",
+    "RCR",
+    "SRS"
+  ],
+  "key": {
+    "R": {
+      "item": "thenewjourney:ruby"
+    },
+    "S": {
+      "item": "thenewjourney:spatiumpowder"
+    },
+    "C": {
+      "item": "minecraft:clock"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:etherealclock"
+  }
+}

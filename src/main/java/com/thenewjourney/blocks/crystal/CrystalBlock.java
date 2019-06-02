@@ -2,6 +2,12 @@ package com.thenewjourney.blocks.crystal;
 
 import com.cj3636.lib.Ref;
 import com.thenewjourney.blocks.ModBlocks;
+import com.thenewjourney.capability.block.BlockPowerProvider;
+import com.thenewjourney.capability.block.IPowerBlockCapability;
+import com.thenewjourney.capability.owner.IOwnerCapability;
+import com.thenewjourney.capability.owner.OwnerProvider;
+import com.thenewjourney.capability.tier.IPowerTierCapability;
+import com.thenewjourney.capability.tier.TierPowerProvider;
 import com.thenewjourney.items.ModItems;
 import com.thenewjourney.power.EnumPowerColor;
 import com.thenewjourney.power.ModPower;
@@ -26,6 +32,7 @@ import net.minecraft.world.World;
 
 import java.awt.*;
 import java.util.Random;
+import java.util.UUID;
 
 public class CrystalBlock extends BlockContainer {
 
@@ -97,7 +104,7 @@ public class CrystalBlock extends BlockContainer {
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         ItemStack heldItem = playerIn.getHeldItemMainhand();
-        if (heldItem != null && heldItem.getItem().equals(ModItems.CrystalBinder)) {
+        if (heldItem.getItem().equals(ModItems.CrystalBinder)) {
             worldIn.setBlockState(pos.up(), Blocks.FIRE.getDefaultState(), 3);
             worldIn.setBlockState(pos, ModBlocks.Distributor.getDefaultState(), 3);
             worldIn.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_GENERIC_EXPLODE,
@@ -109,7 +116,7 @@ public class CrystalBlock extends BlockContainer {
         }
         if (!worldIn.isRemote) {
             ModWorldSaveData data = ModWorldSaveData.forWorld(worldIn);
-            if (heldItem != null && heldItem.getItem().equals(ModItems.UpgradeTwo)) {
+            if (heldItem.getItem().equals(ModItems.UpgradeTwo)) {
                 if (data.getPowerTier() > 1) {
                     return false;
                 }
@@ -120,7 +127,7 @@ public class CrystalBlock extends BlockContainer {
                 if (!playerIn.capabilities.isCreativeMode) {
                     heldItem.setCount(heldItem.getCount() - 1);
                 }
-            } else if (heldItem != null && heldItem.getItem().equals(ModItems.UpgradeThree)) {
+            } else if (heldItem.getItem().equals(ModItems.UpgradeThree)) {
                 if (data.getPowerTier() != 2) {
                     return false;
                 }
@@ -131,7 +138,7 @@ public class CrystalBlock extends BlockContainer {
                 if (!playerIn.capabilities.isCreativeMode) {
                     heldItem.setCount(heldItem.getCount() - 1);
                 }
-            } else if (heldItem != null && heldItem.getItem().equals(ModItems.UpgradeFour)) {
+            } else if (heldItem.getItem().equals(ModItems.UpgradeFour)) {
                 if (data.getPowerTier() != 3) {
                     return false;
                 }
@@ -142,7 +149,7 @@ public class CrystalBlock extends BlockContainer {
                 if (!playerIn.capabilities.isCreativeMode) {
                     heldItem.setCount(heldItem.getCount() - 1);
                 }
-            } else if (heldItem != null && heldItem.getItem().equals(ModItems.UpgradeFive)) {
+            } else if (heldItem.getItem().equals(ModItems.UpgradeFive)) {
                 if (data.getPowerTier() != 4) {
                     return false;
                 }
@@ -153,7 +160,7 @@ public class CrystalBlock extends BlockContainer {
                 if (!playerIn.capabilities.isCreativeMode) {
                     heldItem.setCount(heldItem.getCount() - 1);
                 }
-            } else if (heldItem != null && heldItem.getItem().equals(ModItems.UpgradeSix)) {
+            } else if (heldItem.getItem().equals(ModItems.UpgradeSix)) {
                 if (data.getPowerTier() != 5) {
                     return false;
                 }
@@ -164,7 +171,7 @@ public class CrystalBlock extends BlockContainer {
                 if (!playerIn.capabilities.isCreativeMode) {
                     heldItem.setCount(heldItem.getCount() - 1);
                 }
-            } else if (heldItem != null && heldItem.getItem().equals(ModItems.UpgradeSeven)) {
+            } else if (heldItem.getItem().equals(ModItems.UpgradeSeven)) {
                 if (data.getPowerTier() != 6) {
                     return false;
                 }
@@ -175,7 +182,7 @@ public class CrystalBlock extends BlockContainer {
                 if (!playerIn.capabilities.isCreativeMode) {
                     heldItem.setCount(heldItem.getCount() - 1);
                 }
-            } else if (heldItem != null && heldItem.getItem().equals(ModItems.UpgradeEight)) {
+            } else if (heldItem.getItem().equals(ModItems.UpgradeEight)) {
                 if (data.getPowerTier() != 7) {
                     return false;
                 }
@@ -186,11 +193,25 @@ public class CrystalBlock extends BlockContainer {
                 if (!playerIn.capabilities.isCreativeMode) {
                     heldItem.setCount(heldItem.getCount() - 1);
                 }
-            } else {
-                playerIn.sendMessage(new TextComponentTranslation("World Tier: " + Integer.toString(ModPower.getPowerTier(worldIn))));
-                playerIn.sendMessage(new TextComponentTranslation("World Blocks: " + Integer.toString(ModPower.getPowerNum(worldIn))));
             }
         }
         return false;
+    }
+
+    @Override
+    public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
+        if (!worldIn.isRemote) {
+            if (playerIn.getHeldItemMainhand().equals(ItemStack.EMPTY)) {
+                IPowerBlockCapability blockNum = playerIn.getCapability(BlockPowerProvider.BLOCK_CAP, null);
+                IPowerTierCapability powerTier = playerIn.getCapability(TierPowerProvider.TIER_CAP, null);
+                IOwnerCapability owner = worldIn.getTileEntity(pos).getCapability(OwnerProvider.OWNER_CAP, null);
+                playerIn.sendMessage(new TextComponentTranslation("\u00A7b" + "Power Level: " + blockNum.getBlock()));
+                playerIn.sendMessage(new TextComponentTranslation(EnumPowerColor
+                        .getColorTranslation(EnumPowerColor.getTierFromInt(powerTier.getTier())) + "Power Tier: " + powerTier.getTier()));
+                playerIn.sendMessage(new TextComponentTranslation("\u00A75" + "Owner: " + worldIn.getPlayerEntityByUUID(UUID.fromString(owner.getOwner())).getDisplayName().getFormattedText()));
+            }
+
+        }
+        super.onBlockClicked(worldIn, pos, playerIn);
     }
 }

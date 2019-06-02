@@ -290,7 +290,7 @@ public final class ModItems extends Item {
     public static Item Time;
     public static Item Backpack;
     public static Item DiviningRod;
-    public static Item Pestal;
+    public static Item Pestle;
 
     public static Item PurviaStick;
     public static Item PurviaPickaxe;
@@ -319,7 +319,7 @@ public final class ModItems extends Item {
         ShadowEssence = registerItem(new GrenadeRegistry("shadowessence"));
 
         FireDust = registerItem(new FireStarterRegistry("firedust"));
-        Pestal = registerItem(new Pestal("pestal"));
+        Pestle = registerItem(new Pestle("pestal"));
         PheonixDust = registerItem(new FireStarterRegistry("pheonixdust"));
         TranquilizerArrow = registerItem(new ItemTranquilizerArrow("tranquilizerarrow"));
         FireLight = registerItem(new ItemRegistry("firelight"));

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#*#",
+    "*F*",
+    "#*#"
+  ],
+  "key": {
+    "#": {
+      "item": "thenewjourney:lowgradesteelingot"
+    },
+    "F": {
+      "item": "minecraft:furnace"
+    },
+    "*": {
+      "item": "thenewjourney:refractorybrick"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:blastfurnace"
+  }
+}

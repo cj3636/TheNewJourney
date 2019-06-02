@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CSC",
+    "TPT",
+    " I "
+  ],
+  "key": {
+    "P": {
+      "item": "minecraft:stone_pickaxe"
+    },
+    "C": {
+      "item": "thenewjourney:copperingot"
+    },
+    "S": {
+      "item": "minecraft:string"
+    },
+    "T": {
+      "item": "thenewjourney:tiningot"
+    },
+    "I": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:ironorepick"
+  }
+}

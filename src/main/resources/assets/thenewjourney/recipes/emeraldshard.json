@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:emerald"
+    },
+    {
+      "item": "thenewjourney:hammer",
+      "data": 32767
+    }
+  ],
+  "result": {
+    "item": "thenewjourney:emeraldshard",
+    "count": 2
+  }
+}

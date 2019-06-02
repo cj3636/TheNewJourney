@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " V ",
+    " V ",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "item": "thenewjourney:steelrod"
+    },
+    "V": {
+      "item": "thenewjourney:vitaemingot"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:vitraemsaber"
+  }
+}

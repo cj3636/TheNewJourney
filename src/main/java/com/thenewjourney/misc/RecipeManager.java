@@ -371,7 +371,7 @@ public class RecipeManager {
         RecipeGen.addShapelessRecipe(new ItemStack(ModItems.PheonixDust), ModItems.FireDust, ModItems.BloodGem, ModItems.FireGem, ModItems.SpatiumPowder, Items.GUNPOWDER, Items.BLAZE_POWDER, ModItems.BindingPowder);
         RecipeGen.addShapelessRecipe(new ItemStack(ModItems.NarcoBerrySeed), ModItems.NarcoBerry);
         RecipeGen.addRecipe(new ItemStack(ModBlocks.Mortar), "S S", "S S", " S ", 'S', Blocks.STONE);
-        RecipeGen.addRecipe(new ItemStack(ModItems.Pestal), " S ", " S ", " B ", 'S', ModItems.SteelRod, 'B', ModBlocks.BurntStone);
+        RecipeGen.addRecipe(new ItemStack(ModItems.Pestle), " S ", " S ", " B ", 'S', ModItems.SteelRod, 'B', ModBlocks.BurntStone);
 
         //Wood
         RecipeGen.addShapelessRecipe(new ItemStack(ModBlocks.PurviaLignumPlanks, 4), ModBlocks.PurviaLignumLog);
@@ -422,6 +422,7 @@ public class RecipeManager {
         OreDictionary.registerOre("logWood", ModBlocks.PurviaLignumLog);
         OreDictionary.registerOre("plankWood", ModBlocks.PurviaLignumPlanks);
         OreDictionary.registerOre("treeLeaves", ModBlocks.PurviaLeaves);
+        OreDictionary.registerOre("logWood", ModBlocks.AquisOre);
     }
 
     private static void addDictionaryRecipes() {

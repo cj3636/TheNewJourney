@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GFG",
+    "FSF",
+    "GFG"
+  ],
+  "key": {
+    "S": {
+      "item": "thenewjourney:shadowcrystal"
+    },
+    "F": {
+      "item": "thenewjourney:fireingot"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:crystal"
+  }
+}

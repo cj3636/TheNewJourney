@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "thenewjourney:firebrick"
+    },
+    {
+      "item": "thenewjourney:firebrick"
+    },
+    {
+      "item": "thenewjourney:firebrick"
+    },
+    {
+      "item": "thenewjourney:firebrick"
+    }
+  ],
+  "result": {
+    "item": "thenewjourney:refractorybrick"
+  }
+}

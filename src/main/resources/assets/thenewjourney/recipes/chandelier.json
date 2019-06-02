@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " B ",
+    "BBB",
+    "FLF"
+  ],
+  "key": {
+    "B": {
+      "item": "thenewjourney:burntstone"
+    },
+    "F": {
+      "item": "thenewjourney:florusblock"
+    },
+    "L": {
+      "item": "thenewjourney:lamp"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:chandelier"
+  }
+}

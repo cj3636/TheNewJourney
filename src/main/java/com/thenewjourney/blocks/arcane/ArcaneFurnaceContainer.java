@@ -91,7 +91,7 @@ public class ArcaneFurnaceContainer extends Container {
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int sourceSlotIndex) {
         Slot sourceSlot = inventorySlots.get(sourceSlotIndex);
-        if (sourceSlot == null || !sourceSlot.getHasStack()) return null;
+        if (sourceSlot == null || !sourceSlot.getHasStack()) return ItemStack.EMPTY;
         ItemStack sourceStack = sourceSlot.getStack();
         ItemStack copyOfSourceStack = sourceStack.copy();
 
@@ -101,24 +101,24 @@ public class ArcaneFurnaceContainer extends Container {
             // If the stack is smeltable try to merge merge the stack into the input slots
             if (ArcaneFurnaceTileEntity.isItemValidInput(sourceStack)) {
                 if (!mergeItemStack(sourceStack, FIRST_INPUT_SLOT_INDEX, FIRST_INPUT_SLOT_INDEX + INPUT_SLOTS_COUNT, false)) {
-                    return null;
+                    return ItemStack.EMPTY;
                 }
             } else {
-                return null;
+                return ItemStack.EMPTY;
             }
         } else if (sourceSlotIndex >= FIRST_FUEL_SLOT_INDEX && sourceSlotIndex < FIRST_FUEL_SLOT_INDEX + FURNACE_SLOTS_COUNT) {
             // This is a furnace slot so merge the stack into the players inventory: try the hotbar first and then the main inventory
             //   because the main inventory slots are immediately after the hotbar slots, we can just merge with a single call
             if (!mergeItemStack(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
-                return null;
+                return ItemStack.EMPTY;
             }
         } else {
             System.err.print("Invalid slotIndex:" + sourceSlotIndex);
-            return null;
+            return ItemStack.EMPTY;
         }
         // If stack size == 0 (the entire stack was moved) set slot contents to null
         if (sourceStack.getCount() == 0) {
-            sourceSlot.putStack(null);
+            sourceSlot.putStack(ItemStack.EMPTY);
         } else {
             sourceSlot.onSlotChanged();
         }
@@ -189,12 +189,12 @@ public class ArcaneFurnaceContainer extends Container {
         public boolean isItemValid(ItemStack stack) {
             FurnaceRecipes recipe = FurnaceRecipes.instance();
             ItemStack result = recipe.getSmeltingResult(stack);
-            if (result != null) {
+            if (result != ItemStack.EMPTY) {
                 return true;
             }
             ArcaneRecipeManager recipe2 = ArcaneRecipeManager.getInstance();
             ItemStack result2 = recipe2.getSmeltingResult(stack);
-            return result2 != null;
+            return result2 != ItemStack.EMPTY;
         }
     }
 

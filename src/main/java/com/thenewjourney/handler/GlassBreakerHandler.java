@@ -66,7 +66,7 @@ public class GlassBreakerHandler {
         if (event.getState().getBlock() == Blocks.ICE) {
             if (PLAYER.getHeldItemMainhand().getItem() == ModItems.Icepick) {
                 event.isCanceled();
-                world.setBlockToAir(event.getPos());
+                world.setBlockToAir(pos);
                 EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Blocks.ICE));
                 event.getWorld().spawnEntity(item);
             }

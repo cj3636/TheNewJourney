@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "thenewjourney:shadowstaff",
+      "data": 32767
+    },
+    {
+      "item": "thenewjourney:shadowingot"
+    },
+    {
+      "item": "thenewjourney:shadowingot"
+    }
+  ],
+  "result": {
+    "item": "thenewjourney:shadowstaff"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FAF",
+    "BDB",
+    "LLL"
+  ],
+  "key": {
+    "A": {
+      "item": "thenewjourney:aquisblock"
+    },
+    "B": {
+      "item": "thenewjourney:carpet"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "F": {
+      "item": "thenewjourney:florusblock"
+    },
+    "L": {
+      "item": "thenewjourney:floriumingot"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:duplicator"
+  }
+}

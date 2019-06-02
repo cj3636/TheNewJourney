@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " F ",
+    " F ",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "F": {
+      "item": "thenewjourney:floriumingot"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:florucsword"
+  }
+}

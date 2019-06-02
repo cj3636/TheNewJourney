@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SV ",
+    "S V",
+    "SV "
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:string"
+    },
+    "V": {
+      "item": "thenewjourney:vitaemingot"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:vitraecbow"
+  }
+}

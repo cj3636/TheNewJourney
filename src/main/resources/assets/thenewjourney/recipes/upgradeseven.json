@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BIB",
+    "FJE",
+    "ORO"
+  ],
+  "key": {
+    "B": {
+      "item": "thenewjourney:bindingpowder"
+    },
+    "R": {
+      "item": "thenewjourney:ruby"
+    },
+    "E": {
+      "item": "thenewjourney:gobletofemerald"
+    },
+    "F": {
+      "item": "thenewjourney:gobletoffire"
+    },
+    "I": {
+      "item": "thenewjourney:gobletofice"
+    },
+    "J": {
+      "item": "thenewjourney:royaljelly"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "item": "thenewjourney:upgradeseven"
+  }
+}

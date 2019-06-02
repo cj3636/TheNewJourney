@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "normal": {
+      "model": "thenewjourney:andesitefurnaceactive"
+    },
+    "facing=north": {
+      "model": "thenewjourney:andesitefurnaceactive"
+    },
+    "facing=south": {
+      "model": "thenewjourney:andesitefurnaceactive",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "thenewjourney:andesitefurnaceactive",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "thenewjourney:andesitefurnaceactive",
+      "y": 90
+    }
+  }
+}
