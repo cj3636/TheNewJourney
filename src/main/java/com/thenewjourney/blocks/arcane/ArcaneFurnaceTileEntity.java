@@ -32,6 +32,7 @@ public class ArcaneFurnaceTileEntity extends TileEntity implements IInventory, I
     private int lavaTime;
     private ItemStack[] itemStacks;
 
+
     public ArcaneFurnaceTileEntity() {
         itemStacks = new ItemStack[invSize];
         clear();
