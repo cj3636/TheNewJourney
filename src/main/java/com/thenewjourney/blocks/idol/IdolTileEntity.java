@@ -1,9 +1,9 @@
 package com.thenewjourney.blocks.idol;
 
 import com.thenewjourney.blocks.ModBlocks;
-import com.thenewjourney.blocks.provider.Provider;
 import com.thenewjourney.items.ModItems;
 import com.thenewjourney.world.ModWorldSaveData;
+import net.minecraft.block.BlockRotatedPillar;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -150,19 +150,19 @@ public class IdolTileEntity extends TileEntity implements ITickable {
         }
         if (getActive() && !getFullActive()) {
             if (world.getTotalWorldTime() % 150 == 0) {
-                world.setBlockState(pos.north(), ModBlocks.Provider.getDefaultState().withProperty(Provider.FACING, EnumFacing.NORTH));
+                world.setBlockState(pos.north(), ModBlocks.Provider.getDefaultState().withProperty(BlockRotatedPillar.AXIS, EnumFacing.Axis.Z));
                 prov1 = true;
             }
             if (world.getTotalWorldTime() % 250 == 0) {
-                world.setBlockState(pos.south(), ModBlocks.Provider.getDefaultState().withProperty(Provider.FACING, EnumFacing.SOUTH));
+                world.setBlockState(pos.south(), ModBlocks.Provider.getDefaultState().withProperty(BlockRotatedPillar.AXIS, EnumFacing.Axis.Z));
                 prov2 = true;
             }
             if (world.getTotalWorldTime() % 350 == 0) {
-                world.setBlockState(pos.west(), ModBlocks.Provider.getDefaultState().withProperty(Provider.FACING, EnumFacing.WEST));
+                world.setBlockState(pos.west(), ModBlocks.Provider.getDefaultState().withProperty(BlockRotatedPillar.AXIS, EnumFacing.Axis.X));
                 prov3 = true;
             }
             if (world.getTotalWorldTime() % 450 == 0) {
-                world.setBlockState(pos.east(), ModBlocks.Provider.getDefaultState().withProperty(Provider.FACING, EnumFacing.EAST));
+                world.setBlockState(pos.east(), ModBlocks.Provider.getDefaultState().withProperty(BlockRotatedPillar.AXIS, EnumFacing.Axis.X));
                 prov4 = true;
             }
             if (prov1 && prov2 && prov3 && prov4) {

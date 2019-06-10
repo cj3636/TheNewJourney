@@ -92,24 +92,24 @@ public class ContainerItem extends Container {
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int sourceSlotIndex) {
         Slot sourceSlot = inventorySlots.get(sourceSlotIndex);
-        if (sourceSlot == null || !sourceSlot.getHasStack()) return null;
+        if (sourceSlot == null || !sourceSlot.getHasStack()) return ItemStack.EMPTY;
         ItemStack sourceStack = sourceSlot.getStack();
         ItemStack copyOfSourceStack = sourceStack.copy();
 
         if (sourceSlotIndex >= VANILLA_FIRST_SLOT_INDEX && sourceSlotIndex < VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT) {
             if (!mergeItemStack(sourceStack, TE_INVENTORY_FIRST_SLOT_INDEX, TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT, false)) {
-                return null;
+                return ItemStack.EMPTY;
             }
         } else if (sourceSlotIndex >= TE_INVENTORY_FIRST_SLOT_INDEX && sourceSlotIndex < TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT) {
             if (!mergeItemStack(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
-                return null;
+                return ItemStack.EMPTY;
             }
         } else {
             System.err.print("Invalid slotIndex:" + sourceSlotIndex);
-            return null;
+            return ItemStack.EMPTY;
         }
         if (sourceStack.getCount() == 0) {
-            sourceSlot.putStack(null);
+            sourceSlot.putStack(ItemStack.EMPTY);
         } else {
             sourceSlot.onSlotChanged();
         }
@@ -126,8 +126,8 @@ public class ContainerItem extends Container {
     @Override
     public ItemStack slotClick(int slot, int dragType, ClickType clickTypeIn, EntityPlayer player) {
         // this will prevent the player from interacting with the item that opened the inventory:
-        if (slot >= 0 && getSlot(slot) != null && getSlot(slot).getStack() == player.getHeldItemMainhand()) {
-            return null;
+        if (slot >= 0 && getSlot(slot).getStack() == player.getHeldItemMainhand()) {
+            return ItemStack.EMPTY;
         }
         return super.slotClick(slot, dragType, clickTypeIn, player);
     }

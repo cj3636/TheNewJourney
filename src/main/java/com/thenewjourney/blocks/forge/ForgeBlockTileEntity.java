@@ -1,8 +1,6 @@
-package com.thenewjourney.blocks.pervateki;
+package com.thenewjourney.blocks.forge;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
 public class ForgeBlockTileEntity extends TileEntity {
@@ -26,19 +24,6 @@ public class ForgeBlockTileEntity extends TileEntity {
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
         super.readFromNBT(nbtTagCompound);
         this.isActive = nbtTagCompound.getBoolean("isActive");
-    }
-
-    @Override
-    public SPacketUpdateTileEntity getUpdatePacket() {
-        NBTTagCompound nbtTagCompound = new NBTTagCompound();
-        writeToNBT(nbtTagCompound);
-        final int METADATA = 0;
-        return new SPacketUpdateTileEntity(this.pos, METADATA, nbtTagCompound);
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
-        readFromNBT(pkt.getNbtCompound());
     }
 
     public boolean isActive() {

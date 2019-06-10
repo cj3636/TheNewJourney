@@ -1,10 +1,18 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "thenewjourney:emeraldbelt"
-    }
+  "type": "thenewjourney:archaic_crafting",
+  "pattern": [
+    "X X",
+    " # ",
+    "X X"
   ],
+  "key": {
+    "#": {
+      "item": "thenewjourney:emeraldboundcrystal"
+    },
+    "X": {
+      "item": "thenewjourney:ruby"
+    }
+  },
   "result": {
     "item": "thenewjourney:emeraldcrystal"
   }

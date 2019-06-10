@@ -13,10 +13,11 @@ import com.thenewjourney.blocks.drawer.DrawerBlock;
 import com.thenewjourney.blocks.duplicator.DuplicatorBlock;
 import com.thenewjourney.blocks.florus.CompilerBlock;
 import com.thenewjourney.blocks.florus.CompressedFlorusBlock;
+import com.thenewjourney.blocks.forge.ForgeBlock;
 import com.thenewjourney.blocks.furnace.block.*;
 import com.thenewjourney.blocks.idol.IdolBlock;
 import com.thenewjourney.blocks.infuser.InfuserBlock;
-import com.thenewjourney.blocks.pervateki.ForgeBlock;
+import com.thenewjourney.blocks.pervateki.PowerAdapterRegistry;
 import com.thenewjourney.blocks.pillar.ArcanePillarBlock;
 import com.thenewjourney.blocks.portal.VisceonFirePortal;
 import com.thenewjourney.blocks.portal.VisceonFlorusPortal;
@@ -24,6 +25,10 @@ import com.thenewjourney.blocks.provider.CrystalProvider;
 import com.thenewjourney.blocks.provider.Provider;
 import com.thenewjourney.blocks.purifier.PurifierBlock;
 import com.thenewjourney.blocks.quarry.QuarryBlock;
+import com.thenewjourney.blocks.reactor.CrystalInjector;
+import com.thenewjourney.blocks.reactor.InjectorBeam;
+import com.thenewjourney.blocks.reactor.ReactorCore;
+import com.thenewjourney.blocks.reactor.ReactorMediumRegistry;
 import com.thenewjourney.blocks.register.*;
 import com.thenewjourney.blocks.special.ArcaneSoilRegistry;
 import com.thenewjourney.blocks.special.FireFernRegistry;
@@ -88,11 +93,30 @@ public final class ModBlocks {
     public static final Block DistortedStone;
     public static final Block DistortedBricks;
     public static final Block Marble;
+    public static final Block MarbleBricks;
+    public static final Block DarkMarble;
+    public static final Block DarkMarbleBricks;
+    public static final Block SmoothDarkMarble;
     public static final Block MarbleStairs;
+    public static final Block DarkMarbleStairs;
+    public static final Block DarkMarbleBrickStairs;
+    public static final Block MarbleBrickStairs;
     public static final Block ArmoredStone;
     public static final Block ArmoredGlass;
     public static final Block RefractoryBrick;
     public static final Block FlorusBlock;
+    public static final Block FlorusBlockStairs;
+    public static final Block FlorusBricks;
+    public static final Block FlorusBrickStairs;
+    public static final Block DarkFlorus;
+    public static final Block DarkFlorusStairs;
+    public static final Block LightFlorus;
+    public static final Block LightFlorusStairs;
+    public static final Block DarkFlorusBricks;
+    public static final Block DarkFlorusBrickStairs;
+    public static final Block LightFlorusBricks;
+    public static final Block LightFlorusBrickStairs;
+    public static final Block SmoothFlorus;
     public static final Block CompressedFlorusBlock;
     //Magic
     public static final Block ArcaneFurnace;
@@ -111,8 +135,12 @@ public final class ModBlocks {
     public static final Block Substrate;
     public static final Block Crystal;
     public static final Block CrystalProvider;
+    public static final Block CrystalInjector;
     public static final Block Provider;
+    public static final Block InjectorBeam;
     public static final Block PervatekiForge;
+    public static final Block ReactorMedium;
+    public static final Block ReactorCore;
     public static final Block ForgeController;
     public static final Block ForgeControllerActive;
     //Furnaces
@@ -195,8 +223,24 @@ public final class ModBlocks {
         Idol = registerBlock(new IdolBlock("idol", Material.IRON, 25F, 2000F).setLightOpacity(0));
         DistortedStone = registerBlock(new BlockRegistry("distortedstone", Material.ROCK, 40F, 2000F));
         DistortedBricks = registerBlock(new ModBlockDistortedBricks("distortedbricks", Material.ROCK, 11F, 2000F));
-        Marble = registerBlock(new BlockRegistry("marble", Material.ROCK, 7F, 120F));
-        MarbleStairs = registerBlock(new StairBlock(Marble.getDefaultState(), "marblestairs", 7F, 120F));
+        Marble = registerBlock(new BlockRegistry("marble", Material.ROCK, 3F, 120F));
+        MarbleBricks = registerBlock(new BlockRegistry("marblebricks", Material.ROCK, 4F, 120F));
+        DarkMarble = registerBlock(new BlockRegistry("darkmarble", Material.ROCK, 3F, 120F));
+        DarkMarbleBricks = registerBlock(new BlockRegistry("darkmarblebricks", Material.ROCK, 4F, 120F));
+        SmoothDarkMarble = registerBlock(new BlockRegistry("smoothdarkmarble", Material.ROCK, 3F, 120F));
+        MarbleStairs = registerBlock(new StairBlock(Marble.getDefaultState(), "marblestairs", 3F, 120F));
+        DarkMarbleStairs = registerBlock(new StairBlock(DarkMarble.getDefaultState(), "darkmarblestairs", 3F, 120F));
+        MarbleBrickStairs = registerBlock(new StairBlock(MarbleBricks.getDefaultState(), "marblebrickstairs", 3F, 120F));
+        DarkMarbleBrickStairs = registerBlock(new StairBlock(MarbleBricks.getDefaultState(), "darkmarblebricks_stair", 3F, 120F));
+
+        FlorusBlockStairs = registerBlock(new StairBlock(MarbleBricks.getDefaultState(), "florusblock_stair", 8F, 11F));
+        FlorusBrickStairs = registerBlock(new StairBlock(MarbleBricks.getDefaultState(), "florusbricks_stair", 8F, 11F));
+        DarkFlorusStairs = registerBlock(new StairBlock(MarbleBricks.getDefaultState(), "darkflorus_stair", 8F, 11F));
+        DarkFlorusBrickStairs = registerBlock(new StairBlock(MarbleBricks.getDefaultState(), "darkflorusbricks_stair", 8F, 11F));
+        LightFlorusStairs = registerBlock(new StairBlock(MarbleBricks.getDefaultState(), "lightflorus_stair", 8F, 11F));
+        LightFlorusBrickStairs = registerBlock(new StairBlock(MarbleBricks.getDefaultState(), "lightflorusbricks_stair", 8F, 11F));
+
+
         WarpStone = registerBlock(new BlockRegistry("warpstone", Material.ROCK, 7F, 1200F));
         WarpStoneStairs = registerBlock(new StairBlock(WarpStone.getDefaultState(), "warpstonestairs", 7F, 120F));
         ImbuedCauldron = registerBlock(new ImbuedCauldron("imbuedcauldron", Material.IRON, 8F, 12F));
@@ -207,6 +251,12 @@ public final class ModBlocks {
         ClearGlass = registerBlock(new TransparentRegistry("clearglass", Material.GLASS, 1F, 1F, false).setLightOpacity(0));
         ArmoredGlass = registerBlock(new TransparentRegistry("armoredglass", Material.GLASS, 1F, 1200F, false).setLightOpacity(0));
         FlorusBlock = registerBlock(new TransparentRegistry("florusblock", Material.GLASS, 8F, 11F, false).setLightOpacity(0));
+        SmoothFlorus = registerBlock(new TransparentRegistry("smoothflorus", Material.GLASS, 8F, 11F, false).setLightOpacity(0));
+        FlorusBricks = registerBlock(new TransparentRegistry("florusbricks", Material.GLASS, 8F, 11F, false).setLightOpacity(0));
+        LightFlorus = registerBlock(new TransparentRegistry("lightflorus", Material.GLASS, 8F, 11F, false).setLightOpacity(0));
+        DarkFlorus = registerBlock(new TransparentRegistry("darkflorus", Material.GLASS, 8F, 11F, false).setLightOpacity(0));
+        LightFlorusBricks = registerBlock(new TransparentRegistry("lightflorusbricks", Material.GLASS, 8F, 11F, false).setLightOpacity(0));
+        DarkFlorusBricks = registerBlock(new TransparentRegistry("darkflorusbricks", Material.GLASS, 8F, 11F, false).setLightOpacity(0));
         GobletBlock = registerBlock(new GobletRegistry("gobletblock", Material.CLAY, 1F, 110F, true).setLightOpacity(1));
         Compiler = registerBlock(new CompilerBlock("compiler", Material.IRON, 8F, 11F));
         CompressedFlorusBlock = registerBlock(new CompressedFlorusBlock("compressedflorusblock", Material.GLASS, 8F, 11F).setLightOpacity(0));
@@ -249,7 +299,9 @@ public final class ModBlocks {
         //Power
         Crystal = registerBlock(new CrystalBlock("crystal"));
         CrystalProvider = registerBlock(new CrystalProvider("crystalprovider", Material.ROCK, 16F, 1600F).setLightLevel(.4F));
+        CrystalInjector = registerBlock(new CrystalInjector("crystalinjector", Material.IRON, 16F, 1600F).setLightLevel(.4F));
         Provider = registerBlock(new Provider("provider"));
+        InjectorBeam = registerBlock(new InjectorBeam("injectorbeam"));
         Distributor = registerBlock(new CoagulativeBlockRegistry("distributor", Material.IRON, 8F, 120F));
         Frame = registerBlock(new FrameBlock("frame", Material.IRON, 5F, 20F));
 
@@ -258,7 +310,9 @@ public final class ModBlocks {
 
         Quarry = registerBlock(new QuarryBlock("quarry", Material.IRON, 10F, 1200F));
 
-        PervatekiForge = registerBlock(new TransparentRegistry("pervatekiforge", Material.IRON, 14F, 1200F, true));
+        PervatekiForge = registerBlock(new PowerAdapterRegistry("pervatekiforge", Material.IRON, 14F, 1200F, 1000000000, 1000000, 1000000));
+        ReactorMedium = registerBlock(new ReactorMediumRegistry("reactormedium", Material.IRON, 10F, 700F));
+        ReactorCore = registerBlock(new ReactorCore("reactorcore"));
         ForgeController = registerBlock(new ForgeBlock("forgecontroller", Material.IRON, 14F, 1200F, false));
         ForgeControllerActive = registerBlock(new ForgeBlock("forgecontrolleractive", Material.IRON, 14F, 1200F, true));
 

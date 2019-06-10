@@ -171,6 +171,20 @@ item.aquischestplate.name=Aquis Chestplate
 item.aquisleggings.name=Aquis Leggings
 item.aquisboots.name=Aquis Boots
 tile.florusblock.name=Florus Block
+tile.florusbricks.name=Florus Bricks
+tile.smoothflorus.name=Smooth Florus
+tile.darkflorus.name=Dark Florus
+tile.darkflorusbricks.name=Dark Florus Bricks
+tile.lightflorus.name=Light Florus
+tile.lightflorusbricks.name=Light Florus Bricks
+
+tile.lightflorusbricks_stair.name=Light Florus Brick Stairs
+tile.darkflorusbricks_stair.name=Dark Florus Brick Stairs
+tile.florusblock_stair.name=Florus Stairs
+tile.lightflorus_stair.name=Light Florus Stairs
+tile.darkflorus_stair.name=Dark Florus Stairs
+tile.florusbricks_stair.name=Florus Brick Stairs
+
 tile.compiler.name=Compiler
 tile.compressedflorusblock.name=Comp§rsed Florus
 
@@ -227,11 +241,18 @@ tile.warpstone.name=Warp Stone
 tile.warpstonestairs.name=Warp Stone Stairs
 tile.burntbricks.name=Burnt Bricks
 tile.burntbrickstairs.name=Burnt Brick Stairs
-tile.armo§cglass.name=Armo§c Glass
-tile.armo§cstone.name=Armo§c Stone
+tile.armoredglass.name=Armored Glass
+tile.armoredstone.name=Armored Stone
 tile.clearglass.name=Clear Glass
 tile.marble.name=Marble
+tile.marblebricks.name=Marble Bricks
+tile.darkmarble.name=Dark Marble
+tile.darkmarblebricks.name=Dark Marble Bricks
+tile.smoothdarkmarble.name=Smooth Dark Marble
 tile.marblestairs.name=Marble Stairs
+tile.darkmarblestairs.name=Dark Marble Stairs
+tile.darkmarblebricks_stair.name=Dark Marble Brick Stairs
+tile.marblebrickstairs.name=Marble Brick Stairs
 item.claymixture.name=Clay Mixture
 item.hammer.name=Tin Hammer
 item.irondisc.name=Iron Disc
@@ -264,12 +285,14 @@ tile.beehive.name=Bee Hive
 tile.crystal.name=Crystal
 tile.crystalprovider.name=Crystalprovider
 tile.provider.name=Provider
+tile.injectorbeam.name=Injector Beam
+tile.crystalinjector.name=Crystal Injector
 tile.sphere.name=Orbis Ostium
 tile.spheref.name=Orbis Ostium
 
 container.drawer.name=Drawer
 container.blastfurnace.name=Blast Furnace
-container.blastfurnaceactive.name=You glitchy cheater!
+tile.blastfurnaceactive.name=Blast Furnace (Active)
 container.arcanefurnace.name=Arcane Furnace
 tile.arcanefurnace.name=Arcane Furnace
 tile.ingotcast.name=Slate
@@ -291,9 +314,10 @@ container.apiary.name=Apiary
 tile.distributor.name=Coagulative Block
 tile.quarry.name=Quarry
 tile.substrate.name=Substrate
-
 tile.arcanepillar.name=Arcane Pillar
 tile.pervatekiforge.name=Pervateki Forge
+tile.reactorcore.name=Reactor Core
+tile.reactormedium.name=Reactor Medium
 tile.forgecontroller.name=Forge Controller
 tile.forgecontrolleractive.name=Forge Controller (active)
 
@@ -340,7 +364,7 @@ item.flyring.name=Fly Ring
 item.ringofflight.name=Ring of Flight
 
 item.arcaneartifact.name=Arcane Artifact
-tile.thenewjourney:fluid.inversionserum.name=Inversion Serum
+tile.thenewjourney:fluid.InversionSerum.name=Inversion Serum
 
 item.record.quazar.desc=Quazar
 item.quazar.name=Quazar
@@ -360,6 +384,8 @@ item.purviahoe.name=Purvia Hoe
 item.purviasword.name=Purvia Sword
 item.purviashovel.name=Purvia Shovel
 item.purviapickaxe.name=Purvia Pickaxe
+
+item.cyonicpickaxe.name=Cyonic Pickaxe
 
 tile.weed.name=Marijuana
 achievement.whenchickensfly=When Chickens Fly

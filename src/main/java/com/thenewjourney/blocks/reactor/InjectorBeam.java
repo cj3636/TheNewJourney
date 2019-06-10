@@ -1,13 +1,11 @@
-package com.thenewjourney.blocks.provider;
+package com.thenewjourney.blocks.reactor;
 
 import com.thenewjourney.blocks.register.FaceRotatableBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -15,11 +13,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 
-public class Provider extends FaceRotatableBlock {
+public class InjectorBeam extends FaceRotatableBlock {
 
-    public Provider(String unlocalizedName) {
+    public InjectorBeam(String unlocalizedName) {
         super(unlocalizedName, Material.GLASS, 5f, 1200f);
-        this.setBlockUnbreakable();
         this.setLightLevel(.4F);
     }
 
@@ -59,9 +56,5 @@ public class Provider extends FaceRotatableBlock {
     @Override
     public EnumBlockRenderType getRenderType(IBlockState state) {
         return EnumBlockRenderType.MODEL;
-    }
-
-    @Override
-    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
     }
 }

@@ -1,7 +1,6 @@
 package com.thenewjourney.blocks.infuser;
 
 import com.google.gson.*;
-import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.*;
 import net.minecraft.util.JsonUtils;
@@ -56,14 +55,14 @@ public class InfuserCraftingManager {
         boolean flag1;
 
         try {
-            URL url = CraftingManager.class.getResource("/assets/.mcassetsroot");
+            URL url = net.minecraft.item.crafting.CraftingManager.class.getResource("/assets/.mcassetsroot");
 
             if (url != null) {
                 URI uri = url.toURI();
                 Path path;
 
                 if ("file".equals(uri.getScheme())) {
-                    path = Paths.get(CraftingManager.class.getResource("/assets/minecraft/recipes").toURI());
+                    path = Paths.get(net.minecraft.item.crafting.CraftingManager.class.getResource("/assets/minecraft/recipes").toURI());
                 } else {
                     if (!"jar".equals(uri.getScheme())) {
                         LOGGER.error("Unsupported scheme " + uri + " trying to list all recipes");
@@ -130,6 +129,9 @@ public class InfuserCraftingManager {
             return ShapedRecipes.deserialize(p_193376_0_);
         } else if ("crafting_shapeless".equals(s)) {
             return ShapelessRecipes.deserialize(p_193376_0_);
+        } else if ("archaic_infuser".equals(s)) {
+            System.out.println("ASDJHKKKKKKKKKKKKKKKKKL");
+            return InfuserRecipes.deserialize(p_193376_0_);
         } else {
             throw new JsonSyntaxException("Invalid or unsupported recipe type '" + s + "'");
         }
@@ -141,7 +143,7 @@ public class InfuserCraftingManager {
     }
 
     //Forge: Made private use GameData/Registry events!
-    public static void register(ResourceLocation name, IRecipe recipe) {
+    private static void register(ResourceLocation name, IRecipe recipe) {
         if (REGISTRY.containsKey(name)) {
             throw new IllegalStateException("Duplicate recipe ignored with ID " + name);
         } else {
@@ -152,7 +154,7 @@ public class InfuserCraftingManager {
     /**
      * Retrieves an ItemStack that has multiple recipes for it.
      */
-    public static ItemStack findMatchingResult(InventoryCrafting craftMatrix, World worldIn) {
+    public static ItemStack findMatchingResult(InfuserInventoryCrafting craftMatrix, World worldIn) {
         for (IRecipe irecipe : REGISTRY) {
             if (irecipe.matches(craftMatrix, worldIn)) {
                 return irecipe.getCraftingResult(craftMatrix);
@@ -163,16 +165,20 @@ public class InfuserCraftingManager {
     }
 
     @Nullable
-    public static IRecipe findMatchingRecipe(InfuserCraftingInventory craftMatrix, World worldIn) {
+    public static IRecipe findMatchingRecipe(InfuserInventoryCrafting craftMatrix, World worldIn) {
+        if (!craftMatrix.getName().equals("container.infuser")) {
+            return null;
+        }
         for (IRecipe irecipe : REGISTRY) {
             if (irecipe.matches(craftMatrix, worldIn)) {
                 return irecipe;
             }
         }
+
         return null;
     }
 
-    public static NonNullList<ItemStack> getRemainingItems(InfuserCraftingInventory craftMatrix, World worldIn) {
+    public static NonNullList<ItemStack> getRemainingItems(InfuserInventoryCrafting craftMatrix, World worldIn) {
         for (IRecipe irecipe : REGISTRY) {
             if (irecipe.matches(craftMatrix, worldIn)) {
                 return irecipe.getRemainingItems(craftMatrix);
@@ -188,4 +194,19 @@ public class InfuserCraftingManager {
         return nonnulllist;
     }
 
+    @Nullable
+    public static IRecipe getRecipe(ResourceLocation name) {
+        return REGISTRY.getObject(name);
+    }
+
+    @Deprecated //DO NOT USE THIS
+    public static int getIDForRecipe(IRecipe recipe) {
+        return REGISTRY.getIDForObject(recipe);
+    }
+
+    @Deprecated //DO NOT USE THIS
+    @Nullable
+    public static IRecipe getRecipeById(int id) {
+        return REGISTRY.getObjectById(id);
+    }
 }

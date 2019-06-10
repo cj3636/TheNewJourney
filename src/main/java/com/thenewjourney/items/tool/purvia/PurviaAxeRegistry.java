@@ -9,6 +9,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.util.EnumActionResult;
@@ -66,7 +67,7 @@ public class PurviaAxeRegistry extends ItemTool {
             if (blockAt.equals(blockCheck)) {
                 worldIn.setBlockState(posAt, Blocks.AIR.getDefaultState(), 1);
                 if (!worldIn.isRemote) {
-                    EntityItem itemDrop = new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, new ItemStack(blockAt.getBlock().getDefaultState().getBlock(), 1, 0));
+                    EntityItem itemDrop = new EntityItem(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ, new ItemStack(Item.getItemFromBlock(blockAt.getBlock()), 1, blockAt.getBlock().getMetaFromState(blockAt)));
                     worldIn.spawnEntity(itemDrop);
                 }
             }

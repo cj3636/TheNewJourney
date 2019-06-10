@@ -1,10 +1,18 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "thenewjourney:aquisbelt"
-    }
+  "type": "thenewjourney:archaic_crafting",
+  "pattern": [
+    "X X",
+    " # ",
+    "X X"
   ],
+  "key": {
+    "#": {
+      "item": "thenewjourney:aquisboundcrystal"
+    },
+    "X": {
+      "item": "thenewjourney:ruby"
+    }
+  },
   "result": {
     "item": "thenewjourney:aquiscrystal"
   }

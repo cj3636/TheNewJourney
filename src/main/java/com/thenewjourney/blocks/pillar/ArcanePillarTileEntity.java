@@ -1,7 +1,6 @@
 package com.thenewjourney.blocks.pillar;
 
 import com.thenewjourney.blocks.apiary.ApiaryTileEntity;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -9,26 +8,21 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class ArcanePillarTileEntity extends TickableInventory implements ITickable {
     public static ApiaryTileEntity instance = new ApiaryTileEntity();
     private int invSize = 1;
     private ItemStack[] itemStacks;
     private EntityItem displayEntity;
+    private boolean isSpawned;
 
     public ArcanePillarTileEntity() {
         itemStacks = new ItemStack[invSize];
         clear();
-    }
-
-    static boolean isItemValidInput(ItemStack stack) {
-        return true;
     }
 
     @Override
@@ -72,10 +66,8 @@ public class ArcanePillarTileEntity extends TickableInventory implements ITickab
     // overwrites the stack in the given slotIndex with the given stack
     @Override
     public void setInventorySlotContents(int slotIndex, ItemStack itemstack) {
+        itemstack.setCount(1);
         itemStacks[slotIndex] = itemstack;
-        if (itemstack.isEmpty() && itemstack.getCount() > getInventoryStackLimit()) { //  isEmpty(); getStackSize()
-            itemstack.setCount(getInventoryStackLimit());  //setStackSize
-        }
         markDirty();
     }
 
@@ -83,6 +75,7 @@ public class ArcanePillarTileEntity extends TickableInventory implements ITickab
     public ItemStack removeStackFromSlot(int slotIndex) {
         ItemStack itemStack = getStackInSlot(slotIndex);
         if (!itemStack.isEmpty()) setInventorySlotContents(slotIndex, ItemStack.EMPTY);  //isEmpty(), EMPTY_ITEM
+        markDirty();
         return itemStack;
     }
 
@@ -167,6 +160,7 @@ public class ArcanePillarTileEntity extends TickableInventory implements ITickab
             }
         }
         compound.setTag("Items", dataForAllSlots);
+        compound.setBoolean("isSpawned", isSpawned);
         return compound;
     }
 
@@ -183,6 +177,7 @@ public class ArcanePillarTileEntity extends TickableInventory implements ITickab
                 this.itemStacks[slotNumber] = new ItemStack(dataForOneSlot);
             }
         }
+        isSpawned = nbtTagCompound.getBoolean("isSpawned");
     }
 
     @Override
@@ -198,13 +193,13 @@ public class ArcanePillarTileEntity extends TickableInventory implements ITickab
         if (displayEntity != null) {
             world.removeEntity(displayEntity);
             displayEntity = null;
+            isSpawned = false;
         }
     }
 
     @Override
     public void update() {
-        if (displayEntity != null) return;
-        else if (itemStacks[0] != ItemStack.EMPTY) {
+        if (itemStacks[0] != ItemStack.EMPTY && displayEntity == null && !isSpawned) {
             displayEntity = new EntityItem(world, pos.getX() + .5, pos.getY() + 1.5, pos.getZ() + .5, itemStacks[0].copy());
             displayEntity.setInfinitePickupDelay();
             displayEntity.setNoDespawn();
@@ -213,18 +208,7 @@ public class ArcanePillarTileEntity extends TickableInventory implements ITickab
             displayEntity.motionZ = 0;
             if (!world.isRemote) {
                 world.spawnEntity(displayEntity);
-            }
-        } else {
-            if (!world.isRemote) {
-                List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(null,
-                        new AxisAlignedBB(pos.getX() - 1.0D, pos.getY() - 1.0D, pos.getZ() - 1.0D, pos.getX() + 1.0D, pos.getY() + 2, pos.getZ() + 1.0D));
-                for (int i = 0; i < list.size(); ++i) {
-                    Entity entity = list.get(i);
-                    if (entity instanceof EntityItem) {
-                        EntityItem entityItem = (EntityItem) entity;
-                        entityItem.setDead();
-                    }
-                }
+                isSpawned = true;
             }
         }
     }

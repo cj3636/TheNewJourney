@@ -1,4 +1,4 @@
-package com.thenewjourney.blocks.pervateki;
+package com.thenewjourney.blocks.forge;
 
 import com.cj3636.lib.LocUtil;
 import com.thenewjourney.blocks.ModBlocks;

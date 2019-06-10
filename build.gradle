@@ -44,8 +44,13 @@ repositories {
         url = "https://modmaven.k-4u.nl"
     }
     maven { url 'https://jitpack.io' }
+	maven {
+        name = "CoFH Maven"
+        url = "http://maven.covers1624.net"
+    }
 }
 dependencies {
+	deobfCompile "cofh:RedstoneFlux:1.12-2.1.0.6:universal"
     // compile against the JEI API but do not include it at runtime
     deobfProvided "mezz.jei:jei_${mc_version}:${jei_version}:api"
     // at runtime, use the full JEI jar

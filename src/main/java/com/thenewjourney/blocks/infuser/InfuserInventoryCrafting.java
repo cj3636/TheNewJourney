@@ -4,7 +4,6 @@ import net.minecraft.client.util.RecipeItemHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -12,10 +11,15 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 
-public class InfuserCraftingInventory extends InventoryCrafting implements IInventory {
-    /**
-     * List of the stacks in the crafting matrix.
-     */
+public class InfuserInventoryCrafting extends net.minecraft.inventory.InventoryCrafting implements IInventory {
+    public InfuserInventoryCrafting(Container eventHandlerIn, int width, int height) {
+        super(eventHandlerIn, width, height);
+        this.stackList = NonNullList.<ItemStack>withSize(width * height, ItemStack.EMPTY);
+        this.eventHandler = eventHandlerIn;
+        this.inventoryWidth = width;
+        this.inventoryHeight = height;
+    }
+
     private final NonNullList<ItemStack> stackList;
     /**
      * the width of the crafting inventory
@@ -27,17 +31,6 @@ public class InfuserCraftingInventory extends InventoryCrafting implements IInve
      */
     private final Container eventHandler;
 
-    public InfuserCraftingInventory(Container eventHandlerIn, int width, int height) {
-        super(eventHandlerIn, width, height);
-        this.stackList = NonNullList.<ItemStack>withSize(width * height, ItemStack.EMPTY);
-        this.eventHandler = eventHandlerIn;
-        this.inventoryWidth = width;
-        this.inventoryHeight = height;
-    }
-
-    /**
-     * Returns the number of slots in the inventory.
-     */
     public int getSizeInventory() {
         return this.stackList.size();
     }
@@ -70,14 +63,14 @@ public class InfuserCraftingInventory extends InventoryCrafting implements IInve
      * Get the name of this object. For players this returns their username
      */
     public String getName() {
-        return "container.crafting";
+        return "container.infuser";
     }
 
     /**
      * Returns true if this thing is named
      */
     public boolean hasCustomName() {
-        return false;
+        return true;
     }
 
     /**

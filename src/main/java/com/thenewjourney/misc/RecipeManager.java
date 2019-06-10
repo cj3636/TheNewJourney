@@ -21,6 +21,7 @@ public class RecipeManager {
         addBrewingRecipe();
         //addDictionaryRecipes();
         //addInfuserRecipes();
+        addImbuedRecipes();
         //addBaubleRecipes();
     }
 
@@ -462,20 +463,23 @@ public class RecipeManager {
 
     private static void addInfuserRecipes() {
         // Crystals
-//        InfuserCraftingManager.getInstance().addRecipe(new ItemStack(ModItems.AquisCrystal), "X X", " # ", "X X", '#',
-//                ModItems.AquisBoundCrystal, 'X', ModItems.RubyGem);
-//        InfuserCraftingManager.getInstance().addRecipe(new ItemStack(ModItems.FireCrystal), "X X", " # ", "X X", '#',
-//                ModItems.FireBoundCrystal, 'X', ModItems.RubyGem);
-//        InfuserCraftingManager.getInstance().addRecipe(new ItemStack(ModItems.ShadowCrystal), "X X", " # ", "X X", '#',
-//                ModItems.ShadowBoundCrystal, 'X', ModItems.RubyGem);
-//        InfuserCraftingManager.getInstance().addRecipe(new ItemStack(ModItems.DistortionCrystal), "X X", " # ", "X X",
-//                '#', ModItems.DistortionBoundCrystal, 'X', ModItems.RubyGem);
-//        InfuserCraftingManager.getInstance().addRecipe(new ItemStack(ModItems.EmeraldCrystal), "X X", " # ", "X X", '#',
-//                ModItems.EmeraldBoundCrystal, 'X', ModItems.RubyGem);
-//        // Pellucidus
-//        InfuserCraftingManager.getInstance().addRecipe(new ItemStack(ModItems.SoldersPellucidus), "RER", "ASF", "RDR",
-//                'R', ModItems.RubyGem, 'E', ModItems.EmeraldCrystal, 'F', ModItems.FireCrystal, 'A',
-//                ModItems.AquisCrystal, 'S', ModItems.ShadowCrystal, 'D', ModItems.DistortionCrystal);
+        RecipeGen.addRecipe(new ItemStack(ModItems.AquisCrystal), "X X", " # ", "X X", '#',
+                ModItems.AquisBoundCrystal, 'X', ModItems.RubyGem);
+        RecipeGen.addRecipe(new ItemStack(ModItems.FireCrystal), "X X", " # ", "X X", '#',
+                ModItems.FireBoundCrystal, 'X', ModItems.RubyGem);
+        RecipeGen.addRecipe(new ItemStack(ModItems.ShadowCrystal), "X X", " # ", "X X", '#',
+                ModItems.ShadowBoundCrystal, 'X', ModItems.RubyGem);
+        RecipeGen.addRecipe(new ItemStack(ModItems.DistortionCrystal), "X X", " # ", "X X",
+                '#', ModItems.DistortionBoundCrystal, 'X', ModItems.RubyGem);
+        RecipeGen.addRecipe(new ItemStack(ModItems.EmeraldCrystal), "X X", " # ", "X X", '#',
+                ModItems.EmeraldBoundCrystal, 'X', ModItems.RubyGem);
+        // Pellucidus
+        RecipeGen.addRecipe(new ItemStack(ModItems.SoldersPellucidus), "RER", "ASF", "RDR",
+                'R', ModItems.RubyGem, 'E', ModItems.EmeraldCrystal, 'F', ModItems.FireCrystal, 'A',
+                ModItems.AquisCrystal, 'S', ModItems.ShadowCrystal, 'D', ModItems.DistortionCrystal);
+    }
+
+    private static void addImbuedRecipes() {
         // Imbued
         ImbuedCraftingManager.getInstance().addRecipe(new ItemStack(ModItems.GobletOfFire), "BB ", "BB ", "F  ", 'B',
                 Items.BLAZE_ROD, 'F', ModItems.FireCrystal);

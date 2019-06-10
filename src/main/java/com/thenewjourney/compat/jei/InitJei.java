@@ -41,7 +41,7 @@ public class InitJei implements IModPlugin {
 /*      registry.addRecipeHandlers(new InfuserHandler());
         //Blast
 
-        registry.addRecipeHandlers(new BlastHandler());
+        registry.addRecipeHandles(new BlastHandler());
         //Arcane
 
         registry.addRecipeHandlers(new ArcaneHandler());
