@@ -123,7 +123,7 @@ public class CrystalBlock extends BlockContainer {
                 data.setPowerTier(2);
                 playerIn.sendMessage(new TextComponentTranslation(EnumPowerColor
                         .getColorTranslation(EnumPowerColor.getTierFromInt(ModPower.getPowerTier(worldIn)))
-                        + "Upgraded Crystal Power to tier: " + Integer.toString(ModPower.getPowerTier(worldIn))));
+                        + "Upgraded Crystal Power to tier: " + ModPower.getPowerTier(worldIn)));
                 if (!playerIn.capabilities.isCreativeMode) {
                     heldItem.setCount(heldItem.getCount() - 1);
                 }
@@ -134,7 +134,7 @@ public class CrystalBlock extends BlockContainer {
                 data.setPowerTier(3);
                 playerIn.sendMessage(new TextComponentTranslation(EnumPowerColor
                         .getColorTranslation(EnumPowerColor.getTierFromInt(ModPower.getPowerTier(worldIn)))
-                        + "Upgraded Crystal Power to tier: " + Integer.toString(ModPower.getPowerTier(worldIn))));
+                        + "Upgraded Crystal Power to tier: " + ModPower.getPowerTier(worldIn)));
                 if (!playerIn.capabilities.isCreativeMode) {
                     heldItem.setCount(heldItem.getCount() - 1);
                 }
@@ -145,7 +145,7 @@ public class CrystalBlock extends BlockContainer {
                 data.setPowerTier(4);
                 playerIn.sendMessage(new TextComponentTranslation(EnumPowerColor
                         .getColorTranslation(EnumPowerColor.getTierFromInt(ModPower.getPowerTier(worldIn)))
-                        + "Upgraded Crystal Power to tier: " + Integer.toString(ModPower.getPowerTier(worldIn))));
+                        + "Upgraded Crystal Power to tier: " + ModPower.getPowerTier(worldIn)));
                 if (!playerIn.capabilities.isCreativeMode) {
                     heldItem.setCount(heldItem.getCount() - 1);
                 }
@@ -156,7 +156,7 @@ public class CrystalBlock extends BlockContainer {
                 data.setPowerTier(5);
                 playerIn.sendMessage(new TextComponentTranslation(EnumPowerColor
                         .getColorTranslation(EnumPowerColor.getTierFromInt(ModPower.getPowerTier(worldIn)))
-                        + "Upgraded Crystal Power to tier: " + Integer.toString(ModPower.getPowerTier(worldIn))));
+                        + "Upgraded Crystal Power to tier: " + ModPower.getPowerTier(worldIn)));
                 if (!playerIn.capabilities.isCreativeMode) {
                     heldItem.setCount(heldItem.getCount() - 1);
                 }
@@ -167,7 +167,7 @@ public class CrystalBlock extends BlockContainer {
                 data.setPowerTier(6);
                 playerIn.sendMessage(new TextComponentTranslation(EnumPowerColor
                         .getColorTranslation(EnumPowerColor.getTierFromInt(ModPower.getPowerTier(worldIn)))
-                        + "Upgraded Crystal Power to tier: " + Integer.toString(ModPower.getPowerTier(worldIn))));
+                        + "Upgraded Crystal Power to tier: " + ModPower.getPowerTier(worldIn)));
                 if (!playerIn.capabilities.isCreativeMode) {
                     heldItem.setCount(heldItem.getCount() - 1);
                 }
@@ -178,7 +178,7 @@ public class CrystalBlock extends BlockContainer {
                 data.setPowerTier(7);
                 playerIn.sendMessage(new TextComponentTranslation(EnumPowerColor
                         .getColorTranslation(EnumPowerColor.getTierFromInt(ModPower.getPowerTier(worldIn)))
-                        + "Upgraded Crystal Power to tier: " + Integer.toString(ModPower.getPowerTier(worldIn))));
+                        + "Upgraded Crystal Power to tier: " + ModPower.getPowerTier(worldIn)));
                 if (!playerIn.capabilities.isCreativeMode) {
                     heldItem.setCount(heldItem.getCount() - 1);
                 }
@@ -189,7 +189,7 @@ public class CrystalBlock extends BlockContainer {
                 data.setPowerTier(8);
                 playerIn.sendMessage(new TextComponentTranslation(EnumPowerColor
                         .getColorTranslation(EnumPowerColor.getTierFromInt(ModPower.getPowerTier(worldIn)))
-                        + "Upgraded Crystal Power to tier: " + Integer.toString(ModPower.getPowerTier(worldIn))));
+                        + "Upgraded Crystal Power to tier: " + ModPower.getPowerTier(worldIn)));
                 if (!playerIn.capabilities.isCreativeMode) {
                     heldItem.setCount(heldItem.getCount() - 1);
                 }

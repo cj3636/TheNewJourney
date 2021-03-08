@@ -1,8 +1,0 @@
-{
-  "parent": "block/outer_stairs",
-  "textures": {
-    "bottom": "thenewjourney:blocks/WarpStone",
-    "top": "thenewjourney:blocks/WarpStone",
-    "side": "thenewjourney:blocks/WarpStone"
-  }
-}

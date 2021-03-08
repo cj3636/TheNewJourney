@@ -1,8 +1,0 @@
-{
-  "parent": "block/orientable",
-  "textures": {
-    "top": "thenewjourney:blocks/WarpStone",
-    "front": "thenewjourney:blocks/ArcaneFurnace",
-    "side": "thenewjourney:blocks/WarpStone"
-  }
-}

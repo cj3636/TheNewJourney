@@ -1,8 +1,0 @@
-{
-  "parent": "block/orientable",
-  "textures": {
-    "top": "thenewjourney:blocks/shelftop",
-    "front": "thenewjourney:blocks/shelffront",
-    "side": "thenewjourney:blocks/shelfback"
-  }
-}

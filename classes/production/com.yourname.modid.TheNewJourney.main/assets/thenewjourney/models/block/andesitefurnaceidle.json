@@ -1,8 +1,0 @@
-{
-  "parent": "block/orientable",
-  "textures": {
-    "top": "thenewjourney:blocks/andesitefurnacetop",
-    "front": "thenewjourney:blocks/andesitefurnaceoff",
-    "side": "thenewjourney:blocks/andesitefurnaceside"
-  }
-}

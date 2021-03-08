@@ -1,8 +1,0 @@
-{
-  "parent": "block/farmland",
-  "textures": {
-    "particle": "thenewjourney:blocks/ArcaneSoilDry",
-    "dirt": "blocks/dirt",
-    "top": "thenewjourney:blocks/ArcaneSoilDry"
-  }
-}

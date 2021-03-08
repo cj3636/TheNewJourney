@@ -1,8 +1,0 @@
-{
-  "parent": "block/outer_stairs",
-  "textures": {
-    "bottom": "thenewjourney:blocks/Marble",
-    "top": "thenewjourney:blocks/Marble",
-    "side": "thenewjourney:blocks/Marble"
-  }
-}

@@ -1,8 +1,0 @@
-{
-  "parent": "block/orientable",
-  "textures": {
-    "top": "thenewjourney:blocks/DioriteFurnaceTop",
-    "front": "thenewjourney:blocks/DioriteFurnaceOn",
-    "side": "thenewjourney:blocks/DioriteFurnaceSide"
-  }
-}

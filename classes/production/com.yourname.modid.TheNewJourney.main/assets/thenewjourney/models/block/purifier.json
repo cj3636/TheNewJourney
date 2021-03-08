@@ -1,8 +1,0 @@
-{
-  "parent": "block/orientable",
-  "textures": {
-    "top": "thenewjourney:blocks/PurifierTop",
-    "front": "thenewjourney:blocks/PurifierFront",
-    "side": "thenewjourney:blocks/PurifierSide"
-  }
-}

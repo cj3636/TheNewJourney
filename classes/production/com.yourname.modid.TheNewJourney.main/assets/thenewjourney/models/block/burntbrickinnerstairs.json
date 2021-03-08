@@ -1,8 +1,0 @@
-{
-  "parent": "block/inner_stairs",
-  "textures": {
-    "bottom": "thenewjourney:blocks/BurntBricks",
-    "top": "thenewjourney:blocks/BurntBricks",
-    "side": "thenewjourney:blocks/BurntBricks"
-  }
-}

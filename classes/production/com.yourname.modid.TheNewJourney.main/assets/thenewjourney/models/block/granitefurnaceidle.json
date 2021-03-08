@@ -1,8 +1,0 @@
-{
-  "parent": "block/furnace",
-  "textures": {
-    "top": "thenewjourney:blocks/GraniteFurnaceTop",
-    "front": "thenewjourney:blocks/GraniteFurnaceOff",
-    "side": "thenewjourney:blocks/GraniteFurnaceSide"
-  }
-}

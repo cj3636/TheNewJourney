@@ -1,8 +1,0 @@
-{
-  "parent": "block/orientable",
-  "textures": {
-    "top": "thenewjourney:blocks/NetherBrickFurnaceTop",
-    "front": "thenewjourney:blocks/NetherBrickFurnaceOff",
-    "side": "thenewjourney:blocks/NetherBrickFurnaceSide"
-  }
-}
