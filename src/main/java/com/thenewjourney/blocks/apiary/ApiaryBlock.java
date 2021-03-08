@@ -72,6 +72,12 @@ public class ApiaryBlock extends FaceRotatableBlockContainer {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
+    public BlockRenderLayer getBlockLayer() {
+        return BlockRenderLayer.TRANSLUCENT;
+    }
+
+    @Override
     public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
@@ -79,12 +85,6 @@ public class ApiaryBlock extends FaceRotatableBlockContainer {
     @Override
     public boolean isFullCube(IBlockState state) {
         return false;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.TRANSLUCENT;
     }
 
     @Override

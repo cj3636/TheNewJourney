@@ -33,14 +33,14 @@ public class InventoryItem implements IInventory {
     /**
      * Inventory's size must be same as number of slots you add to the Container class
      */
-    private ItemStack[] inventory = new ItemStack[INV_SIZE];
+    private ItemStack[] inventory;
 
     /**
      * @param stack - the ItemStack to which this inventory belongs
      */
     public InventoryItem(ItemStack stack) {
         invItem = stack;
-
+        inventory = new ItemStack[INV_SIZE];
         // Create a new NBT Tag Compound if one doesn't already exist, or you will crash
         if (!stack.hasTagCompound()) {
             stack.setTagCompound(new NBTTagCompound());
@@ -93,7 +93,7 @@ public class InventoryItem implements IInventory {
 
     @Override
     public void clear() {
-        Arrays.fill(inventory, null);
+        Arrays.fill(inventory, ItemStack.EMPTY);
     }
 
     @Override
@@ -111,7 +111,7 @@ public class InventoryItem implements IInventory {
                 markDirty();
             } else {
                 // this method also calls onInventoryChanged, so we don't need to call it again
-                setInventorySlotContents(slot, null);
+                setInventorySlotContents(slot, ItemStack.EMPTY);
             }
         }
         return stack;
@@ -120,7 +120,7 @@ public class InventoryItem implements IInventory {
     @Override
     public ItemStack removeStackFromSlot(int slotIndex) {
         ItemStack itemStack = getStackInSlot(slotIndex);
-        if (itemStack != null) setInventorySlotContents(slotIndex, null);
+        if (itemStack != null) setInventorySlotContents(slotIndex, ItemStack.EMPTY);
         return itemStack;
     }
 
@@ -128,7 +128,7 @@ public class InventoryItem implements IInventory {
     public void setInventorySlotContents(int slot, ItemStack stack) {
         inventory[slot] = stack;
 
-        if (stack != null && stack.getCount() > getInventoryStackLimit()) {
+        if (stack != ItemStack.EMPTY && stack.getCount() > getInventoryStackLimit()) {
             stack.setCount(getInventoryStackLimit());
         }
 
@@ -212,7 +212,7 @@ public class InventoryItem implements IInventory {
         final byte NBT_TYPE_COMPOUND = 10;
         NBTTagList dataForAllSlots = parentNBTTagCompound.getTagList("Items", NBT_TYPE_COMPOUND);
 
-        Arrays.fill(inventory, null);
+        Arrays.fill(inventory, ItemStack.EMPTY);
         for (int i = 0; i < dataForAllSlots.tagCount(); ++i) {
             NBTTagCompound dataForOneSlot = dataForAllSlots.getCompoundTagAt(i);
             int slotIndex = dataForOneSlot.getByte("Slot") & 255;

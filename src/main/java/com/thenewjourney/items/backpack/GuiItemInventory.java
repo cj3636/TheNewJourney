@@ -1,8 +1,6 @@
 package com.thenewjourney.items.backpack;
 
 import com.cj3636.lib.Ref;
-import com.thenewjourney.items.backpack.ContainerItem;
-import com.thenewjourney.items.backpack.InventoryItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -17,6 +15,7 @@ public class GuiItemInventory extends GuiContainer {
 
     // This is the resource location for the background image for the GUI
     private static final ResourceLocation texture = new ResourceLocation(Ref.MODID, "textures/gui/backpack.png");
+
     public GuiItemInventory(EntityPlayer player, InventoryPlayer invPlayer, InventoryItem item) {
         super(new ContainerItem(player, invPlayer, item));
         // Set the width and height of the gui.  Should match the size of the texture!
@@ -38,8 +37,5 @@ public class GuiItemInventory extends GuiContainer {
     // renders relative to the top left corner of the background
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        //final int LABEL_XPOS = 5;
-        //final int LABEL_YPOS = 5;
-        //fontRendererObj.drawString("Drawer", LABEL_XPOS, LABEL_YPOS, Color.BLACK.getRGB());
     }
 }

@@ -1,4 +1,4 @@
-package com.thenewjourney.blocks.pervateki;
+package com.thenewjourney.blocks.forge;
 
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 

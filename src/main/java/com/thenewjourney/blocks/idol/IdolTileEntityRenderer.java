@@ -1,7 +1,7 @@
 package com.thenewjourney.blocks.idol;
 
 import com.cj3636.lib.Ref;
-import com.thenewjourney.blocks.pervateki.RenderingUtils;
+import com.thenewjourney.blocks.forge.RenderingUtils;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;

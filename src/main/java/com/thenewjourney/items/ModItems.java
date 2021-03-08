@@ -44,6 +44,7 @@ public final class ModItems extends Item {
     public static ToolMaterial Shadow = EnumHelper.addToolMaterial("shadow", 8, 3800, 27.0F, 8F, 50);
     public static ToolMaterial Aquis = EnumHelper.addToolMaterial("aquis", 9, 5000, 36.0F, 10F, 100);
     public static ToolMaterial Purvia = EnumHelper.addToolMaterial("purvia", 10, -1, 45.0F, 12F, 100);
+    public static ToolMaterial Cyonia = EnumHelper.addToolMaterial("cyonia", 11, -2, 48.0F, 15F, 111);
 
     public static ToolMaterial Archium = EnumHelper.addToolMaterial("archium", 9, -1, 72, 1, 72);
     public static ToolMaterial Florium = EnumHelper.addToolMaterial("florium", 9, -1, 72, 1, 72);
@@ -197,6 +198,8 @@ public final class ModItems extends Item {
     public static Item VitriusStar;
     public static Item VitraecBow;
     public static Item VitraemSaber;
+
+    public static Item CyonicPickaxe;
 
     //Misc
     public static Item PheonixDust;
@@ -465,6 +468,8 @@ public final class ModItems extends Item {
         PurviaShovel = registerItem(new PurviaShovelRegistry("purviashovel", Purvia));
         PurviaHoe = registerItem(new PurviaHoeRegistry("purviahoe", Purvia));
         PurviaSword = registerItem(new PurviaSwordRegistry("purviasword", Purvia, 21F, -0.5F));
+
+        CyonicPickaxe = registerItem(new CyonicPickaxeRegistry("cyonicpickaxe"));
 
         Hammer = registerItem(new DurableToolRegistry("hammer", 64));
         Icepick = registerItem(new GlassBreakerRegistry("icepick", GlassTool, 1000));

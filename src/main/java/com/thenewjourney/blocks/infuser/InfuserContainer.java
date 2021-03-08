@@ -12,15 +12,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class InfuserContainer extends Container {
-    /**
-     * The crafting matrix inventory (3x3).
-     */
-    public InfuserCraftingInventory craftMatrix = new InfuserCraftingInventory(this, 3, 3);
+    public InfuserInventoryCrafting craftMatrix = new InfuserInventoryCrafting(this, 3, 3);
     public InventoryCraftResult craftResult = new InventoryCraftResult();
     private final World world;
-    /**
-     * Position of the workbench
-     */
     private final BlockPos pos;
     private final EntityPlayer player;
 
@@ -47,16 +41,30 @@ public class InfuserContainer extends Container {
         }
     }
 
-    /**
-     * Callback for when the crafting matrix is changed.
-     */
+    @Override
     public void onCraftMatrixChanged(IInventory inventoryIn) {
+        this.detectAndSendChanges();
         this.slotChangedCraftingGrid(this.world, this.player, this.craftMatrix, this.craftResult);
     }
 
-    /**
-     * Called when the container is closed.
-     */
+    @Override
+    protected void slotChangedCraftingGrid(World p_192389_1_, EntityPlayer p_192389_2_, InventoryCrafting p_192389_3_, InventoryCraftResult p_192389_4_) {
+        InfuserInventoryCrafting invCrafting = (InfuserInventoryCrafting) p_192389_3_;
+        if (!p_192389_1_.isRemote) {
+            EntityPlayerMP entityplayermp = (EntityPlayerMP) p_192389_2_;
+            ItemStack itemstack = ItemStack.EMPTY;
+            IRecipe irecipe = InfuserCraftingManager.findMatchingRecipe(invCrafting, p_192389_1_);
+            if (irecipe != null && (irecipe.isDynamic() || !p_192389_1_.getGameRules().getBoolean("doLimitedCrafting") || entityplayermp.getRecipeBook().isUnlocked(irecipe))) {
+                p_192389_4_.setRecipeUsed(irecipe);
+                itemstack = irecipe.getCraftingResult(p_192389_3_);
+            }
+
+            p_192389_4_.setInventorySlotContents(0, itemstack);
+            entityplayermp.connection.sendPacket(new SPacketSetSlot(this.windowId, 0, itemstack));
+        }
+    }
+
+    @Override
     public void onContainerClosed(EntityPlayer playerIn) {
         super.onContainerClosed(playerIn);
 
@@ -65,9 +73,7 @@ public class InfuserContainer extends Container {
         }
     }
 
-    /**
-     * Determines whether supplied player can use this container
-     */
+    @Override
     public boolean canInteractWith(EntityPlayer playerIn) {
         if (this.world.getBlockState(this.pos).getBlock() != ModBlocks.ArchaicInfuser) {
             return false;
@@ -76,10 +82,7 @@ public class InfuserContainer extends Container {
         }
     }
 
-    /**
-     * Handle when the stack in slot {@code index} is shift-clicked. Normally this moves the stack between the player
-     * inventory and the other inventory(s).
-     */
+    @Override
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
@@ -128,25 +131,8 @@ public class InfuserContainer extends Container {
         return itemstack;
     }
 
-    /**
-     * Called to determine if the current slot is valid for the stack merging (double-click) code. The stack passed in
-     * is null for the initial slot that was double-clicked.
-     */
+    @Override
     public boolean canMergeSlot(ItemStack stack, Slot slotIn) {
         return slotIn.inventory != this.craftResult && super.canMergeSlot(stack, slotIn);
-    }
-
-    private void slotChangedCraftingGrid(World p_192389_1_, EntityPlayer p_192389_2_, InfuserCraftingInventory p_192389_3_, InventoryCraftResult p_192389_4_) {
-        if (!p_192389_1_.isRemote) {
-            EntityPlayerMP entityplayermp = (EntityPlayerMP) p_192389_2_;
-            ItemStack itemstack = ItemStack.EMPTY;
-            IRecipe irecipe = InfuserCraftingManager.findMatchingRecipe(p_192389_3_, p_192389_1_);
-            if (irecipe != null) {
-                p_192389_4_.setRecipeUsed(irecipe);
-                itemstack = irecipe.getCraftingResult(p_192389_3_);
-            }
-            p_192389_4_.setInventorySlotContents(0, itemstack);
-            entityplayermp.connection.sendPacket(new SPacketSetSlot(this.windowId, 0, itemstack));
-        }
     }
 }

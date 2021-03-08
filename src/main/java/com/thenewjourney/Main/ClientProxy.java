@@ -5,16 +5,19 @@ import com.thenewjourney.blocks.ModBlocks;
 import com.thenewjourney.blocks.crystal.CrystalTileEntity;
 import com.thenewjourney.blocks.crystal.CrystalTileEntityRenderer;
 import com.thenewjourney.blocks.drawer.DrawerBlock;
+import com.thenewjourney.blocks.forge.ForgeBlockTileEntity;
+import com.thenewjourney.blocks.forge.ForgeTESR;
 import com.thenewjourney.blocks.idol.IdolTileEntity;
 import com.thenewjourney.blocks.idol.IdolTileEntityRenderer;
 import com.thenewjourney.blocks.infuser.InfuserTileEntity;
 import com.thenewjourney.blocks.infuser.InfuserTileEntityRenderer;
-import com.thenewjourney.blocks.pervateki.ForgeBlockTileEntity;
-import com.thenewjourney.blocks.pervateki.ForgeTESR;
 import com.thenewjourney.blocks.portal.VisceonFirePortal;
 import com.thenewjourney.blocks.portal.VisceonFlorusPortal;
 import com.thenewjourney.blocks.provider.CrystalProviderTileEntity;
 import com.thenewjourney.blocks.provider.CrystalProviderTileEntityRenderer;
+import com.thenewjourney.blocks.reactor.ReactorCore;
+import com.thenewjourney.blocks.reactor.ReactorMediumTESR;
+import com.thenewjourney.blocks.reactor.ReactorMediumTileEntity;
 import com.thenewjourney.compat.baubles.InitItems;
 import com.thenewjourney.entity.bluefireball.FlorucFireballEntity;
 import com.thenewjourney.entity.bluefireball.FlorucFireballRenderer;
@@ -60,7 +63,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Mod.EventBusSubscriber
 public class ClientProxy extends CommonProxy {
-    
+
     @Override
     public void preInit(FMLPreInitializationEvent e) {
         super.preInit(e);
@@ -128,6 +131,7 @@ public class ClientProxy extends CommonProxy {
         //Custom texture location
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(ModBlocks.Sphere), 0, new ModelResourceLocation(Ref.MODID + ":" + VisceonFirePortal.name, "inventory"));
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(ModBlocks.Spheref), 0, new ModelResourceLocation(Ref.MODID + ":" + VisceonFlorusPortal.name, "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(ModBlocks.ReactorCore), 0, new ModelResourceLocation(Ref.MODID + ":" + ReactorCore.name, "inventory"));
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(ModBlocks.Drawer), 0, new ModelResourceLocation(Ref.MODID + ":" + DrawerBlock.name, "inventory"));
         //TESR
         //Fluid Model
@@ -149,6 +153,7 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(ForgeBlockTileEntity.class, new ForgeTESR());
         ClientRegistry.bindTileEntitySpecialRenderer(IdolTileEntity.class, new IdolTileEntityRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(CrystalProviderTileEntity.class, new CrystalProviderTileEntityRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(ReactorMediumTileEntity.class, new ReactorMediumTESR());
     }
 
     @SubscribeEvent

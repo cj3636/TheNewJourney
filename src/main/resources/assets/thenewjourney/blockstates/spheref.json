@@ -26,14 +26,18 @@
 								"z": 170
 							}
 						],
-						"scale": 0.625
+                      "scale": 0.2
+                    },
+                  "firstperson": {
+                    "scale": 0.2
 					},
 					"gui": {
 						"rotation": [
 							{
 								"y": 90
 							}
-						]
+                        ],
+                      "scale": 0.2
 					}
 				}
 			}

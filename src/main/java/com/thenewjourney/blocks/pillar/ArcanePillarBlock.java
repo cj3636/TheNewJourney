@@ -73,9 +73,9 @@ public class ArcanePillarBlock extends BlockContainer {
             if (worldIn.getTileEntity(pos) instanceof ArcanePillarTileEntity) {
                 ArcanePillarTileEntity thisTileEnity = (ArcanePillarTileEntity) worldIn.getTileEntity(pos);
                 if (thisTileEnity.getStackInSlot(0) == ItemStack.EMPTY) {
-                    thisTileEnity.setInventorySlotContents(0, new ItemStack(heldItem.copy().getItem(), 1));
+                    thisTileEnity.setInventorySlotContents(0, heldItem.copy());
                     if (!playerIn.capabilities.isCreativeMode) {
-                        heldItem.setCount(heldItem.getCount() - 1);
+                        heldItem.shrink(1);
                     }
                     return true;
                 }
@@ -377,6 +377,10 @@ public class ArcanePillarBlock extends BlockContainer {
 
     @Override
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+        if (worldIn.getTileEntity(pos) instanceof ArcanePillarTileEntity) {
+            ArcanePillarTileEntity thisTileEnity = (ArcanePillarTileEntity) worldIn.getTileEntity(pos);
+            thisTileEnity.markDirty();
+        }
         dropItem(worldIn, pos);
         worldIn.removeTileEntity(pos);
     }

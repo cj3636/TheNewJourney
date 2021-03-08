@@ -28,6 +28,8 @@ public class Config {
 	public static int graphiteSpawn;
 	public static int marbleSpawn;
 	public static int fireSpawn;
+    public static int maxRFGenerate;
+    public static int maxRFExtract;
 
 	public static void load(FMLPreInitializationEvent event) {
 		config = new Configuration(event.getSuggestedConfigurationFile());
@@ -56,6 +58,8 @@ public class Config {
 		rubySpawn = config.getInt("rubySpawn", Configuration.CATEGORY_GENERAL, 8, 0, 100, "How often per chunk Minecraft attempts to generate this ore. 100 is rediculous, 0 to disable the ore", LANG_PREFIX + "rubySpawn");rubySpawn = config.getInt("rubySpawn", Configuration.CATEGORY_GENERAL, 8, 0, 100, "How often per chunk Minecraft attempts to generate this ore. 100 is rediculous, 0 to disable the ore", LANG_PREFIX + "rubySpawn");
 		graphiteSpawn = config.getInt("graphiteSpawn", Configuration.CATEGORY_GENERAL, 4, 0, 100, "How often per chunk Minecraft attempts to generate this ore. 100 is rediculous, 0 to disable the ore", LANG_PREFIX + "graphiteSpawn");
 		marbleSpawn = config.getInt("marbleSpawn", Configuration.CATEGORY_GENERAL, 4, 0, 100, "How often per chunk Minecraft attempts to generate this 'ore'. 100 is rediculous, 0 to disable the ore", LANG_PREFIX + "marbleSpawn");
+        maxRFGenerate = config.getInt("maxRFGenerate", Configuration.CATEGORY_GENERAL, 1000000000, 0, 1000000000, "The maximum buffer size of the visceon generaor.", LANG_PREFIX + "maxRFGenerate");
+        maxRFExtract = config.getInt("maxRFExtract", Configuration.CATEGORY_GENERAL, 1000000, 0, 1000000000, "The maximum amount of RF extracted per tick from the visceon generaor.", LANG_PREFIX + "maxRFExtract");
 		if (config.hasChanged()) {
 			config.save();
 		}
